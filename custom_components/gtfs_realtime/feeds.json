@@ -20,7 +20,10 @@
     },
     "requires_auth_header": false,
     "static_feeds": {
-      "regular": "https://www.rtd-denver.com/files/gtfs/google_transit.zip"
+      "regular": "https://www.rtd-denver.com/files/gtfs/google_transit.zip",
+      "commuter_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Commuter_Rail_GTFS.zip",
+      "light_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Light_Rail_GTFS.zip",
+      "bus": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Motorbus_GTFS.zip"
     }
   },
   "nyc_00_subway": {
