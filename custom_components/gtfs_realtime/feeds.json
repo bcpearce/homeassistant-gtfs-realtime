@@ -11,6 +11,18 @@
       "regular": "https://cdn.mbta.com/MBTA_GTFS.zip"
     }
   },
+  "denver_rtd": {
+    "name": "Denver RTD",
+    "realtime_feeds": {
+      "alerts": "https://www.rtd-denver.com/files/gtfs-rt/Alerts.pb",
+      "trip_update": "https://www.rtd-denver.com/files/gtfs-rt/TripUpdate.pb",
+      "vehicle_positions": "https://www.rtd-denver.com/files/gtfs-rt/VehiclePosition.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "regular": "https://www.rtd-denver.com/files/gtfs/google_transit.zip"
+    }
+  },
   "nyc_00_subway": {
     "name": "NYC Subway",
     "realtime_feeds": {
