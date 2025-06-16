@@ -5,7 +5,7 @@ stages:
 
 variables:
   PYTHON_VERSION: 3.13
-  UV_VERSION: 0.7.6
+  UV_VERSION: 0.7.13
   BASE_LAYER: bookworm
   PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/pre-commit
   UV_CACHE_DIR: $CI_PROJECT_DIR/.cache/uv

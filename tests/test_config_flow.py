@@ -21,6 +21,7 @@ from custom_components.gtfs_realtime.const import (
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY,
     CONF_STOP_IDS,
     CONF_URL_ENDPOINTS,
+    CONF_USE_LOCAL_FEEDS,
     DOMAIN,
 )
 
@@ -110,6 +111,16 @@ async def test_step_user(flow: GtfsRealtimeConfigFlow) -> None:
     assert result["errors"] == {}
     # check feeds were acquired
     GtfsRealtimeConfigFlow._get_feeds.assert_called()  # pylint: disable=protected-access
+
+
+async def test_step_user_get_local_feeds() -> None:
+    """Test Getting Local Feeds. Verify the feeds.json file can be read."""
+    local_feed_flow = GtfsRealtimeConfigFlow()
+    result: ConfigFlowResult = await local_feed_flow.async_step_user(
+        {CONF_USE_LOCAL_FEEDS: True}
+    )
+    assert result["type"] == FlowResultType.FORM
+    assert result["errors"] == {}
 
 
 async def test_step_user_input_manual_provider(flow: GtfsRealtimeConfigFlow) -> None:

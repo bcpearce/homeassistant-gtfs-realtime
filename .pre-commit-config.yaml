@@ -60,3 +60,6 @@ repos:
         language: system
         entry: sh hooks/runtests.sh
         files: ^(custom_components/.*\.py|tests/.*\.py)$
+
+ci:
+  skip: [hassfest, pytest]
