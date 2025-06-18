@@ -11,6 +11,23 @@
       "regular": "https://cdn.mbta.com/MBTA_GTFS.zip"
     }
   },
+  "denver_rtd": {
+    "name": "Denver RTD",
+    "realtime_feeds": {
+      "alerts": "https://www.rtd-denver.com/files/gtfs-rt/Alerts.pb",
+      "trip_update": "https://www.rtd-denver.com/files/gtfs-rt/TripUpdate.pb",
+      "vehicle_positions": "https://www.rtd-denver.com/files/gtfs-rt/VehiclePosition.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "regular": "https://www.rtd-denver.com/files/gtfs/google_transit.zip",
+      "commuter_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Commuter_Rail_GTFS.zip",
+      "light_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Light_Rail_GTFS.zip",
+      "bus": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Motorbus_GTFS.zip",
+      "purchased_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Purchased_Transportation_Commuter_Rail_GTFS.zip",
+      "purchased_bus": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Purchased_Transportation_Motorbus_GTFS.zip"
+    }
+  },
   "nyc_00_subway": {
     "name": "NYC Subway",
     "realtime_feeds": {
