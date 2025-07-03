@@ -1073,11 +1073,10 @@ wheels = [
 
 [[package]]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.8"
+version = "0.2.9"
 source = { editable = "." }
 dependencies = [
     { name = "gtfs-station-stop" },
-    { name = "pytest-homeassistant-custom-component" },
 ]
 
 [package.dev-dependencies]
@@ -1089,16 +1088,13 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "gtfs-station-stop", specifier = "==0.9.4" },
-    { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.252" },
-]
+requires-dist = [{ name = "gtfs-station-stop", specifier = "==0.9.4" }]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "coverage-badge", specifier = ">=1.1.2" },
     { name = "pre-commit", specifier = ">=4.2.0" },
-    { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.245" },
+    { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.252" },
     { name = "ruff", specifier = ">=0.11.10" },
 ]
 
