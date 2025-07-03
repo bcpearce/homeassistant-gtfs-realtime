@@ -58,6 +58,10 @@ This software may work for other GTFS realtime providers, but has not been teste
 
 Example frontend card configs can be found in [example/frontend.yaml](example/frontend.yaml).
 
+Simply displaying all entities for a "stop" device provides a train arrival board.
+
+![sample dashboard](resources/sample.png)
+
 ## Sensors
 
 ### Arrival Sensor
