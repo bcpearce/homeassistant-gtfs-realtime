@@ -18,10 +18,13 @@ from pytest_homeassistant_custom_component.common import (
 )
 from syrupy.assertion import SnapshotAssertion
 
+from custom_components.gtfs_realtime.const import ROUTE_ID
 from custom_components.gtfs_realtime.coordinator import (
     GtfsRealtimeCoordinator,
     GtfsUpdateData,
 )
+
+from custom_components.gtfs_realtime.sensor import ArrivalSensor
 
 
 def assert_all_equal(collection: Iterable[Any]) -> bool:
@@ -59,14 +62,10 @@ async def test_setup_sensors(hass: HomeAssistant, entry_v2_nodialout: MockConfig
         )
 
 
-async def test_update(
-    hass: HomeAssistant,
-    freezer: FrozenDateTimeFactory,
-    entry_v2_nodialout: MockConfigEntry,
-    snapshot: SnapshotAssertion,
-):
-    """Smoke test the sensor platform."""
-    start_time = datetime.now()
+async def async_setup_coordinator(
+    hass: HomeAssistant, entry_v2_nodialout: MockConfigEntry
+) -> GtfsRealtimeCoordinator:
+    """Setup the Coordinator."""
     with (
         patch(
             "custom_components.gtfs_realtime.coordinator.FeedSubject.async_update",  # noqa E501
@@ -83,12 +82,27 @@ async def test_update(
         assert await hass.config_entries.async_setup(entry_v2_nodialout.entry_id)
         await hass.async_block_till_done()
 
-    coordinator: GtfsRealtimeCoordinator = entry_v2_nodialout.runtime_data
+    return entry_v2_nodialout.runtime_data
+
+
+async def test_update(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+    snapshot: SnapshotAssertion,
+):
+    """Smoke test the sensor platform."""
+    start_time = datetime.now()
+    coordinator: GtfsRealtimeCoordinator = await async_setup_coordinator(
+        hass, entry_v2_nodialout
+    )
     coordinator.route_icons = None
     coordinator.hub.realtime_feed_uris = []
 
     @dataclass
     class UpdateCounter:
+        """Class to count updates."""
+
         update_count: int = 0
 
     update_counter = UpdateCounter(update_count=0)
@@ -137,3 +151,18 @@ async def test_update(
             snapshot(name=f"{sensor}-after-1-minute")
             == hass.states.get(f"{SENSOR_DOMAIN}.{sensor}").state
         )
+
+
+async def test_route_icon_missing_route_id(
+    hass: HomeAssistant, entry_v2_nodialout: MockConfigEntry
+):
+    """Test that missing route ID does not break the sensor."""
+    coordinator: GtfsRealtimeCoordinator = await async_setup_coordinator(
+        hass, entry_v2_nodialout
+    )
+    coordinator.route_icons = "http://example.com/{}.png"
+    sensor = ArrivalSensor(coordinator, "1", 0)
+    sensor._arrival_detail[ROUTE_ID] = ""
+    assert sensor.entity_picture is not None
+    sensor._arrival_detail[ROUTE_ID] = None
+    assert sensor.entity_picture is None

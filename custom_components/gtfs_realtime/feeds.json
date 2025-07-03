@@ -84,6 +84,7 @@
       "alerts": "http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/alert",
       "trip_update": "http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate"
     },
+    "route_icons": "https://raw.githubusercontent.com/bcpearce/homeassistant-gtfs-realtime/main/resources/NYCT_Ferry/{}.png",
     "static_feeds": {
       "regular": "http://nycferry.connexionz.net/rtt/public/utility/gtfs.aspx"
     }
