@@ -105,7 +105,7 @@ async def test_feeds(
         print("| ------- | ---- | ------ | ------- |")
         for feed_id, status in result.items():
             print(
-                f"| {feed_id} | {feed['name']} | {STATUS_DICT.get(status[0], '❔')} {status[0]} | {STATUS_DICT.get(status[1], '')} {status[1]} |"
+                f"| {feed_id} | {feeds[feed_id]['name']} | {STATUS_DICT.get(status[0], '❔')} {status[0]} | {STATUS_DICT.get(status[1], '')} {status[1]} |"
             )
 
     return result
