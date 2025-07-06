@@ -28,6 +28,9 @@ async def async_test_feed(feed: dict[str, list[str]]) -> str:
     except* ClientResponseError as eg:
         if 401 in [e.status for e in eg.exceptions]:
             status = "Auth Required"
+    except* Exception:
+        # fallthrough is failed
+        pass
     return status
 
 
