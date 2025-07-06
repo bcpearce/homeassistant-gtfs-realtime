@@ -43,6 +43,8 @@ async def async_test_feed(
                     f"  Headers were provided {headers}, check the credentials and retry",
                     file=sys.stderr,
                 )
+        else:
+            raise
     except* Exception as eg:
         # fallthrough is failed
         print(f"Exceptions occurred processing feed {feed_id}: ", file=sys.stderr)

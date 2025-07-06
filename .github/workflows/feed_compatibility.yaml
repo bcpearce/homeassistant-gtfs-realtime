@@ -27,13 +27,13 @@ jobs:
       - name: "Install the project"
         run: uv sync --locked --all-extras --dev
       - name: "Check Feed Compatibility"
-        run: | 
-          uv run python hooks/check_feed_compatibility.py \ 
-          custom_components/gtfs_realtime/feeds.json -f md \
-          -a \ 
-            transport_victoria="${{ secrets.transport_victoria_api_header }}" \
-            sydney_*="${{ secrets.sydney_api_header }}" \
-          --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} \
+        run: > 
+          uv run python hooks/check_feed_compatibility.py 
+          custom_components/gtfs_realtime/feeds.json -f md 
+          -a 
+          transport_victoria="${{ secrets.transport_victoria_api_header }}" 
+          sydney_*="${{ secrets.sydney_api_header }}" 
+          --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} 
           >> $GITHUB_STEP_SUMMARY
 
 
