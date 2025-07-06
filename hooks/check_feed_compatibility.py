@@ -75,7 +75,7 @@ async def test_feeds(
                 if re.search(key, feed_id):
                     header_key = key  # only match the first
                     break
-            asyncio.sleep(sleep_rate_limit)
+            await asyncio.sleep(sleep_rate_limit)
             tasks[feed_id] = tg.create_task(
                 async_test_feed(feed_id, feed, headers_map.get(header_key, []))
             )
