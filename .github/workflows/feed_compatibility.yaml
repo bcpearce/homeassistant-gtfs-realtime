@@ -12,7 +12,7 @@ env:
   SLEEP_RATE_LIMIT: 5.0
 
 jobs:
-  uv-feed-compatibility:
+  feed-compatibility:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
@@ -36,5 +36,13 @@ jobs:
           washington_metro_area_*="${{ secrets.wmata_api_header }}"
           --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} 
           >> $GITHUB_STEP_SUMMARY
+      - name: "Feed Compatibility Badge"
+        uses: peterrhodesdev/build-a-badge@v1.3.1
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          filename: feed-compatibility
+          label: "Feed Compatibility"
+          status: "Click Here to See Which GTFS Feeds are Compatible"
+
 
 

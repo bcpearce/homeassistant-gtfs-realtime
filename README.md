@@ -4,6 +4,8 @@
 
 ![test coverage](./coverage.svg)
 
+![https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml?query=is%3Asuccess](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/wiki/bcpearce/homeassistant-gtfs-realtime/feed-compatibility.md)
+
 ## Installation
 
 This integration can be installed manually or through [HACS](https://hacs.xyz/) as a custom repository.

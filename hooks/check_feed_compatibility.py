@@ -20,6 +20,7 @@ STATUS_DICT = {
     "Failed": "❌",
     "Auth Provided": "🔓",
     "Auth Missing": "🔐",
+    "Unsure": "❔",
 }
 
 
@@ -40,7 +41,8 @@ async def async_test_feed(
             if len(headers) > 0:
                 notice = "Auth Provided"
         except* ClientResponseError as eg:
-            if any(sc in [e.status for e in eg.exceptions] for sc in [401, 403]):
+            status_codes = [e.status for e in eg.exceptions]
+            if any(sc in status_codes for sc in [401, 403]):
                 notice = "Auth Missing"
                 status = "Failed"
                 print(
@@ -54,6 +56,9 @@ async def async_test_feed(
                         f"  Headers were provided {headers}, check the credentials and retry",
                         file=sys.stderr,
                     )
+            elif 429 in status_codes:
+                notice = "API Limit Exceeded"
+                status = "Unsure"
             else:
                 raise
     except* Exception as eg:
@@ -96,11 +101,11 @@ async def test_feeds(
     elif output_format == "md":
         print("# Feed Compatibility")
         print("")
-        print("| Feed ID | Status | Details |")
-        print("| ------- | ------ | ------- |")
+        print("| Feed ID | Name | Status | Details |")
+        print("| ------- | ---- | ------ | ------- |")
         for feed_id, status in result.items():
             print(
-                f"| {feed_id} | {STATUS_DICT.get(status[0], '❔')} {status[0]} | {STATUS_DICT.get(status[1], '')} {status[1]} |"
+                f"| {feed_id} | {feed['name']} | {STATUS_DICT.get(status[0], '❔')} {status[0]} | {STATUS_DICT.get(status[1], '')} {status[1]} |"
             )
 
     return result
