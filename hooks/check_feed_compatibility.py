@@ -4,6 +4,7 @@
 import argparse
 import asyncio
 import json
+import re
 import sys
 from pathlib import Path
 from pprint import pprint
@@ -12,16 +13,22 @@ from aiohttp import ClientResponseError
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.schedule import async_build_schedule
 
-import re
 
 REPORT_FORMATS = ["md", "dict"]
+STATUS_DICT = {
+    "Success": "✅",
+    "Failed": "❌",
+    "Auth Provided": "🔓",
+    "Auth Missing": "🔐",
+}
 
 
 async def async_test_feed(
     feed_id: str, feed: dict[str, list[str]], headers: list[str]
-) -> str:
+) -> tuple[str, str]:
     """Test a single feed."""
     status = "Failed"
+    notice = ""
     try:
         try:
             for realtime in feed["realtime_feeds"].values():
@@ -30,9 +37,12 @@ async def async_test_feed(
             for static in feed["static_feeds"].values():
                 await async_build_schedule(static, headers=headers)
             status = "Success"
+            if len(headers) > 0:
+                notice = "Auth Provided"
         except* ClientResponseError as eg:
-            if 401 in [e.status for e in eg.exceptions]:
-                status = "Auth Required"
+            if any(sc in [e.status for e in eg.exceptions] for sc in [401, 403]):
+                notice = "Auth Missing"
+                status = "Failed"
                 print(
                     f"Failed to authenticate the {feed_id} feed, an authentication header may be required",
                     file=sys.stderr,
@@ -51,8 +61,7 @@ async def async_test_feed(
         print(f"Exceptions occurred processing feed {feed_id}: ", file=sys.stderr)
         for e in eg.exceptions:
             print(f" * {e}", file=sys.stderr)
-        pass
-    return status
+    return status, notice
 
 
 async def test_feeds(
@@ -85,13 +94,14 @@ async def test_feeds(
     if output_format == "dict":
         pprint(result)
     elif output_format == "md":
-        STATUS_DICT = {"Success": "✅", "Failed": "❌", "Auth Required": "🔐"}
         print("# Feed Compatibility")
         print("")
-        print("| Feed ID | Status |")
-        print("| ------- | ------ |")
+        print("| Feed ID | Status | Details |")
+        print("| ------- | ------ | ------- |")
         for feed_id, status in result.items():
-            print(f"| {feed_id} | {STATUS_DICT.get(status, '❔')} {status} |")
+            print(
+                f"| {feed_id} | {STATUS_DICT.get(status[0], '❔')} {status[0]} | {STATUS_DICT.get(status[1], '')} {status[1]} |"
+            )
 
     return result
 

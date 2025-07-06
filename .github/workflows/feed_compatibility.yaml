@@ -33,6 +33,7 @@ jobs:
           -a 
           transport_victoria="${{ secrets.transport_victoria_api_header }}" 
           sydney_*="${{ secrets.sydney_api_header }}" 
+          washington_metro_area_*="${{ secrets.wmata_api_header }}"
           --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} 
           >> $GITHUB_STEP_SUMMARY
 
