@@ -23,28 +23,29 @@ async def async_test_feed(
     """Test a single feed."""
     status = "Failed"
     try:
-        for realtime in feed["realtime_feeds"].values():
-            subject = FeedSubject([realtime], headers=headers)
-            await subject.async_update()
-        for static in feed["static_feeds"].values():
-            await async_build_schedule(static, headers=headers)
-        status = "Success"
-    except* ClientResponseError as eg:
-        if 401 in [e.status for e in eg.exceptions]:
-            status = "Auth Required"
-            print(
-                f"Failed to authenticate the {feed_id} feed, an authentication header may be required",
-                file=sys.stderr,
-            )
-            for e in eg.exceptions:
-                print(f" * {e}", file=sys.stderr)
-            if bool(headers):
+        try:
+            for realtime in feed["realtime_feeds"].values():
+                subject = FeedSubject([realtime], headers=headers)
+                await subject.async_update()
+            for static in feed["static_feeds"].values():
+                await async_build_schedule(static, headers=headers)
+            status = "Success"
+        except* ClientResponseError as eg:
+            if 401 in [e.status for e in eg.exceptions]:
+                status = "Auth Required"
                 print(
-                    f"  Headers were provided {headers}, check the credentials and retry",
+                    f"Failed to authenticate the {feed_id} feed, an authentication header may be required",
                     file=sys.stderr,
                 )
-        else:
-            raise
+                for e in eg.exceptions:
+                    print(f" * {e}", file=sys.stderr)
+                if bool(headers):
+                    print(
+                        f"  Headers were provided {headers}, check the credentials and retry",
+                        file=sys.stderr,
+                    )
+            else:
+                raise
     except* Exception as eg:
         # fallthrough is failed
         print(f"Exceptions occurred processing feed {feed_id}: ", file=sys.stderr)
