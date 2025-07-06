@@ -85,7 +85,7 @@
       "alerts": "http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/alert",
       "trip_update": "http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate"
     },
-    "route_icons": "https://raw.githubusercontent.com/bcpearce/homeassistant-gtfs-realtime/551555ac5a99f698ba98ebfeaec5d644c0165a91/resources/NYC_Ferry/{}.png",
+    "route_icons": "https://github.com/bcpearce/homeassistant-gtfs-realtime/blob/nyc-ferry-icons/resources/NYC_Ferry/{}.png?raw=true",
     "static_feeds": {
       "regular": "http://nycferry.connexionz.net/rtt/public/utility/gtfs.aspx"
     }
