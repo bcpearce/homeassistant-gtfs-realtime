@@ -67,4 +67,4 @@ repos:
         files: ^(custom_components/.*\.py|tests/.*\.py)$
 
 ci:
-  skip: [hassfest, pytest]
+  skip: [hassfest, pytest, uv-lock]

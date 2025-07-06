@@ -1,15 +1,16 @@
 #!/usr/bin/python
 """Script for checking compatibility in `feeds.json`"""
 
-from aiohttp import ClientResponseError
-from gtfs_station_stop.feed_subject import FeedSubject
-from gtfs_station_stop.schedule import async_build_schedule
+import argparse
+import asyncio
 import json
 import sys
 from pathlib import Path
-import asyncio
 from pprint import pprint
-import argparse
+
+from aiohttp import ClientResponseError
+from gtfs_station_stop.feed_subject import FeedSubject
+from gtfs_station_stop.schedule import async_build_schedule
 
 REPORT_FORMATS = ["md", "dict"]
 
