@@ -82,33 +82,31 @@ async def test_feeds(
             f"Report type {output_format} is not one of the allowed types in {REPORT_FORMATS}"
         )
     headers_map |= {}
-    tasks = {}
-    async with asyncio.TaskGroup() as tg:
-        for feed_id, feed in feeds.items():
-            header_key = ""
-            for key in headers_map.keys():
-                if re.search(key, feed_id):
-                    header_key = key  # only match the first
-                    break
-            await asyncio.sleep(sleep_rate_limit)
-            tasks[feed_id] = tg.create_task(
-                async_test_feed(feed_id, feed, headers_map.get(header_key, []))
-            )
+    results = {}
+    for feed_id, feed in feeds.items():
+        header_key = ""
+        for key in headers_map.keys():
+            if re.search(key, feed_id):
+                header_key = key  # only match the first
+                break
+        await asyncio.sleep(sleep_rate_limit)
+        results[feed_id] = await async_test_feed(
+            feed_id, feed, headers_map.get(header_key, [])
+        )
 
-    result = {feed_id: task.result() for feed_id, task in tasks.items()}
     if output_format == "dict":
-        pprint(result)
+        pprint(results)
     elif output_format == "md":
         print("# Feed Compatibility")
         print("")
         print("| Feed ID | Name | Status | Details |")
         print("| ------- | ---- | ------ | ------- |")
-        for feed_id, status in result.items():
+        for feed_id, status in results.items():
             print(
                 f"| {feed_id} | {feeds[feed_id]['name']} | {STATUS_DICT.get(status[0], '❔')} {status[0]} | {STATUS_DICT.get(status[1], '')} {status[1]} |"
             )
 
-    return result
+    return results
 
 
 if __name__ == "__main__":
