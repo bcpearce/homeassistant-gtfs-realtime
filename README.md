@@ -4,6 +4,8 @@
 
 ![test coverage](./coverage.svg)
 
+[![Check GTFS Feed Compatibility](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml/badge.svg)](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml)
+
 ## Installation
 
 This integration can be installed manually or through [HACS](https://hacs.xyz/) as a custom repository.
@@ -26,7 +28,9 @@ Copy files in [custom_components/gtfs_realtime](custom_components/gtfs_realtime/
 
 Once the integration is installed, the configure the integration through Settings >> Devices and Services, and use "Add Integration".  Select GTFS Realtime and follow the instructions in the user interface.
 
-You can select a supported provider or configure it manually. 
+You can select a supported provider or configure it manually. A number of GTFS providers are included for convenience in this repository.  
+
+There is no guarantee that these providers will continue to work with this integration.  A [GitHub Action Workflow](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml) runs to check the status of each feed. 
 
 ### Realtime Feed URLs
 
@@ -34,11 +38,13 @@ These are the URLs that will be queried for realtime updates. Using a preconfigu
 
 ### Static Feed URLs
 
-Less frequently updated data will be provided as one or more .zip files. Include the URL your provider supplies these files at. It will be updated daily. 
+Less frequently updated data will be provided as one or more .zip files. Include the URL your provider supplies these files at. It is updated less frequently, and can be customized to match the release rate of your provider. 
 
 ### API Key
 
 If your provider requires an API Key, it can be included as a header field for HTTP requests. It should be given in the format expected by your provider. 
+
+In some cases, the API key might be provided as a URL parameter, in this case you should update the feed URL for the feed to include it. 
 
 ### Route Icons
 

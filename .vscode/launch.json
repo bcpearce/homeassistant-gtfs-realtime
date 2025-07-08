@@ -40,6 +40,15 @@
       "type": "debugpy"
     },
     {
+      "name": "Feed Compatiblity",
+      "args": [
+        "${workspaceFolder}/custom_components/gtfs_realtime/feeds.json"
+      ],
+      "program": "${workspaceFolder}/hooks/check_feed_compatibility.py",
+      "request": "launch",
+      "type": "debugpy"
+    },
+    {
       "name": "Python: Debug Tests",
       "console": "integratedTerminal",
       "justMyCode": false,

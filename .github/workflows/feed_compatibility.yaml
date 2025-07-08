@@ -1,0 +1,43 @@
+name: Check GTFS Feed Compatibility
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *" # everyday at 0200
+
+env:
+  SLEEP_RATE_LIMIT: 5.0
+
+jobs:
+  feed-compatibility:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@v5
+        with: 
+          version: "0.7.19"
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+      - name: "Install the project"
+        run: uv sync --locked --all-extras --dev
+      - name: "Check Feed Compatibility"
+        run: > 
+          uv run python hooks/check_feed_compatibility.py 
+          custom_components/gtfs_realtime/feeds.json -f md 
+          --auth-header 
+          transport_victoria="${{ secrets.transport_victoria_api_header }}" 
+          sydney_*="${{ secrets.sydney_api_header }}" 
+          washington_metro_area_*="${{ secrets.wmata_api_header }}"
+          --url-param 
+          vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
+          --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} 
+          >> $GITHUB_STEP_SUMMARY
+
+
+

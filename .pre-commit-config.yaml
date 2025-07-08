@@ -43,6 +43,11 @@ repos:
         args: 
           - --autofix
           - --top-keys=domain,title,name
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.7.19
+    hooks:
+      - id: uv-lock
   - repo: local
     hooks:
       - id: check_version
@@ -62,4 +67,4 @@ repos:
         files: ^(custom_components/.*\.py|tests/.*\.py)$
 
 ci:
-  skip: [hassfest, pytest]
+  skip: [hassfest, pytest, uv-lock]

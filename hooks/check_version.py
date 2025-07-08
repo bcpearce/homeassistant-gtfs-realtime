@@ -12,7 +12,7 @@ if __name__ == "__main__":
         with open("custom_components/gtfs_realtime/manifest.json", "rb") as f:
             manifest_version = json.load(f)["version"]
         with open("pyproject.toml", "rb") as f:
-            pyproject_version = tomllib.load(f)["tool"]["poetry"]["version"]
+            pyproject_version = tomllib.load(f)["project"]["version"]
         if installed_version == manifest_version == pyproject_version:
             exit(0)
         else:
