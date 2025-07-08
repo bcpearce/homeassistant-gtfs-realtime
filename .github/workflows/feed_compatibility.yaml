@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    paths:
+      - 'custom_components/gtfs_realtime/feeds.json'
+      - 'hooks/check_feed_compatibility'
+      - '.github/workflows/feed_compatibility.yaml'
   workflow_dispatch:
   schedule:
     - cron: "0 2 * * *" # everyday at 0200
