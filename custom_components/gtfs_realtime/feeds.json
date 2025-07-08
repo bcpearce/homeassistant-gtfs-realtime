@@ -11,6 +11,41 @@
       "regular": "https://cdn.mbta.com/MBTA_GTFS.zip"
     }
   },
+  "ct_transit": {
+    "name": "CT transit (Connecticut DOT)",
+    "description": "Shore Line East, Hartford Line, and Hartford-New Haven-Stamford-New Britain-Waterbury-Meriden",
+    "disclaimer": "View GTFS Data Terms of Use at https://www.cttransit.com/about/developers/terms-of-use IF YOU DO NOT AGREE TO THESE TERMS, DO NOT ACCESS OR DOWNLOAD THE DATA.",
+    "realtime_feeds": {
+      "alerts": "https://cttprdtmgtfs.ctttrpcloud.com/TMGTFSRealTimeWebService/Alert/Alerts.pb",
+      "trip_updates": "https://cttprdtmgtfs.ctttrpcloud.com/TMGTFSRealTimeWebService/TripUpdate/TripUpdates.pb",
+      "vehicle_positions": "https://cttprdtmgtfs.ctttrpcloud.com/TMGTFSRealTimeWebService/Vehicle/VehiclePositions.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "hartford_line": "https://ctrides.com/hlgtfs.zip",
+      "hartford_new_haven_stamford_new_britain_waterbury_meriden": "https://www.cttransit.com/sites/default/files/gtfs/googlect_transit.zip",
+      "shore_line_east": "https://content.amtrak.com/content/gtfs/GTFS.zip"
+    }
+  },
+  "denver_rtd": {
+    "name": "Denver RTD",
+    "disclaimer": "You must read and agree to the License Agreement (https://rtd-denver.com/open-records/open-spatial-information/gtfs-realtime-license-agreement) before you download the data.",
+    "realtime_feeds": {
+      "alerts": "https://www.rtd-denver.com/files/gtfs-rt/Alerts.pb",
+      "trip_update": "https://www.rtd-denver.com/files/gtfs-rt/TripUpdate.pb",
+      "vehicle_positions": "https://www.rtd-denver.com/files/gtfs-rt/VehiclePosition.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "bus": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Motorbus_GTFS.zip",
+      "commuter_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Commuter_Rail_GTFS.zip",
+      "flex": "https://www.rtd-denver.com/files/gtfs/google_transit_flex.zip",
+      "light_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Operated_Light_Rail_GTFS.zip",
+      "purchased_bus": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Purchased_Transportation_Motorbus_GTFS.zip",
+      "purchased_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Purchased_Transportation_Commuter_Rail_GTFS.zip",
+      "regular": "https://www.rtd-denver.com/files/gtfs/google_transit.zip"
+    }
+  },
   "mta_marc_train": {
     "name": "MTA MARC Train",
     "realtime_feeds": {
@@ -244,6 +279,7 @@
   "transport_victoria": {
     "name": "Transport Victoria",
     "auth_hint": "Ocp-Apim-Subscription-Key: [your key here]",
+    "disclaimer": "See terms of use at https://data-exchange.vicroads.vic.gov.au/terms_of_use",
     "realtime_feeds": {
       "alerts_metro_trains": "https://data-exchange-api.vicroads.vic.gov.au/opendata/v1/gtfsr/metrotrain-servicealerts",
       "trip_update_metro_bus": "https://data-exchange-api.vicroads.vic.gov.au/opendata/v1/gtfsr/metrobus-tripupdates",
