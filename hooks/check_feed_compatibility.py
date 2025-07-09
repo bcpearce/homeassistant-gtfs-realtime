@@ -47,7 +47,7 @@ async def async_test_feed(
     headers: dict[str, str] | None,
     params: list[str] | None,
     *,
-    rate_limit: float | None = None,
+    calls_per_second: float | None = None,
     delay_start: float = 0.0,
 ) -> tuple[str, str]:
     """Test a single feed."""
@@ -59,7 +59,7 @@ async def async_test_feed(
         for realtime in feed["realtime_feeds"].values():
             rt = _replace_placeholders(realtime)
             subject = FeedSubject([rt.format(*params)], headers=headers)
-            subject.max_api_calls_per_second = rate_limit
+            subject.max_api_calls_per_second = calls_per_second
             await subject.async_update()
         for static in feed["static_feeds"].values():
             st = _replace_placeholders(static)
@@ -110,7 +110,7 @@ async def test_feeds(
     headers_map: dict[str, dict[str, str]] | None = None,
     params_map: dict[str, list[str]] | None = None,
     *,
-    rate_limit: float | None = None,
+    calls_per_second: float | None = None,
     sleep_between_tasks: float = 0.0,
 ) -> dict[str, str]:
     """Test several feeds and report the valid ones."""
@@ -141,6 +141,7 @@ async def test_feeds(
                 feed,
                 headers_map.get(header_key),
                 params_map.get(params_key),
+                calls_per_second=calls_per_second,
                 delay_start=i * sleep_between_tasks,
             )
         )
@@ -199,8 +200,8 @@ if __name__ == "__main__":
         default=None,
     )
     parser.add_argument(
-        "--rate-limit",
-        "-r",
+        "--calls-per-second",
+        "-c",
         help="Calls per second to keep feed subjects limited to.",
         type=float,
         default=None,
@@ -234,7 +235,7 @@ if __name__ == "__main__":
             args.output_format,
             auth,
             params,
-            rate_limit=args.rate_limit,
+            calls_per_second=args.calls_per_second,
             sleep_between_tasks=args.sleep_between_tasks,
         )
     )

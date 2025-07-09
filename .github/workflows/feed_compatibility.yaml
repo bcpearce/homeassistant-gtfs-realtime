@@ -13,8 +13,8 @@ on:
     - cron: "0 2 * * *" # everyday at 0200
 
 env:
-  RATE_LIMIT: 0.1
-  SLEEP_BETWEEN_TASKS: 5.0
+  CALLS_PER_SECOND: 2.0
+  SLEEP_BETWEEN_TASKS: 1.0
 
 jobs:
   feed-compatibility:
@@ -42,7 +42,7 @@ jobs:
           washington_metro_area_*="${{ secrets.wmata_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
-          --rate-limit ${{ env.RATE_LIMIT }}
+          --calls-per-second ${{ env.RATE_LIMIT }}
           --sleep-between-tasks ${{ env.SLEEP_BETWEEN_TASKS }} 
           >> $GITHUB_STEP_SUMMARY
 
