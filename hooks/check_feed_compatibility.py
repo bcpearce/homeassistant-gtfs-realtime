@@ -56,6 +56,7 @@ async def async_test_feed(
     status = "Failed"
     notice = ""
     try:
+        await asyncio.sleep(delay_start)
         for realtime in feed["realtime_feeds"].values():
             rt = _replace_placeholders(realtime)
             subject = FeedSubject([rt.format(*params)], headers=headers)

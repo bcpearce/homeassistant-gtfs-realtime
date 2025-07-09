@@ -14,7 +14,7 @@ on:
 
 env:
   CALLS_PER_SECOND: 0.5
-  SLEEP_BETWEEN_TASKS: 3.0
+  SLEEP_BETWEEN_TASKS: 1.0
 
 jobs:
   feed-compatibility:
