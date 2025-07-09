@@ -6,13 +6,13 @@ import asyncio
 import json
 import re
 import sys
-import tqdm
 from pathlib import Path
 from pprint import pprint
 
 from aiohttp import ClientResponseError
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.schedule import async_build_schedule
+from tqdm.asyncio import tqdm
 
 
 REPORT_FORMATS = ["md", "dict"]
@@ -46,6 +46,9 @@ async def async_test_feed(
     feed: dict[str, list[str]],
     headers: dict[str, str] | None,
     params: list[str] | None,
+    *,
+    rate_limit: float | None = None,
+    delay_start: float = 0.0,
 ) -> tuple[str, str]:
     """Test a single feed."""
     if params is None:
@@ -56,6 +59,7 @@ async def async_test_feed(
         for realtime in feed["realtime_feeds"].values():
             rt = _replace_placeholders(realtime)
             subject = FeedSubject([rt.format(*params)], headers=headers)
+            subject.max_api_calls_per_second = rate_limit
             await subject.async_update()
         for static in feed["static_feeds"].values():
             st = _replace_placeholders(static)
@@ -106,7 +110,8 @@ async def test_feeds(
     headers_map: dict[str, dict[str, str]] | None = None,
     params_map: dict[str, list[str]] | None = None,
     *,
-    sleep_rate_limit: float = 0.0,
+    rate_limit: float | None = None,
+    sleep_between_tasks: float = 0.0,
 ) -> dict[str, str]:
     """Test several feeds and report the valid ones."""
     if output_format not in REPORT_FORMATS:
@@ -115,10 +120,10 @@ async def test_feeds(
         )
     headers_map |= {}
     params_map |= {}
-    results = {}
-    meter = tqdm.tqdm(feeds.items())
-    for feed_id, feed in meter:
-        meter.set_description(f"Verifying {feed['name']}")
+    tasks = {}
+
+    i: int = 0
+    for feed_id, feed in feeds.items():
         header_key = ""
         for key in headers_map.keys():
             if re.search(key, feed_id):
@@ -129,10 +134,22 @@ async def test_feeds(
             if re.search(key, feed_id):
                 params_key = key  # only match the first
                 break
-        await asyncio.sleep(sleep_rate_limit)
-        results[feed_id] = await async_test_feed(
-            feed_id, feed, headers_map.get(header_key), params_map.get(params_key)
+
+        tasks[feed_id] = asyncio.create_task(
+            async_test_feed(
+                feed_id,
+                feed,
+                headers_map.get(header_key),
+                params_map.get(params_key),
+                delay_start=i * sleep_between_tasks,
+            )
         )
+        i += 1
+
+    async for _ in tqdm(asyncio.as_completed(tasks.values())):
+        pass
+
+    results = {feed_id: task.result() for feed_id, task in tasks.items()}
 
     if output_format == "dict":
         pprint(results)
@@ -182,7 +199,14 @@ if __name__ == "__main__":
         default=None,
     )
     parser.add_argument(
-        "--sleep-rate-limit",
+        "--rate-limit",
+        "-r",
+        help="Calls per second to keep feed subjects limited to.",
+        type=float,
+        default=None,
+    )
+    parser.add_argument(
+        "--sleep-between-tasks",
         "-s",
         help="Sleep time between queuing tasks to help stay under API limits",
         type=float,
@@ -210,6 +234,7 @@ if __name__ == "__main__":
             args.output_format,
             auth,
             params,
-            sleep_rate_limit=args.sleep_rate_limit,
+            rate_limit=args.rate_limit,
+            sleep_between_tasks=args.sleep_between_tasks,
         )
     )
