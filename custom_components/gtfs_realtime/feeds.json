@@ -1,4 +1,16 @@
 {
+  "adelaide_metro": {
+    "name": "Adelaide Metro \u2013 Department for Infrastructure and Transport, South Australia",
+    "disclaimer": "https://www.adelaidemetro.com.au/developer-info",
+    "realtime_feeds": {
+      "alerts": "https://gtfs.adelaidemetro.com.au/v1/realtime/service_alerts",
+      "trip_update": "https://gtfs.adelaidemetro.com.au/v1/realtime/trip_updates",
+      "vehicle_positions": "https://gtfs.adelaidemetro.com.au/v1/realtime/vehicle_positions"
+    },
+    "static_feeds": {
+      "latest": "https://gtfs.adelaidemetro.com.au/v1/static/latest/google_transit.zip"
+    }
+  },
   "boston_mbta": {
     "name": "Boston MBTA",
     "realtime_feeds": {
@@ -44,6 +56,18 @@
       "purchased_bus": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Direct_Purchased_Transportation_Motorbus_GTFS.zip",
       "purchased_rail": "https://www.rtd-denver.com/files/gtfs/RTD_Denver_Purchased_Transportation_Commuter_Rail_GTFS.zip",
       "regular": "https://www.rtd-denver.com/files/gtfs/google_transit.zip"
+    }
+  },
+  "houston_metro": {
+    "name": "Houston METRO",
+    "auth_hint": "Ocp-Apim-Subscription-Key: [Subscription Key]",
+    "realtime_feeds": {
+      "alerts": "https://api.ridemetro.org/v2alertspb/alerts.pb",
+      "trip_update": "https://api.ridemetro.org/GtfsRealtime/TripUpdates"
+    },
+    "requires_auth_header": true,
+    "static_feeds": {
+      "regular": "https://metro.resourcespace.com/pages/download.php?ref=4835&size=&ext=zip&k=&alternative=-1&iaccept=off&usage=-1&usagecomment=&email="
     }
   },
   "mta_marc_train": {

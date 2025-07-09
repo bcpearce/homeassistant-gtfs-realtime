@@ -35,8 +35,9 @@ jobs:
           uv run python hooks/check_feed_compatibility.py 
           custom_components/gtfs_realtime/feeds.json -f md 
           --auth-header 
-          transport_victoria="${{ secrets.transport_victoria_api_header }}" 
-          sydney_*="${{ secrets.sydney_api_header }}" 
+          houston_metro="${{ secrets.houston_api_header }}"
+          sydney_*="${{ secrets.sydney_api_header }}"
+          transport_victoria="${{ secrets.transport_victoria_api_header }}"
           washington_metro_area_*="${{ secrets.wmata_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
