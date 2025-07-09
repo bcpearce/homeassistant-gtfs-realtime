@@ -43,7 +43,7 @@ jobs:
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
           --rate-limit ${{ env.RATE_LIMIT }}
-          --sleep-between-tasks ${{ env.SLEEP_RATE_LIMIT }} 
+          --sleep-between-tasks ${{ env.SLEEP_BETWEEN_TASKS }} 
           >> $GITHUB_STEP_SUMMARY
 
 
