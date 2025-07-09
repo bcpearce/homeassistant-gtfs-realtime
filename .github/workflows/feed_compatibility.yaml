@@ -42,7 +42,7 @@ jobs:
           washington_metro_area_*="${{ secrets.wmata_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
-          --calls-per-second ${{ env.RATE_LIMIT }}
+          --calls-per-second ${{ env.CALLS_PER_SECOND }}
           --sleep-between-tasks ${{ env.SLEEP_BETWEEN_TASKS }} 
           >> $GITHUB_STEP_SUMMARY
 
