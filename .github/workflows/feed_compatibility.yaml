@@ -13,8 +13,8 @@ on:
     - cron: "0 2 * * *" # everyday at 0200
 
 env:
-  CALLS_PER_SECOND: 2.0
-  SLEEP_BETWEEN_TASKS: 1.0
+  CALLS_PER_SECOND: 0.5
+  SLEEP_BETWEEN_TASKS: 3.0
 
 jobs:
   feed-compatibility:
