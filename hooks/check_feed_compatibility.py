@@ -146,7 +146,7 @@ async def test_feeds(
         )
         i += 1
 
-    async for _ in tqdm(asyncio.as_completed(tasks.values())):
+    async for _ in tqdm(asyncio.as_completed(tasks.values()), total=len(feeds)):
         pass
 
     results = {feed_id: task.result() for feed_id, task in tasks.items()}
