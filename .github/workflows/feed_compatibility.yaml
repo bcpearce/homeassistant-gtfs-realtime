@@ -39,6 +39,7 @@ jobs:
           sydney_*="${{ secrets.sydney_api_header }}"
           transport_victoria="${{ secrets.transport_victoria_api_header }}"
           washington_metro_area_*="${{ secrets.wmata_api_header }}"
+          la_metro="${{ secrets.la_metro_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
           --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} 

@@ -70,6 +70,19 @@
       "regular": "https://metro.resourcespace.com/pages/download.php?ref=4835&size=&ext=zip&k=&alternative=-1&iaccept=off&usage=-1&usagecomment=&email="
     }
   },
+  "la_metro": {
+    "name": "Los Angeles Metro",
+    "auth_hint": "Authorization: [Swiftly API Key]",
+    "realtime_feeds": {
+      "alerts": "https://api.goswift.ly/real-time/lametro/gtfs-rt-alerts/v2",
+      "trip_updates": "https://api.goswift.ly/real-time/lametro/gtfs-rt-trip-updates"
+    },
+    "requires_auth_header": true,
+    "static_feeds": {
+      "bus": "https://gitlab.com/LACMTA/gtfs_bus/raw/master/gtfs_bus.zip",
+      "rail": "https://gitlab.com/LACMTA/gtfs_rail/raw/master/gtfs_rail.zip"
+    }
+  },
   "mta_marc_train": {
     "name": "MTA MARC Train",
     "realtime_feeds": {
