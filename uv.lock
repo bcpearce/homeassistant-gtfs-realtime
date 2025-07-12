@@ -878,7 +878,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/3d/55/ed46db9267d261585
 [[package]]
 name = "gtfs-station-stop"
 version = "0.9.5"
-source = { git = "https://github.com/bcpearce/gtfs-station-stop?branch=ft-nested-zips#7ed04cba581d3f05a0e9ed7083011e0e83c08843" }
+source = { git = "https://github.com/bcpearce/gtfs-station-stop?branch=main#d96c8d23578dfe87fa831a8e9c47371ebc45f635" }
 dependencies = [
     { name = "aiofiles" },
     { name = "aiohttp" },
@@ -1085,7 +1085,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gtfs-station-stop", git = "https://github.com/bcpearce/gtfs-station-stop?branch=ft-nested-zips" }]
+requires-dist = [{ name = "gtfs-station-stop", git = "https://github.com/bcpearce/gtfs-station-stop?branch=main" }]
 
 [package.metadata.requires-dev]
 dev = [
