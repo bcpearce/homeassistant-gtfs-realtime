@@ -8,17 +8,13 @@
 
 ## Installation
 
-This integration can be installed manually or through [HACS](https://hacs.xyz/) as a custom repository.
+This integration can be installed manually or through [HACS](https://hacs.xyz/).
 
 #### HACS
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=bcpearce&repository=homeassistant-gtfs-realtime&category=Integration)
 
-1. Go to HACS in your Home Assistant Integration
-2. Select "Integrations"
-3. Click the "..." in the upper left corner.
-4. Go to Custom Repositories
-5. Add this repository's URL https://github.com/bcpearce/homeassistant-gtfs-realtime in "Repository", and set the category to "Integration"
+This repository is now included in HACS's defaults.
 
 #### Manual
 
@@ -34,7 +30,7 @@ There is no guarantee that these providers will continue to work with this integ
 
 ### Realtime Feed URLs
 
-These are the URLs that will be queried for realtime updates. Using a preconfigured provider may include feeds you do not need, these can be deleted here to improve performance.
+These are the URLs that will be queried for realtime updates. Using a preconfigured provider may include feeds you do not need, these can be deleted here to improve performance. Note that static feeds are *also* required alongside realtime feeds for full schedule information such as destination headsigns and route IDs. 
 
 ### Static Feed URLs
 
@@ -42,7 +38,7 @@ Less frequently updated data will be provided as one or more .zip files. Include
 
 ### API Key
 
-If your provider requires an API Key, it can be included as a header field for HTTP requests. It should be given in the format expected by your provider. 
+If your provider requires an API Key, it can be included as a header field for HTTP requests. It should be given in the format expected by your provider. Hints with placeholders are provided for preconfigured feeds that require authentication. 
 
 In some cases, the API key might be provided as a URL parameter, in this case you should update the feed URL for the feed to include it. 
 

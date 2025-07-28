@@ -877,8 +877,8 @@ sdist = { url = "https://files.pythonhosted.org/packages/3d/55/ed46db9267d261585
 
 [[package]]
 name = "gtfs-station-stop"
-version = "0.9.5"
-source = { git = "https://github.com/bcpearce/gtfs-station-stop?branch=ft-nested-zips#7ed04cba581d3f05a0e9ed7083011e0e83c08843" }
+version = "0.9.6"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
     { name = "aiohttp" },
@@ -888,6 +888,10 @@ dependencies = [
     { name = "protobuf" },
     { name = "requests" },
     { name = "requests-cache" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/be/fd/fecd0fe49f499d35874531a3335678c72d5795b215488c557df0fa286e21/gtfs_station_stop-0.9.6.tar.gz", hash = "sha256:453b72bac83cbc3716117fc6746fcd893c8c062e2bda88b95b0f85c1e4fd3e0a", size = 109837, upload-time = "2025-07-28T18:08:32.533Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9a/04/5bf77cfef40eb71f9cd0d54462f4cf7c1f902ca60ccfdccdc8769cb1abab/gtfs_station_stop-0.9.6-py3-none-any.whl", hash = "sha256:f5644095d0fae756f12db175c65ffd35122355536729d5dc463697a4fa3cd5ed", size = 18698, upload-time = "2025-07-28T18:08:31.256Z" },
 ]
 
 [[package]]
@@ -1070,7 +1074,7 @@ wheels = [
 
 [[package]]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.11"
+version = "0.2.12"
 source = { editable = "." }
 dependencies = [
     { name = "gtfs-station-stop" },
@@ -1085,7 +1089,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gtfs-station-stop", git = "https://github.com/bcpearce/gtfs-station-stop?branch=ft-nested-zips" }]
+requires-dist = [{ name = "gtfs-station-stop", specifier = "==0.9.6" }]
 
 [package.metadata.requires-dev]
 dev = [
