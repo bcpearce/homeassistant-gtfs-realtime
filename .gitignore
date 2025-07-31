@@ -182,6 +182,7 @@ home-assistant_v2.db-shm
 home-assistant_v2.db-wal
 
 # Ignore Misc
+gtfs_static_cache/*
 *.old
 *.zip
 custom_components/gtfs_realtime/user_feeds.json

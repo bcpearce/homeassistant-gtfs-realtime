@@ -164,7 +164,9 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             time_to_arrival: Arrival = time_to_arrivals[self._idx]
 
             # Do not allow negative numbers
-            self._attr_native_value = max(time_to_arrival.time, 0)
+            self._attr_native_value = time_to_arrival.time and max(
+                time_to_arrival.time, 0
+            )
 
             # It's possible the route ID is empty, in that case, get it from the trips database
             # The remaining attributes will be filled below

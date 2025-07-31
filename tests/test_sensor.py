@@ -112,7 +112,7 @@ async def test_update(
             start_time + timedelta(minutes=minutes - update_counter.update_count)
         ).timestamp()
 
-    def coordinator_update_side_effects():
+    def coordinator_update_side_effects(_):
         arrivals = {
             "101N": [
                 Arrival(route="A", trip="", time=make_ts(4)),
