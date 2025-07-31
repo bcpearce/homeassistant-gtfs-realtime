@@ -64,6 +64,7 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator):
         self.kwargs = kwargs
         self.gtfs_provider = gtfs_provider
         self.hub: FeedSubject = feed_subject
+        self.hub.max_api_calls_per_second = 1  # rate limit
         self.gtfs_update_data = GtfsUpdateData()
         self.gtfs_static_zip: Iterable[os.PathLike] | os.PathLike = gtfs_static_zip
         self.route_icons = route_icons

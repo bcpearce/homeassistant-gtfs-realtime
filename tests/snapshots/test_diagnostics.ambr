@@ -48,6 +48,10 @@
           'Stop': Stop: None, lat: None, long: None,
         }),
       }),
+      'stop_times_ds': dict({
+        'stop_times': dict({
+        }),
+      }),
       'trip_info_ds': dict({
         'trip_infos': dict({
           'Trip': Trip: Route to ,
