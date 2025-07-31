@@ -279,6 +279,15 @@ wheels = [
 ]
 
 [[package]]
+name = "asyncio-atexit"
+version = "1.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/22/d3/dd2974be3f67c7ec96e0d6ab454429d0372cb7c7bffa3d0ac67a483cb801/asyncio-atexit-1.0.1.tar.gz", hash = "sha256:1d0c71544b8ee2c484d322844ee72c0875dde6f250c0ed5b6993592ab9f7d436", size = 4373, upload-time = "2022-04-26T08:54:16.998Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/65/10/d6abaefa57a52646651fd0383c056280b0853c0106229ece6bb38cd14463/asyncio_atexit-1.0.1-py3-none-any.whl", hash = "sha256:d93d5f7d5633a534abd521ce2896ed0fbe8de170bb1e65ec871d1c20eac9d376", size = 3752, upload-time = "2022-04-26T08:54:15.726Z" },
+]
+
+[[package]]
 name = "atomicwrites-homeassistant"
 version = "1.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -877,21 +886,18 @@ sdist = { url = "https://files.pythonhosted.org/packages/3d/55/ed46db9267d261585
 
 [[package]]
 name = "gtfs-station-stop"
-version = "0.10.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.10.2"
+source = { git = "https://github.com/bcpearce/gtfs-station-stop?branch=pooled-sessions#4fd039f44622d7d25f0221e97e5003508f8e9ef1" }
 dependencies = [
     { name = "aiofiles" },
     { name = "aiohttp" },
     { name = "aiohttp-client-cache", extra = ["sqlite"] },
+    { name = "asyncio-atexit" },
     { name = "coverage-badge" },
     { name = "gtfs-realtime-bindings" },
     { name = "protobuf" },
     { name = "requests" },
     { name = "requests-cache" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/92/1f/0415dca608d1e56b6582032ba6ffef6bcfd7a34381e39c04e1e4aa82a24a/gtfs_station_stop-0.10.1.tar.gz", hash = "sha256:69d3a2521bf497581c214f98489217cf76dc14c23cfddbd83261bee36fc55c72", size = 112939, upload-time = "2025-07-31T04:08:25.998Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ae/6a/d62fac4983c55b91828a1e523309d3adeb6bfb9be12839ad9e5f05f95ec5/gtfs_station_stop-0.10.1-py3-none-any.whl", hash = "sha256:4171a8a6a579c8071311affdc49cecb1b613fc43e7ac6bd1acdcbf4e3581ff7c", size = 21860, upload-time = "2025-07-31T04:08:24.305Z" },
 ]
 
 [[package]]
@@ -1089,7 +1095,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gtfs-station-stop", specifier = "==0.10.1" }]
+requires-dist = [{ name = "gtfs-station-stop", git = "https://github.com/bcpearce/gtfs-station-stop?branch=pooled-sessions" }]
 
 [package.metadata.requires-dev]
 dev = [
