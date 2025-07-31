@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.13"
+version = "0.2.14"
 description = "HomeAssistant custom integration for GTFS Realtime data."
 authors = [{ name= "Benjamin Pearce", email = "gtfs@bcpearce.com" }]
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.13.2"
 dependencies = [
-    "gtfs-station-stop==0.10.0",
+    "gtfs-station-stop==0.10.1",
 ]
 
 [dependency-groups]
@@ -19,7 +19,7 @@ dev = [
     "coverage-badge>=1.1.2",
     "pre-commit>=4.2.0",
     "pytest-homeassistant-custom-component>=0.13.252",
-    "ruff>=0.11.10",
+    "ruff>=0.12.5",
 ]
 
 [tool.hatch.build.targets.wheel]

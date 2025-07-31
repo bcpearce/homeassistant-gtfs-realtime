@@ -90,6 +90,7 @@ if __name__ == "__main__":
                         f" * {_repr_without_query(e)}",
                         file=sys.stderr,
                     )
+                    raise
         except* IndexError:
             print(f"Index error, {feed_id} requires a URL param that was not provided")
             notice = "Missing URL parameter"
@@ -98,6 +99,7 @@ if __name__ == "__main__":
             print(f"Exceptions occurred processing feed {feed_id}: ", file=sys.stderr)
             for e in eg.exceptions:
                 print(f" * {e}", file=sys.stderr)
+                raise
         return status, notice
 
     async def test_feeds(
