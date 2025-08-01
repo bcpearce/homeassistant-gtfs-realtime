@@ -55,7 +55,7 @@ warn_return_any = true
 warn_unreachable = true
 
 [tool.uv.sources]
-gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "pooled-sessions" }
+#gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "pooled-sessions" }
 #gtfs-station-stop = { path = "../gtfs-station-stop" }
 
 
