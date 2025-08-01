@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.14"
+version = "0.2.15"
 description = "HomeAssistant custom integration for GTFS Realtime data."
 authors = [{ name= "Benjamin Pearce", email = "gtfs@bcpearce.com" }]
 license = "MIT"
@@ -55,7 +55,8 @@ warn_return_any = true
 warn_unreachable = true
 
 [tool.uv.sources]
-#gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "pooled-sessions" }
+#uncomment to assist testing
+#gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main" }
 #gtfs-station-stop = { path = "../gtfs-station-stop" }
 
 

@@ -1084,7 +1084,7 @@ wheels = [
 
 [[package]]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.14"
+version = "0.2.15"
 source = { editable = "." }
 dependencies = [
     { name = "gtfs-station-stop" },
