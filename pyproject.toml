@@ -55,7 +55,7 @@ warn_return_any = true
 warn_unreachable = true
 
 [tool.uv.sources]
-#uncomment to assist testing
+# uncomment to assist testing
 #gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main" }
 #gtfs-station-stop = { path = "../gtfs-station-stop" }
 
