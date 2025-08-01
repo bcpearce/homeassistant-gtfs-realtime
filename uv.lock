@@ -887,7 +887,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/3d/55/ed46db9267d261585
 [[package]]
 name = "gtfs-station-stop"
 version = "0.10.2"
-source = { git = "https://github.com/bcpearce/gtfs-station-stop?branch=pooled-sessions#4fd039f44622d7d25f0221e97e5003508f8e9ef1" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
     { name = "aiohttp" },
@@ -898,6 +898,10 @@ dependencies = [
     { name = "protobuf" },
     { name = "requests" },
     { name = "requests-cache" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/19/15/41033cc7d3ab0ac9cdeb32f83bfde5aefc3ec81ee68a173f1d3f2c539a06/gtfs_station_stop-0.10.2.tar.gz", hash = "sha256:7a0335c48a823e7ba8d917b9d6fd9ae38cca14fd23ca13ffd3c637bb0e379dad", size = 113723, upload-time = "2025-08-01T03:30:25.755Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6a/42/46dc84c47df3f4e134df8b65588c2170777575262d91da14ea02f5c349cf/gtfs_station_stop-0.10.2-py3-none-any.whl", hash = "sha256:73704b938235c91acf30eebd7752dc45b6d7687122d30be731c36a0f0c9b06b4", size = 22444, upload-time = "2025-08-01T03:30:24.344Z" },
 ]
 
 [[package]]
@@ -1095,7 +1099,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gtfs-station-stop", git = "https://github.com/bcpearce/gtfs-station-stop?branch=pooled-sessions" }]
+requires-dist = [{ name = "gtfs-station-stop", specifier = "==0.10.2" }]
 
 [package.metadata.requires-dev]
 dev = [
