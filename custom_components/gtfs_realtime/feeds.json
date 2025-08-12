@@ -340,7 +340,7 @@
     },
     "requires_auth_header": true,
     "static_feeds": {
-      "nested": "https://opendata.transport.vic.gov.au/dataset/3f4e292e-7f8a-4ffe-831f-1953be0fe448/resource/aeee08cf-6da4-4206-b6b4-202ad488401f/download/gtfs.zip"
+      "nested": "http://data.ptv.vic.gov.au/downloads/gtfs.zip#4/google_transit.zip"
     }
   },
   "vancouver_translink": {
