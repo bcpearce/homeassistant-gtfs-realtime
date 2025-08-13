@@ -329,14 +329,15 @@
     }
   },
   "transport_victoria": {
-    "name": "Transport Victoria",
-    "auth_hint": "Ocp-Apim-Subscription-Key: [your key here]",
-    "disclaimer": "See terms of use at https://data-exchange.vicroads.vic.gov.au/terms_of_use",
+    "name": "Transport Victoria (Open Data)",
+    "auth_hint": "KeyId: : [API Key]",
+    "disclaimer": "See Help & Support at https://opendata.transport.vic.gov.au/Help-And-Support",
     "realtime_feeds": {
-      "alerts_metro_trains": "https://data-exchange-api.vicroads.vic.gov.au/opendata/v1/gtfsr/metrotrain-servicealerts",
-      "trip_update_metro_bus": "https://data-exchange-api.vicroads.vic.gov.au/opendata/v1/gtfsr/metrobus-tripupdates",
-      "trip_update_metro_trains": "https://data-exchange-api.vicroads.vic.gov.au/opendata/v1/gtfsr/metrotrain-tripupdates",
-      "vehicle_positions_metro_trains": "https://data-exchange-api.vicroads.vic.gov.au/opendata/v1/gtfsr/metrotrain-vehicleposition-updates"
+      "alerts_metro_trains": "https://api.opendata.transport.vic.gov.au/opendata/public-transport/gtfs/realtime/v1/metro/service-alerts",
+      "alerts_yarra_tram": "https://api.opendata.transport.vic.gov.au/opendata/public-transport/gtfs/realtime/v1/tram/service-alerts",
+      "trip_update_metro_bus": "https://api.opendata.transport.vic.gov.au/opendata/public-transport/gtfs/realtime/v1/bus/trip-updates",
+      "trip_update_metro_trains": "https://api.opendata.transport.vic.gov.au/opendata/public-transport/gtfs/realtime/v1/metro/trip-updates",
+      "trip_update_yarra_tram": "https://api.opendata.transport.vic.gov.au/opendata/public-transport/gtfs/realtime/v1/tram/trip-updates"
     },
     "requires_auth_header": true,
     "static_feeds": {
