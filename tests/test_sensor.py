@@ -115,6 +115,7 @@ async def test_update(
     def coordinator_update_side_effects(_):
         arrivals = {
             "101N": [
+                Arrival(route="AX", trip="", time=make_ts(-10)),  # test old arrival
                 Arrival(route="A", trip="", time=make_ts(4)),
                 Arrival(route="B", trip="", time=make_ts(6)),
                 Arrival(route="C", trip="", time=make_ts(8)),
