@@ -1,7 +1,7 @@
 """Platform for sensor integration."""
 
 from __future__ import annotations
-
+import logging
 from gtfs_station_stop.arrival import Arrival
 from gtfs_station_stop.route_info import RouteType
 from gtfs_station_stop.station_stop import StationStop
@@ -39,6 +39,10 @@ from .coordinator import GtfsRealtimeCoordinator
 PLATFORM_SCHEMA = SENSOR_PLATFORM_SCHEMA.extend(
     {vol.Required(STOP_ID): cv.string, vol.Optional(CONF_ARRIVAL_LIMIT, default=4): int}
 )
+
+_LOGGER = logging.getLogger(__name__)
+
+MIN_NEGATIVE_ARRIVAL_TIME_SECONDS = -120  # 2 minutes
 
 
 async def async_setup_entry(
@@ -150,7 +154,17 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
 
     def update(self) -> None:
         """Update state from coordinator data."""
-        time_to_arrivals = sorted(self.station_stop.get_time_to_arrivals())
+        stop_times_ds = self.coordinator.gtfs_update_data.schedule.stop_times_ds
+        time_to_arrivals = list(
+            filter(
+                lambda tta: tta is None or tta.time > MIN_NEGATIVE_ARRIVAL_TIME_SECONDS,
+                sorted(
+                    self.station_stop.get_time_to_arrivals(
+                        stop_times_dataset=stop_times_ds
+                    )
+                ),
+            )
+        )
         self._arrival_detail = {}
         if len(time_to_arrivals) > self._idx:
             schedule = self.coordinator.data.schedule
