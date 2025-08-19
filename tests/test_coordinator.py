@@ -40,23 +40,23 @@ async def test_update_static_data(
             return_value=mock_schedule,
         ) as async_build_schedule_mock,
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsSchedule.async_update_schedule",
+            "custom_components.gtfs_realtime.coordinator.GtfsSchedule.async_build_schedule",
             new_callable=AsyncMock,
             return_value=None,
-        ) as async_update_schedule_mock,
+        ) as async_build_schedule_mock,
     ):
         entry_v2_full.add_to_hass(hass)
         assert await hass.config_entries.async_setup(entry_v2_full.entry_id)
         await hass.async_block_till_done()
         async_build_schedule_mock.assert_called()
         async_build_schedule_mock.assert_awaited()
-        update_call_count = async_update_schedule_mock.call_count
+        update_call_count = async_build_schedule_mock.call_count
 
         # Has provider name
         assert entry_v2_full.runtime_data.gtfs_provider == "Entry V2 Mock"
 
         # Tick the clock and check if static data is updated
-        freezer.tick(timedelta(hours=2))
+        freezer.tick(timedelta(hours=2, minutes=1))
         async_fire_time_changed(hass)
         await hass.async_block_till_done()
-        assert update_call_count < async_update_schedule_mock.call_count
+        assert update_call_count < async_build_schedule_mock.call_count

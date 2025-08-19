@@ -112,21 +112,22 @@ async def test_update(
             start_time + timedelta(minutes=minutes - update_counter.update_count)
         ).timestamp()
 
-    def coordinator_update_side_effects():
+    def coordinator_update_side_effects(_):
         arrivals = {
             "101N": [
-                Arrival(make_ts(4), "A", ""),
-                Arrival(make_ts(6), "B", ""),
-                Arrival(make_ts(8), "C", ""),
+                Arrival(route="AX", trip="", time=make_ts(-10)),  # test old arrival
+                Arrival(route="A", trip="", time=make_ts(4)),
+                Arrival(route="B", trip="", time=make_ts(6)),
+                Arrival(route="C", trip="", time=make_ts(8)),
             ],
             "102S": [
-                Arrival(make_ts(9), "X", ""),
-                Arrival(make_ts(13), "Y", ""),
-                Arrival(make_ts(17), "Z", ""),
+                Arrival(route="X", trip="", time=make_ts(9)),
+                Arrival(route="Y", trip="", time=make_ts(13)),
+                Arrival(route="Z", trip="", time=make_ts(17)),
             ],
         }
-        for id, stop in coordinator.gtfs_update_data.station_stops.items():
-            stop.arrivals = arrivals[id]
+        for stop_id, stop in coordinator.gtfs_update_data.station_stops.items():
+            stop.arrivals = arrivals[stop_id]
         update_counter.update_count += 1
         return
 

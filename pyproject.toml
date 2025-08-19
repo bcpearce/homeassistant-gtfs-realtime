@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.11"
+version = "0.3.0"
 description = "HomeAssistant custom integration for GTFS Realtime data."
 authors = [{ name= "Benjamin Pearce", email = "gtfs@bcpearce.com" }]
 license = "MIT"
 readme = "README.md"
 requires-python = ">=3.13.2"
 dependencies = [
-    "gtfs-station-stop@git+https://github.com/bcpearce/gtfs-station-stop@main",
+    "gtfs-station-stop==0.11.0",
 ]
 
 [dependency-groups]
@@ -19,14 +19,11 @@ dev = [
     "coverage-badge>=1.1.2",
     "pre-commit>=4.2.0",
     "pytest-homeassistant-custom-component>=0.13.252",
-    "ruff>=0.11.10",
+    "ruff>=0.12.5",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["gtfs_realtime/custom_components"]
-
-[tool.hatch.metadata]
-allow-direct-references=true
 
 [tool.ruff]
 line-length = 88
@@ -58,7 +55,8 @@ warn_return_any = true
 warn_unreachable = true
 
 [tool.uv.sources]
-gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main" }
-
+# uncomment to assist testing
+#gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main" }
+#gtfs-station-stop = { path = "../gtfs-station-stop" }
 
 

@@ -26,19 +26,19 @@ STATUS_DICT = {
 
 URL_PARAM_PLACEHOLDERS = ["[ApiKey]"]
 
+if __name__ == "__main__":
 
-def _repr_without_query(e: ClientResponseError) -> str:
-    """Similar to str(e), but without query string which may contain sensitive params."""
-    url = e.request_info.url.with_query(None)
-    return f"{e.status}, message={e.message}, {url} (query may be hidden)"
+    def _repr_without_query(e: ClientResponseError) -> str:
+        """Similar to str(e), but without query string which may contain sensitive params."""
+        url = e.request_info.url.with_query(None)
+        return f"{e.status}, message={e.message}, {url} (query may be hidden)"
 
-
-def _replace_placeholders(s: str) -> str:
-    """Replace user-friendly placeholders in feeds.json with a python-formattable brace."""
-    tmp = s
-    for i, ph in enumerate(URL_PARAM_PLACEHOLDERS):
-        tmp = tmp.replace(ph, f"{{{i}}}")
-    return tmp
+    def _replace_placeholders(s: str) -> str:
+        """Replace user-friendly placeholders in feeds.json with a python-formattable brace."""
+        tmp = s
+        for i, ph in enumerate(URL_PARAM_PLACEHOLDERS):
+            tmp = tmp.replace(ph, f"{{{i}}}")
+        return tmp
 
 
 async def async_test_feed(
