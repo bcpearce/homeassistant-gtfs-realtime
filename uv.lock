@@ -112,26 +112,6 @@ wheels = [
 ]
 
 [[package]]
-name = "aiohttp-client-cache"
-version = "0.13.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "aiohttp" },
-    { name = "attrs" },
-    { name = "itsdangerous" },
-    { name = "url-normalize" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/fc/6b/2c09e4a0dd7d8f1b23ad0afac1ebdb200ed59445057f6caca3f653e7510a/aiohttp_client_cache-0.13.0.tar.gz", hash = "sha256:dc5cd62340adbee18e0fedc7b0c37542692df08f8ed9945d751b7292a0433853", size = 61883, upload-time = "2025-04-09T17:23:05.62Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b3/b5/f0a011dd20fad83c9aa1c75b3a640e2e4f05dbc9ee13e723c34fe25802f0/aiohttp_client_cache-0.13.0-py3-none-any.whl", hash = "sha256:89211544e9f290de42ef85f545cdae8eb34d1af6e51dcc8b2cf956dd539d2f39", size = 32932, upload-time = "2025-04-09T17:23:03.937Z" },
-]
-
-[package.optional-dependencies]
-sqlite = [
-    { name = "aiosqlite" },
-]
-
-[[package]]
 name = "aiohttp-cors"
 version = "0.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -174,18 +154,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ba/b5/6d55e80f6d8a08ce22b982eafa278d823b541c925f11ee774b0b9c43473d/aiosignal-1.3.2.tar.gz", hash = "sha256:a8c255c66fafb1e499c9351d0bf32ff2d8a0321595ebac3b93713656d2436f54", size = 19424, upload-time = "2024-12-13T17:10:40.86Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/6a/bc7e17a3e87a2985d3e8f4da4cd0f481060eb78fb08596c42be62c90a4d9/aiosignal-1.3.2-py2.py3-none-any.whl", hash = "sha256:45cde58e409a301715980c2b01d0c28bdde3770d8290b5eb2173759d9acb31a5", size = 7597, upload-time = "2024-12-13T17:10:38.469Z" },
-]
-
-[[package]]
-name = "aiosqlite"
-version = "0.21.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/13/7d/8bca2bf9a247c2c5dfeec1d7a5f40db6518f88d314b8bca9da29670d2671/aiosqlite-0.21.0.tar.gz", hash = "sha256:131bb8056daa3bc875608c631c678cda73922a2d4ba8aec373b19f18c17e7aa3", size = 13454, upload-time = "2025-02-03T07:30:16.235Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f5/10/6c25ed6de94c49f88a91fa5018cb4c0f3625f31d5be9f771ebe5cc7cd506/aiosqlite-0.21.0-py3-none-any.whl", hash = "sha256:2549cf4057f95f53dcba16f2b64e8e2791d7e1adedb13197dd8ed77bb226d7d0", size = 15792, upload-time = "2025-02-03T07:30:13.6Z" },
 ]
 
 [[package]]
@@ -520,19 +488,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b2/b1/0ae262ecf936f5d2472ff7387087ca674e3b88d8c76b3e0e55fbc0c6e956/btsocket-0.3.0.tar.gz", hash = "sha256:7ea495de0ff883f0d9f8eea59c72ca7fed492994df668fe476b84d814a147a0d", size = 19563, upload-time = "2024-06-10T07:05:27.426Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/67/2b/9bf3481131a24cb29350d69469448349362f6102bed9ae4a0a5bb228d731/btsocket-0.3.0-py2.py3-none-any.whl", hash = "sha256:949821c1b580a88e73804ad610f5173d6ae258e7b4e389da4f94d614344f1a9c", size = 14807, upload-time = "2024-06-10T07:05:26.381Z" },
-]
-
-[[package]]
-name = "cattrs"
-version = "25.1.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "attrs" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/57/2b/561d78f488dcc303da4639e02021311728fb7fda8006dd2835550cddd9ed/cattrs-25.1.1.tar.gz", hash = "sha256:c914b734e0f2d59e5b720d145ee010f1fd9a13ee93900922a2f3f9d593b8382c", size = 435016, upload-time = "2025-06-04T20:27:15.44Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/18/b0/215274ef0d835bbc1056392a367646648b6084e39d489099959aefcca2af/cattrs-25.1.1-py3-none-any.whl", hash = "sha256:1b40b2d3402af7be79a7e7e097a9b4cd16d4c06e6d526644b0b26a063a1cc064", size = 69386, upload-time = "2025-06-04T20:27:13.969Z" },
 ]
 
 [[package]]
@@ -886,22 +841,20 @@ sdist = { url = "https://files.pythonhosted.org/packages/3d/55/ed46db9267d261585
 
 [[package]]
 name = "gtfs-station-stop"
-version = "0.10.2"
+version = "0.11.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
     { name = "aiohttp" },
-    { name = "aiohttp-client-cache", extra = ["sqlite"] },
     { name = "asyncio-atexit" },
     { name = "coverage-badge" },
     { name = "gtfs-realtime-bindings" },
     { name = "protobuf" },
     { name = "requests" },
-    { name = "requests-cache" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/19/15/41033cc7d3ab0ac9cdeb32f83bfde5aefc3ec81ee68a173f1d3f2c539a06/gtfs_station_stop-0.10.2.tar.gz", hash = "sha256:7a0335c48a823e7ba8d917b9d6fd9ae38cca14fd23ca13ffd3c637bb0e379dad", size = 113723, upload-time = "2025-08-01T03:30:25.755Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4d/0c/23fa8896f946943a12694dcc0bd62df369d799e77e9e36f8706dec3542d4/gtfs_station_stop-0.11.0.tar.gz", hash = "sha256:5b9ba05af27e1475d332a62a65e25ae67e1cc94004e69ca19c211bf8a058569d", size = 114717, upload-time = "2025-08-19T01:55:20.378Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/42/46dc84c47df3f4e134df8b65588c2170777575262d91da14ea02f5c349cf/gtfs_station_stop-0.10.2-py3-none-any.whl", hash = "sha256:73704b938235c91acf30eebd7752dc45b6d7687122d30be731c36a0f0c9b06b4", size = 22444, upload-time = "2025-08-01T03:30:24.344Z" },
+    { url = "https://files.pythonhosted.org/packages/14/a5/0ca3a9f0af594c972f10019de4b8c31513cf7682ee0f2a92aab749522fc1/gtfs_station_stop-0.11.0-py3-none-any.whl", hash = "sha256:e894ddef6b1a57e1f9af4b81129002ce2c30169f9860df2fe978fc15f659bc64", size = 22573, upload-time = "2025-08-19T01:55:19.103Z" },
 ]
 
 [[package]]
@@ -1084,7 +1037,7 @@ wheels = [
 
 [[package]]
 name = "homeassistant-gtfs-realtime"
-version = "0.2.15"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "gtfs-station-stop" },
@@ -1099,7 +1052,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gtfs-station-stop", specifier = "==0.10.2" }]
+requires-dist = [{ name = "gtfs-station-stop", specifier = "==0.11.0" }]
 
 [package.metadata.requires-dev]
 dev = [
@@ -1171,15 +1124,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f2/97/ebf4da567aa6827c909642694d71c9fcf53e5b504f2d96afea02718862f3/iniconfig-2.1.0.tar.gz", hash = "sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7", size = 4793, upload-time = "2025-03-19T20:09:59.721Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2c/e1/e6716421ea10d38022b952c159d5161ca1193197fb744506875fbb87ea7b/iniconfig-2.1.0-py3-none-any.whl", hash = "sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760", size = 6050, upload-time = "2025-03-19T20:10:01.071Z" },
-]
-
-[[package]]
-name = "itsdangerous"
-version = "2.2.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/9c/cb/8ac0172223afbccb63986cc25049b154ecfb5e85932587206f42317be31d/itsdangerous-2.2.0.tar.gz", hash = "sha256:e0050c0b7da1eea53ffaf149c0cfbb5c6e2e2b69c4bef22c81fa6eb73e5f6173", size = 54410, upload-time = "2024-04-16T21:28:15.614Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/04/96/92447566d16df59b2a776c0fb82dbc4d9e07cd95062562af01e408583fc4/itsdangerous-2.2.0-py3-none-any.whl", hash = "sha256:c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef", size = 16234, upload-time = "2024-04-16T21:28:14.499Z" },
 ]
 
 [[package]]
@@ -2062,23 +2006,6 @@ wheels = [
 ]
 
 [[package]]
-name = "requests-cache"
-version = "1.2.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "attrs" },
-    { name = "cattrs" },
-    { name = "platformdirs" },
-    { name = "requests" },
-    { name = "url-normalize" },
-    { name = "urllib3" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/1a/be/7b2a95a9e7a7c3e774e43d067c51244e61dea8b120ae2deff7089a93fb2b/requests_cache-1.2.1.tar.gz", hash = "sha256:68abc986fdc5b8d0911318fbb5f7c80eebcd4d01bfacc6685ecf8876052511d1", size = 3018209, upload-time = "2024-06-18T17:18:03.774Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/2e/8f4051119f460cfc786aa91f212165bb6e643283b533db572d7b33952bd2/requests_cache-1.2.1-py3-none-any.whl", hash = "sha256:1285151cddf5331067baa82598afe2d47c7495a1334bfe7a7d329b43e9fd3603", size = 61425, upload-time = "2024-06-18T17:17:45Z" },
-]
-
-[[package]]
 name = "requests-mock"
 version = "1.12.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2342,18 +2269,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/ca/2d/e901fbe434971834eb8249865e27b04685ff0b61ffb4659458295d41c1d7/unicode_rbnf-2.3.0.tar.gz", hash = "sha256:8a3ac2fe199929b7f342bbc74f5f86f01a4e7d324811be02ea6474851e73e5ad", size = 86140, upload-time = "2025-02-18T20:16:37.771Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/04/4f/5ae05e97b4a878332371f2a305acc2ae4e2b67d8d6b0829f68114bce825c/unicode_rbnf-2.3.0-py3-none-any.whl", hash = "sha256:cb4fd74dcd090faf3eb17d528ba03cef09b44d3c360f5905c51245fec154ffcc", size = 139010, upload-time = "2025-02-18T20:16:35.404Z" },
-]
-
-[[package]]
-name = "url-normalize"
-version = "2.2.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "idna" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/80/31/febb777441e5fcdaacb4522316bf2a527c44551430a4873b052d545e3279/url_normalize-2.2.1.tar.gz", hash = "sha256:74a540a3b6eba1d95bdc610c24f2c0141639f3ba903501e61a52a8730247ff37", size = 18846, upload-time = "2025-04-26T20:37:58.553Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bc/d9/5ec15501b675f7bc07c5d16aa70d8d778b12375686b6efd47656efdc67cd/url_normalize-2.2.1-py3-none-any.whl", hash = "sha256:3deb687587dc91f7b25c9ae5162ffc0f057ae85d22b1e15cf5698311247f567b", size = 14728, upload-time = "2025-04-26T20:37:57.217Z" },
 ]
 
 [[package]]

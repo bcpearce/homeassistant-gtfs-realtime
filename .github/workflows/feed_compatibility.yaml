@@ -13,7 +13,8 @@ on:
     - cron: "0 2 * * *" # everyday at 0200
 
 env:
-  SLEEP_RATE_LIMIT: 5.0
+  CALLS_PER_SECOND: 0.5
+  SLEEP_BETWEEN_TASKS: 1.0
 
 jobs:
   feed-compatibility:
@@ -43,7 +44,8 @@ jobs:
           exo_quebec="${{ secrets.exo_quebec_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
-          --sleep-rate-limit ${{ env.SLEEP_RATE_LIMIT }} 
+          --calls-per-second ${{ env.CALLS_PER_SECOND }}
+          --sleep-between-tasks ${{ env.SLEEP_BETWEEN_TASKS }} 
           >> $GITHUB_STEP_SUMMARY
 
 

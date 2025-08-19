@@ -8,53 +8,28 @@
     'schedule': dict({
       'calendar': dict({
         'services': dict({
-          'Normal': Service(
-            added_exceptions=set({
-            }),
-            end=FakeDate(2024, 12, 31),
-            removed_exceptions=set({
-            }),
-            service_days=ServiceDays(
-              friday=False,
-              monday=False,
-              saturday=False,
-              sunday=False,
-              thursday=False,
-              tuesday=False,
-              wednesday=False,
-            ),
-            service_id='X',
-            start=FakeDate(2024, 12, 1),
-          ),
         }),
+      }),
+      'resources': set({
       }),
       'route_info_ds': dict({
         'route_infos': dict({
-          'Route': RouteInfo(
-            agency_id=None,
-            color=None,
-            desc=None,
-            id='Route',
-            long_name='Long Route Name',
-            short_name=None,
-            text_color=None,
-            type=<RouteType.SUBWAY: 1>,
-            url=None,
-          ),
         }),
       }),
       'station_stop_info_ds': dict({
         'station_stop_infos': dict({
-          'Stop': Stop: None, lat: None, long: None,
         }),
       }),
       'stop_times_ds': dict({
         'stop_times': dict({
         }),
+        'stops_filter': set({
+        }),
       }),
+      'tmp_dir': None,
+      'tmp_dir_path': None,
       'trip_info_ds': dict({
         'trip_infos': dict({
-          'Trip': Trip: Route to ,
         }),
       }),
     }),

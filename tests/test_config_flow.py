@@ -257,7 +257,7 @@ async def test_step_reconfigure(
             return_value=mock_schedule,
         ),
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsSchedule.async_update_schedule",
+            "custom_components.gtfs_realtime.coordinator.GtfsSchedule.async_build_schedule",
             new_callable=AsyncMock,
             return_value=None,
         ),
