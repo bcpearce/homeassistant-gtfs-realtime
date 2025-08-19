@@ -13,6 +13,7 @@ from aiohttp import ClientResponseError
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.schedule import async_build_schedule
 from tqdm.asyncio import tqdm
+from aiohttp import ClientSession
 
 
 REPORT_FORMATS = ["md", "dict"]
@@ -26,19 +27,19 @@ STATUS_DICT = {
 
 URL_PARAM_PLACEHOLDERS = ["[ApiKey]"]
 
-if __name__ == "__main__":
 
-    def _repr_without_query(e: ClientResponseError) -> str:
-        """Similar to str(e), but without query string which may contain sensitive params."""
-        url = e.request_info.url.with_query(None)
-        return f"{e.status}, message={e.message}, {url} (query may be hidden)"
+def _repr_without_query(e: ClientResponseError) -> str:
+    """Similar to str(e), but without query string which may contain sensitive params."""
+    url = e.request_info.url.with_query(None)
+    return f"{e.status}, message={e.message}, {url} (query may be hidden)"
 
-    def _replace_placeholders(s: str) -> str:
-        """Replace user-friendly placeholders in feeds.json with a python-formattable brace."""
-        tmp = s
-        for i, ph in enumerate(URL_PARAM_PLACEHOLDERS):
-            tmp = tmp.replace(ph, f"{{{i}}}")
-        return tmp
+
+def _replace_placeholders(s: str) -> str:
+    """Replace user-friendly placeholders in feeds.json with a python-formattable brace."""
+    tmp = s
+    for i, ph in enumerate(URL_PARAM_PLACEHOLDERS):
+        tmp = tmp.replace(ph, f"{{{i}}}")
+    return tmp
 
 
 async def async_test_feed(
@@ -46,6 +47,7 @@ async def async_test_feed(
     feed: dict[str, list[str]],
     headers: dict[str, str] | None,
     params: list[str] | None,
+    session: ClientSession,
     *,
     calls_per_second: float | None = None,
     delay_start: float = 0.0,
@@ -61,10 +63,12 @@ async def async_test_feed(
             rt = _replace_placeholders(realtime)
             subject = FeedSubject([rt.format(*params)], headers=headers)
             subject.max_api_calls_per_second = calls_per_second
-            await subject.async_update()
+            await subject.async_update(session)
         for static in feed["static_feeds"].values():
             st = _replace_placeholders(static)
-            await async_build_schedule(st.format(*params), headers=headers)
+            await async_build_schedule(
+                st.format(*params), session=session, headers=headers
+            )
         status = "Success"
         if headers:
             notice = "Auth Provided"
@@ -123,35 +127,37 @@ async def test_feeds(
     params_map |= {}
     tasks = {}
 
-    i: int = 0
-    for feed_id, feed in feeds.items():
-        header_key = ""
-        for key in headers_map.keys():
-            if re.search(key, feed_id):
-                header_key = key  # only match the first
-                break
-        params_key = ""
-        for key in params_map.keys():
-            if re.search(key, feed_id):
-                params_key = key  # only match the first
-                break
+    async with ClientSession() as session:
+        i: int = 0
+        for feed_id, feed in feeds.items():
+            header_key = ""
+            for key in headers_map.keys():
+                if re.search(key, feed_id):
+                    header_key = key  # only match the first
+                    break
+            params_key = ""
+            for key in params_map.keys():
+                if re.search(key, feed_id):
+                    params_key = key  # only match the first
+                    break
 
-        tasks[feed_id] = asyncio.create_task(
-            async_test_feed(
-                feed_id,
-                feed,
-                headers_map.get(header_key),
-                params_map.get(params_key),
-                calls_per_second=calls_per_second,
-                delay_start=i * sleep_between_tasks,
+            tasks[feed_id] = asyncio.create_task(
+                async_test_feed(
+                    feed_id,
+                    feed,
+                    headers_map.get(header_key),
+                    params_map.get(params_key),
+                    session,
+                    calls_per_second=calls_per_second,
+                    delay_start=i * sleep_between_tasks,
+                )
             )
-        )
-        i += 1
+            i += 1
 
-    async for _ in tqdm(asyncio.as_completed(tasks.values()), total=len(feeds)):
-        pass
+        async for _ in tqdm(asyncio.as_completed(tasks.values()), total=len(feeds)):
+            pass
 
-    results = {feed_id: task.result() for feed_id, task in tasks.items()}
+        results = {feed_id: task.result() for feed_id, task in tasks.items()}
 
     if output_format == "dict":
         pprint(results)
