@@ -9,11 +9,11 @@ If you found a bug, please report it on the [Issues](https://github.com/bcpearce
 While GTFS stands for *General* Transit Feed Specification, there is much variation in the way that a specific provider may configure their feeds. This repository tries to keep a number of feed specs up to date both to confirm compatibility with various providers, and for convenience in setting up the integration in Home Assistant. 
 
 - *Check your Authentication* 
-  - some feeds require authentication, others do not. If the provider requires an authentication headers, make sure it is formatted exactly as that provider requires. For some providers a "hint" is given in the setup that has a header name and a placeholder for an API Key or Token. 
+  - Some feeds require authentication, others do not. If the provider requires a authentication headers, make sure it is formatted exactly as that provider requires. For some providers a "hint" is given in the setup that has a header name and a placeholder for an API Key or Token. 
   - Make sure you do not accidentally post your token or API key when reporting an issue. 
 - *Check if a feed can be downloaded manually* 
-  - "static" data (representing the transit schedules and other data) is periodically updated by the provider.  It is generally provided as a .zip file with a number of .txt files with comma separated "data sets". These are updated at a regular interval that may be days, weeks, months, or--less commonly--hours. Sometimes the feed specification may become unavailable or corrupted. **This type of issue cannot be resolved by the repository owner**. 
-  - "realtime" data (representing trip updates or service alerts) is also updated regularly, but is generally done minute-to-minute. These are provided as protobufs, which may require some additional software to decode as they are not human readable. 
+  - "Static" data (representing the transit schedules and other data) is periodically updated by the provider.  It is generally provided as a .zip file with a number of .txt files with comma separated "data sets". These are updated at a regular interval that may be days, weeks, months, or--less commonly--hours. Sometimes the feed specification may become unavailable or corrupted. **This type of issue cannot be resolved by the repository owner**. 
+  - "Realtime" data (representing trip updates or service alerts) is also updated regularly, but is generally done minute-to-minute. These are provided as protobufs, which may require some additional software to decode as they are not human readable. 
 - *A feed's URLs have moved* 
   - you can report this as a bug or open a pull request with the updated data. 
 
