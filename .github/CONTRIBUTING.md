@@ -13,7 +13,7 @@ While GTFS stands for *General* Transit Feed Specification, there is much variat
   - Make sure you do not accidentally post your token or API key when reporting an issue. 
 - *Check if a feed can be downloaded manually* 
   - "Static" data (representing the transit schedules and other data) is periodically updated by the provider.  It is generally provided as a .zip file with a number of .txt files with comma separated "data sets". These are updated at a regular interval that may be days, weeks, months, or--less commonly--hours. Sometimes the feed specification may become unavailable or corrupted. **This type of issue cannot be resolved by the repository owner**. 
-  - "realtime" data (representing trip updates or service alerts) is also updated regularly, but is generally done minute-to-minute. These are provided as protobufs, which may require some additional software to decode as they are not human readable. 
+  - "Realtime" data (representing trip updates or service alerts) is also updated regularly, but is generally done minute-to-minute. These are provided as protobufs, which may require some additional software to decode as they are not human readable. 
 - *A feed's URLs have moved* 
   - you can report this as a bug or open a pull request with the updated data. 
 
