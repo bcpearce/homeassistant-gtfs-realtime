@@ -58,11 +58,13 @@
           "arrival_limit": "Arrival Limit",
           "gtfs_provider": "GTFS Provider Name",
           "route_ids": "Route ID",
-          "stop_ids": "Stop ID"
+          "stop_ids": "Stop ID",
+          "url_endpoints": "Feed URL"
         },
         "data_description": {
           "route_ids": "Route ID for a GTFS entity to receive service alerts.",
-          "stop_ids": "Stop ID for a GTFS entity to receive arrival data and service alerts"
+          "stop_ids": "Stop ID for a GTFS entity to receive arrival data and service alerts",
+          "url_endpoints": "Feed URLs for realtime GTFS Data"
         },
         "description": "Reconfigure GTFS parameters for existing entry.",
         "sections": {

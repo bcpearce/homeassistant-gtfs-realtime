@@ -278,6 +278,7 @@ async def test_step_reconfigure(
                 CONF_STOP_IDS: [],
                 CONF_GTFS_PROVIDER: "Test GTFS Provider",
                 CONF_ARRIVAL_LIMIT: 4,
+                CONF_URL_ENDPOINTS: ["https://example.com/gtfs-rt"],
             },
         )
 
@@ -298,5 +299,7 @@ async def test_step_reconfigure(
             ]["days"]
             == 42
         )
+
+        assert entry.data[CONF_URL_ENDPOINTS] == ["https://example.com/gtfs-rt"]
 
     hass.stop()

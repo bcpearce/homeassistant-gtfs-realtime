@@ -393,6 +393,25 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
             selected_stops=self.hub_config.get("stop_ids", []),
             selected_routes=self.hub_config.get("route_ids", []),
         )
+        data_schema = data_schema.extend(
+            {
+                vol.Required(
+                    CONF_URL_ENDPOINTS,
+                    default=self.hub_config.get("url_endpoints"),
+                    description=(
+                        {"suggested_value": ["https://"]}
+                        if not self.hub_config.get("url_endpoints")
+                        else {}
+                    ),
+                ): TextSelector(
+                    TextSelectorConfig(
+                        multiline=False,
+                        type=TextSelectorType.URL,
+                        multiple=True,
+                    )
+                )
+            }
+        )
         return self.async_show_form(
             step_id="reconfigure",
             data_schema=data_schema,
