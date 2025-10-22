@@ -199,6 +199,19 @@
       "regular": "https://www.bart.gov/dev/schedules/google_transit.zip"
     }
   },
+  "start_jackson_wy": {
+    "name": "START Bus \u2013 Town of Jackson, Wyoming",
+    "disclaimer": "https://www.startbus.com",
+    "realtime_feeds": {
+      "alerts": "https://gtfsrt.start.cadavl.com/ProfilGtfsRt2_0RSProducer-START/Alert.pb",
+      "trip_update": "https://gtfsrt.start.cadavl.com/ProfilGtfsRt2_0RSProducer-START/TripUpdate.pb",
+      "vehicle_positions": "https://gtfsrt.start.cadavl.com/ProfilGtfsRt2_0RSProducer-START/VehiclePosition.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "latest": "https://gtfs.start.cadavl.com/START/GTFS/GTFS_START.zip"
+    }
+  },
   "sydney_buses": {
     "name": "New South Wales - Buses",
     "auth_hint": "Authorization: apikey [your key here]",
