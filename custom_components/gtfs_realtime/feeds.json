@@ -393,7 +393,6 @@
   },
   "westchester_beeline": {
     "name": "Westchester County Bee-Line System",
-    "disclaimer": "https://planning.westchestergov.com/transportation-planning/gfts-developers-transit-api/transit-api-service-terms-of-service",
     "realtime_feeds": {
       "alerts": "https://westchester-gmv.itoworld.com/production/servicealerts.pb",
       "trip_update": "https://westchester-gmv.itoworld.com/production/tripupdates.pb",
