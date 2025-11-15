@@ -226,8 +226,9 @@ if __name__ == "__main__":
     params: dict[str, list[str]] = {}
     for feed_id_to_auth_header in args.auth_header or []:
         feed_id, auth_header = feed_id_to_auth_header.split("=")
-        header_key, header_value = (x.strip() for x in auth_header.split(":"))
-        auth[feed_id] = {header_key: header_value}
+        if len(auth_header) > 0:
+            header_key, header_value = (x.strip() for x in auth_header.split(":"))
+            auth[feed_id] = {header_key: header_value}
 
     for feed_id_to_url_param in args.url_param or []:
         feed_id, url_param = feed_id_to_url_param.split("=")
