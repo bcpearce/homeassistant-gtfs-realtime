@@ -26,9 +26,9 @@ jobs:
           uv run pytest tests
           uv run coverage xml
       - name: "Coveralls"
-        run: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@v2
         with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
-            format: cobertura
-            file: coverage.xml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          format: cobertura
+          file: coverage.xml
 
