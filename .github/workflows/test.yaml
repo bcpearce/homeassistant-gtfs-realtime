@@ -23,5 +23,8 @@ jobs:
         run: uv sync --locked --all-extras --dev
       - name: "Run tests"
         run: uv run pytest tests
-
+      - name: "Coveralls"
+        run: coverallsapp/github-action@v2
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
 
