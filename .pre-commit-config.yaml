@@ -68,3 +68,4 @@ repos:
 
 ci:
   skip: [hassfest, pytest, uv-lock]
+  autoupdate_schedule: monthly
