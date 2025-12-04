@@ -2,7 +2,7 @@
 ![GTFS Realtime](resources/logo.svg)
 # GTFS Realtime for Home Assistant
 
-![test coverage](./coverage.svg)
+[![Coverage Status](https://coveralls.io/repos/github/bcpearce/homeassistant-gtfs-realtime/badge.svg?branch=main)](https://coveralls.io/github/bcpearce/homeassistant-gtfs-realtime?branch=main)
 
 [![Check GTFS Feed Compatibility](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml/badge.svg)](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml)
 
