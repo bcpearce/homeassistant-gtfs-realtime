@@ -189,6 +189,19 @@
       "nested": "https://www3.septa.org/developer/gtfs_public.zip"
     }
   },
+  "renfe": {
+    "name": "Renfe - Espa\u00f1a",
+    "disclaimer": "Informaci\u00f3n Legal https://data.renfe.com/legal",
+    "realtime_feeds": {
+      "alerts": "https://gtfsrt.renfe.com/alerts.pb",
+      "trip_update": "https://gtfsrt.renfe.com/trip_updates.pb",
+      "vehicle_positions": "https://gtfsrt.renfe.com/vehicle_positions.pb"
+    },
+    "static_feeds": {
+      "commuter_rail": "https://ssl.renfe.com/ftransit/Fichero_CER_FOMENTO/fomento_transit.zip",
+      "intercity_and_hst_rail": "https://ssl.renfe.com/gtransit/Fichero_AV_LD/google_transit.zip"
+    }
+  },
   "sf_bart": {
     "name": "Bay Area Rapid Transit",
     "realtime_feeds": {

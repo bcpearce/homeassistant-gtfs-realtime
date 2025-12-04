@@ -229,9 +229,15 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
     async def _get_route_options(
         self, headers: dict[str, str] | None = None
     ) -> list[SelectOptionDict]:
-        await self.schedule.async_build_schedule(
-            *self.hub_config[CONF_GTFS_STATIC_DATA], headers=headers
-        )
+        try:
+            await self.schedule.async_build_schedule(
+                *self.hub_config[CONF_GTFS_STATIC_DATA], headers=headers
+            )
+        except ExceptionGroup as eg:
+            _LOGGER.error(repr(eg))
+            raise RuntimeError(
+                "Failed to build GTFS static schedule from datasets."
+            ) from eg
         route_ds = self.schedule.route_info_ds
         return [
             SelectOptionDict(
