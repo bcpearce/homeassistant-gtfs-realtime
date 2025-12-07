@@ -1,0 +1,4 @@
+changelog:
+  exclude:
+    authors:
+     - pre-commit-ci[bot]
