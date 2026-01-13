@@ -8,6 +8,9 @@ from unittest.mock import AsyncMock, patch
 
 from freezegun.api import FrozenDateTimeFactory
 from gtfs_station_stop.arrival import Arrival
+from gtfs_station_stop.route_info import RouteInfo, RouteType
+from gtfs_station_stop.trip_info import TripInfo
+from gtfs_station_stop.schedule import GtfsSchedule
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import HomeAssistant
@@ -21,7 +24,6 @@ from syrupy.assertion import SnapshotAssertion
 from custom_components.gtfs_realtime.const import ROUTE_ID
 from custom_components.gtfs_realtime.coordinator import (
     GtfsRealtimeCoordinator,
-    GtfsUpdateData,
 )
 
 from custom_components.gtfs_realtime.sensor import ArrivalSensor
@@ -66,6 +68,27 @@ async def async_setup_coordinator(
     hass: HomeAssistant, entry_v2_nodialout: MockConfigEntry
 ) -> GtfsRealtimeCoordinator:
     """Setup the Coordinator."""
+    static_update_data = GtfsSchedule()
+    static_update_data.route_info_ds.route_infos["123"] = RouteInfo(
+        {
+            "route_id": "123",
+            "route_short_name": "123",
+            "route_type": RouteType.SUBWAY.value,
+            "route_color": "FFFFFF",
+            "route_text_color": "888888",
+        }
+    )
+    static_update_data.trip_info_ds.trip_infos["123-test"] = TripInfo(
+        {
+            "route_id": "123",
+            "trip_id": "123-test",
+            "service_id": "SVC",
+            "trip_headsign": "Downtown",
+            "trip_short_name": "123-test",
+            "direction_id": "Northbound",
+        }
+    )
+
     with (
         patch(
             "custom_components.gtfs_realtime.coordinator.FeedSubject.async_update",  # noqa E501
@@ -75,7 +98,7 @@ async def async_setup_coordinator(
         patch(
             "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",  # noqa E501
             new_callable=AsyncMock,
-            return_value=GtfsUpdateData(),
+            return_value=static_update_data,
         ),
     ):
         entry_v2_nodialout.add_to_hass(hass)
@@ -118,7 +141,7 @@ async def test_update(
                 Arrival(route="AX", trip="", time=make_ts(-10)),  # test old arrival
                 Arrival(route="A", trip="", time=make_ts(4)),
                 Arrival(route="B", trip="", time=make_ts(6)),
-                Arrival(route="C", trip="", time=make_ts(8)),
+                Arrival(route="123-route", trip="123-test", time=make_ts(8)),
             ],
             "102S": [
                 Arrival(route="X", trip="", time=make_ts(9)),
@@ -151,7 +174,10 @@ async def test_update(
         assert (
             snapshot(name=f"{sensor}-after-1-minute")
             == hass.states.get(f"{SENSOR_DOMAIN}.{sensor}").state
-        )
+        ), f"failed assertion for sensor {sensor}"
+        assert snapshot(name=f"{sensor}-attributes-after-1-minute") == dict(
+            hass.states.get(f"{SENSOR_DOMAIN}.{sensor}").attributes
+        ), f"failed assertion for sensor {sensor}"
 
 
 async def test_route_icon_missing_route_id(
