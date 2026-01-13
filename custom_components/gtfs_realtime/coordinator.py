@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 import logging
 import os
+from copy import deepcopy
 
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.route_status import RouteStatus
@@ -87,27 +88,30 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator):
                 uri, timedelta(hours=CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT)
             )
         }
-        await self.async_update_static_data()
+        self.gtfs_update_data.schedule = await self.async_update_static_data()
         await self.hub.async_update(async_get_clientsession(self.hass))
         return self.gtfs_update_data
 
-    async def async_update_static_data(self, clear_old_data=False):
+    async def async_update_static_data(self, clear_old_data=False) -> GtfsSchedule:
         """Update or clear static feeds and merge with existing datasets."""
         # Check for clear old data to reset the datasets
         if clear_old_data:
-            self.gtfs_update_data.schedule = GtfsSchedule()
+            schedule = GtfsSchedule()
             _LOGGER.debug("GTFS Static data cleared")
+        else:
+            schedule = deepcopy(self.gtfs_update_data.schedule)
 
         for target in self.static_update_targets:
-            await self.gtfs_update_data.schedule.async_build_schedule(
+            await schedule.async_build_schedule(
                 target,
                 session=async_get_clientsession(self.hass),
                 **self.kwargs,
             )
-            await self.gtfs_update_data.schedule.async_load_stop_times(
+            await schedule.async_load_stop_times(
                 set(self.gtfs_update_data.station_stops.keys())
             )
 
             _LOGGER.debug("GTFS Static Feed %s updated", target)
             self.last_static_update[target] = datetime.now()
         self.static_update_targets.clear()
+        return schedule

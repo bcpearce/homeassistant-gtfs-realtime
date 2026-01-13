@@ -7,6 +7,7 @@ from gtfs_station_stop.arrival import Arrival
 from gtfs_station_stop.route_info import RouteType
 from gtfs_station_stop.station_stop import StationStop
 from gtfs_station_stop.station_stop_info import StationStopInfo
+from gtfs_station_stop.schedule import GtfsSchedule
 from homeassistant.components.sensor import (
     PLATFORM_SCHEMA as SENSOR_PLATFORM_SCHEMA,
     SensorDeviceClass,
@@ -169,7 +170,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
         )
         self._arrival_detail = {}
         if len(time_to_arrivals) > self._idx:
-            schedule = self.coordinator.data.schedule
+            schedule: GtfsSchedule = self.coordinator.data.schedule
 
             time_to_arrival: Arrival = time_to_arrivals[self._idx]
 
@@ -180,7 +181,9 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
 
             # It's possible the route ID is empty, in that case, get it from the trips database
             # The remaining attributes will be filled below
-            if not time_to_arrival.route:
+            if time_to_arrival.route not in schedule.route_info_ds.route_infos and bool(
+                time_to_arrival.trip
+            ):
                 trip_info = schedule.trip_info_ds.get_close_match(time_to_arrival.trip)
                 if trip_info is not None:
                     time_to_arrival.route = trip_info.route_id

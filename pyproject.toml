@@ -1,25 +1,25 @@
 [build-system]
-requires = ["hatchling"]
 build-backend = "hatchling.build"
+requires = ["hatchling"]
 
 [project]
-name = "homeassistant-gtfs-realtime"
-version = "0.3.2"
+authors = [{name = "Benjamin Pearce", email = "gtfs@bcpearce.com"}]
+dependencies = [
+  "gtfs-station-stop==0.11.1",
+]
 description = "HomeAssistant custom integration for GTFS Realtime data."
-authors = [{ name= "Benjamin Pearce", email = "gtfs@bcpearce.com" }]
 license = "MIT"
+name = "homeassistant-gtfs-realtime"
 readme = "README.md"
 requires-python = ">=3.13.2"
-dependencies = [
-    "gtfs-station-stop==0.11.1",
-]
+version = "0.3.3"
 
 [dependency-groups]
 dev = [
-    "coverage-badge>=1.1.2",
-    "pre-commit>=4.2.0",
-    "pytest-homeassistant-custom-component>=0.13.252",
-    "ruff>=0.12.5",
+  "coverage-badge>=1.1.2",
+  "pre-commit>=4.2.0",
+  "pytest-homeassistant-custom-component>=0.13.252",
+  "ruff>=0.12.5",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -29,35 +29,32 @@ packages = ["gtfs_realtime/custom_components"]
 line-length = 88
 
 [tool.pytest.ini_options]
-testpaths = "tests"
-norecursedirs = ".git"
-asyncio_mode = "auto"
 addopts = "--strict --cov=custom_components --allow-hosts=127.0.0.1,localhost"
+asyncio_mode = "auto"
+norecursedirs = ".git"
+testpaths = "tests"
 
 [tool.mypy]
-python_version = "3.13"
-show_error_codes = true
-follow_imports = "silent"
-local_partial_types = true
-strict_equality = true
-no_implicit_optional = false
-warn_incomplete_stub = true
-warn_redundant_casts = true
-warn_unused_configs = true
-warn_unused_ignores = true
 check_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_subclassing_any = true
 disallow_untyped_calls = true
 disallow_untyped_decorators = true
 disallow_untyped_defs = true
+follow_imports = "silent"
+local_partial_types = true
+no_implicit_optional = false
+python_version = "3.13"
+show_error_codes = true
+strict_equality = true
+warn_incomplete_stub = true
+warn_redundant_casts = true
 warn_return_any = true
 warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
 
 [tool.uv.sources]
 # uncomment to assist testing
 #gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main" }
 #gtfs-station-stop = { path = "../gtfs-station-stop" }
-
-
-
