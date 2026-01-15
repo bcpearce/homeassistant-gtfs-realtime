@@ -82,7 +82,7 @@ async def test_failed_update_static_data(
             new_callable=AsyncMock,
             return_value=None,
             side_effect=ex,
-        ) as async_build_schedule_mock,
+        ),
     ):
         coordinator = GtfsRealtimeCoordinator(
             hass,
