@@ -26,8 +26,7 @@
         'stops_filter': set({
         }),
       }),
-      'tmp_dir': None,
-      'tmp_dir_path': None,
+      'tmp_dir_path': PosixPath('/tmp/gtfs_station_stop'),
       'trip_info_ds': dict({
         'trip_infos': dict({
         }),

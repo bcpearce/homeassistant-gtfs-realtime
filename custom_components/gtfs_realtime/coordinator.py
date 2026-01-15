@@ -101,17 +101,28 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator):
         else:
             schedule = deepcopy(self.gtfs_update_data.schedule)
 
-        for target in self.static_update_targets:
-            await schedule.async_build_schedule(
-                target,
-                session=async_get_clientsession(self.hass),
-                **self.kwargs,
-            )
-            await schedule.async_load_stop_times(
-                set(self.gtfs_update_data.station_stops.keys())
-            )
+        schedule.download_dir_path = self.hass.config.path(f".storage/{DOMAIN}")
 
-            _LOGGER.debug("GTFS Static Feed %s updated", target)
-            self.last_static_update[target] = datetime.now()
+        try:
+            for target in self.static_update_targets:
+                await schedule.async_build_schedule(
+                    target,
+                    session=async_get_clientsession(self.hass),
+                    **self.kwargs,
+                )
+                _LOGGER.debug(
+                    "Using %s for temporary static feed data",
+                    schedule.download_dir_path,
+                )
+                await schedule.async_load_stop_times(
+                    set(self.gtfs_update_data.station_stops.keys())
+                )
+                _LOGGER.debug("GTFS Static Feed %s updated", target)
+                self.last_static_update[target] = datetime.now()
+        except ExceptionGroup as eg:
+            for e in eg.exceptions:
+                _LOGGER.exception(e)
+        except Exception as e:
+            _LOGGER.exception(e)
         self.static_update_targets.clear()
         return schedule
