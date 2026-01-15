@@ -5,7 +5,7 @@ requires = ["hatchling"]
 [project]
 authors = [{name = "Benjamin Pearce", email = "gtfs@bcpearce.com"}]
 dependencies = [
-  "gtfs-station-stop==0.11.1",
+  "gtfs-station-stop==0.11.3",
 ]
 description = "HomeAssistant custom integration for GTFS Realtime data."
 license = "MIT"
@@ -56,5 +56,5 @@ warn_unused_ignores = true
 
 [tool.uv.sources]
 # uncomment to assist testing
-#gtfs-station-stop = { git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main" }
-#gtfs-station-stop = { path = "../gtfs-station-stop" }
+# gtfs-station-stop = {git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main"}
+# gtfs-station-stop = {path = "../gtfs-station-stop"}

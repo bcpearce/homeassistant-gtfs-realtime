@@ -1,8 +1,9 @@
 """Test Coordinator."""
 
+import pytest
 from datetime import timedelta
 from unittest.mock import AsyncMock, patch
-
+from aiohttp.web import HTTPBadRequest
 from freezegun.api import FrozenDateTimeFactory
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.schedule import GtfsSchedule
@@ -60,3 +61,36 @@ async def test_update_static_data(
         async_fire_time_changed(hass)
         await hass.async_block_till_done()
         assert update_call_count < async_build_schedule_mock.call_count
+
+
+@pytest.mark.parametrize(
+    "ex",
+    [
+        HTTPBadRequest(),
+        ExceptionGroup("Failed Requests", [HTTPBadRequest(), HTTPBadRequest()]),
+    ],
+)
+async def test_failed_update_static_data(
+    hass: HomeAssistant,
+    mock_schedule: GtfsSchedule,
+    ex: Exception | ExceptionGroup,
+):
+    """Test failed updates, expect cleared schedule."""
+    with (
+        patch(
+            "custom_components.gtfs_realtime.coordinator.GtfsSchedule.async_build_schedule",
+            new_callable=AsyncMock,
+            return_value=None,
+            side_effect=ex,
+        ),
+    ):
+        coordinator = GtfsRealtimeCoordinator(
+            hass,
+            FeedSubject("http://example.com/gtfs.pb"),
+            ["http://example.com/gtfs.zip"],
+        )
+        coordinator.gtfs_update_data.schedule = mock_schedule
+        schedule = await coordinator.async_update_static_data(True)
+        expected_schedule = GtfsSchedule()
+        expected_schedule.download_dir_path = schedule.download_dir_path
+        assert schedule == expected_schedule

@@ -26,8 +26,6 @@
         'stops_filter': set({
         }),
       }),
-      'tmp_dir': None,
-      'tmp_dir_path': None,
       'trip_info_ds': dict({
         'trip_infos': dict({
         }),
