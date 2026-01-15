@@ -91,4 +91,6 @@ async def test_failed_update_static_data(
         )
         coordinator.gtfs_update_data.schedule = mock_schedule
         schedule = await coordinator.async_update_static_data(True)
-        assert schedule == GtfsSchedule()
+        expected_schedule = GtfsSchedule()
+        expected_schedule.download_dir_path = schedule.download_dir_path
+        assert schedule == expected_schedule
