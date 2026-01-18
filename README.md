@@ -84,6 +84,9 @@ Raw sensor data is provided in seconds. Minutes are the recommended unit.
 > [!NOTE] 
 > Available in ≥ 0.4.0 only
 
+> [!CAUTION]
+> This does *not* use GTFS Realtime [Vehicle Positions](https://gtfs.org/documentation/realtime/feed-entities/vehicle-positions/) updates. Support may be added in a later release. 
+
 Realtime data is being tested for NYC Subway arrivals and may work with other systems.  This can be viewed by adding the entities to a [Map Card](https://www.home-assistant.io/dashboards/map/).
 
 ![sample map](resources/realtime-locations.jpg)
