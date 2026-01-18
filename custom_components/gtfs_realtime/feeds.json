@@ -110,6 +110,19 @@
       "regular": "https://feeds.mta.maryland.gov/gtfs/marc"
     }
   },
+  "ny_cdta": {
+    "name": "Capital District Transportation Authority (CDTA)",
+    "disclaimer": "Before diving in, please review our Developer License Agreement (http://www.cdta.org/developer-license-agreement/169). By using our resources, you agree to the terms outlined in this agreement.",
+    "realtime_feeds": {
+      "alerts": "https://www.cdta.org/gtfsrealtime/ServiceAlerts",
+      "trip_update": "http://gtfs.cdta.org:8080/gtfsrealtime/TripUpdates",
+      "vehicle_positions": "http://gtfs.cdta.org:8080/gtfsrealtime/VehiclePositions"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "regular": "https://www.cdta.org/schedules/google_transit.zip"
+    }
+  },
   "nyc_00_subway": {
     "name": "NYC Subway",
     "realtime_feeds": {
