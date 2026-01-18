@@ -8,7 +8,12 @@
 
 ## Installation
 
-This integration can be installed manually or through [HACS](https://hacs.xyz/).
+This integration can be installed manually or through [HACS](https://hacs.xyz/). HACS is recommended.
+
+> [!NOTE]
+> As of version 0.4.0, realtime location is available for vechicles in *some* cases. This currently is being tested with NYC Subway locations using a "best guess" method of checking the stop update closest to the current time. 
+> To Install the experimental version, look for "pre-release" downloads in HACS. 
+> For more about [Realtime Data](#realtime-data-experimental)
 
 #### HACS
 
@@ -73,6 +78,18 @@ The number of sensors can be specified during setup. By default this is 4.
 Sensors will indicate the 1st, 2nd, 3rd, ... etc. arrivals for a given `stop_id` ordered by shortest time.  If no scheduled trips exist for a given arrival ordinal, it will take on the state "Unknown". That is to say, the first sensor will always have the shortest time to arrival, the second sensor will have the second shortest time to arrival, and so on. 
 
 Raw sensor data is provided in seconds. Minutes are the recommended unit.
+
+#### Realtime Data (Experimental)
+
+> [!NOTE] 
+> Available in ≥ 0.4.0 only
+
+> [!CAUTION]
+> This does *not* use GTFS Realtime [Vehicle Positions](https://gtfs.org/documentation/realtime/feed-entities/vehicle-positions/) updates. Support may be added in a later release. 
+
+Realtime data is being tested for NYC Subway arrivals and may work with other systems.  This can be viewed by adding the entities to a [Map Card](https://www.home-assistant.io/dashboards/map/).
+
+![sample map](resources/realtime-locations.jpg)
 
 ### Alert Sensor
 
