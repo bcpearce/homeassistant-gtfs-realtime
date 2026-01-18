@@ -20,6 +20,8 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.const import ATTR_LATITUDE
+from homeassistant.const import ATTR_LONGITUDE
 import voluptuous as vol
 
 from custom_components.gtfs_realtime import GtfsRealtimeConfigEntry
@@ -203,6 +205,11 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             self._arrival_detail[ROUTE_TYPE] = schedule.get_route_type(
                 time_to_arrival.route
             )
+            if stop_info := schedule.station_stop_info_ds.get(
+                time_to_arrival.current_station
+            ):
+                self._arrival_detail[ATTR_LATITUDE] = stop_info.lat
+                self._arrival_detail[ATTR_LONGITUDE] = stop_info.lon
         else:
             self._attr_native_value = None
 
