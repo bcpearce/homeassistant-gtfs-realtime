@@ -113,6 +113,9 @@
     },
     "sensor": {
       "state_attributes": {
+        "destination": {
+          "name": "Destination"
+        },
         "headsign": {
           "name": "Headsign"
         },
