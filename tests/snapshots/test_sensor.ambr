@@ -4,6 +4,7 @@
 # ---
 # name: test_update[1_101n-attributes-after-1-minute]
   dict({
+    'destination': 'Stop ID: None',
     'device_class': 'duration',
     'friendly_name': '1: 101N',
     'headsign': 'Downtown',
@@ -22,6 +23,7 @@
 # ---
 # name: test_update[1_102s-attributes-after-1-minute]
   dict({
+    'destination': 'Stop ID: None',
     'device_class': 'duration',
     'friendly_name': '1: 102S',
     'headsign': 'Downtown',
@@ -40,6 +42,7 @@
 # ---
 # name: test_update[2_101n-attributes-after-1-minute]
   dict({
+    'destination': 'Stop ID: None',
     'device_class': 'duration',
     'friendly_name': '2: 101N',
     'headsign': 'Downtown',
@@ -58,6 +61,7 @@
 # ---
 # name: test_update[2_102s-attributes-after-1-minute]
   dict({
+    'destination': 'Stop ID: None',
     'device_class': 'duration',
     'friendly_name': '2: 102S',
     'headsign': 'Downtown',
@@ -76,6 +80,7 @@
 # ---
 # name: test_update[3_101n-attributes-after-1-minute]
   dict({
+    'destination': 'Stop ID: None',
     'device_class': 'duration',
     'friendly_name': '3: 101N',
     'headsign': 'Downtown',
@@ -94,6 +99,7 @@
 # ---
 # name: test_update[3_102s-attributes-after-1-minute]
   dict({
+    'destination': 'Stop ID: None',
     'device_class': 'duration',
     'friendly_name': '3: 102S',
     'headsign': 'Downtown',

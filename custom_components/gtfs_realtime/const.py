@@ -28,6 +28,7 @@ TRIP_ID = "trip_id"
 ROUTE_COLOR = "route_color"
 ROUTE_TEXT_COLOR = "route_text_color"
 HEADSIGN = "headsign"
+DESTINATION = "destination"
 ROUTE_TYPE = "route_type"
 
 SSI_DB = "station_stop_info_db"

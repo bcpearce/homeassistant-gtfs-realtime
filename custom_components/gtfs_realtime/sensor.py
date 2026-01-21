@@ -29,6 +29,7 @@ from custom_components.gtfs_realtime import GtfsRealtimeConfigEntry
 from .const import (
     CONF_ARRIVAL_LIMIT,
     CONF_STOP_IDS,
+    DESTINATION,
     DOMAIN,
     HEADSIGN,
     ROUTE_COLOR,
@@ -195,6 +196,12 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             self._arrival_detail[HEADSIGN] = schedule.get_trip_headsign(
                 time_to_arrival.trip
             )
+            destination = time_to_arrival.destination
+            if destination_stop_info := schedule.station_stop_info_ds.get(destination):
+                destination = destination_stop_info.name
+            else:
+                destination = f"Stop ID: {destination}"
+            self._arrival_detail[DESTINATION] = destination
             self._arrival_detail[TRIP_ID] = time_to_arrival.trip
             self._arrival_detail[ROUTE_COLOR] = schedule.get_route_color(
                 time_to_arrival.route
