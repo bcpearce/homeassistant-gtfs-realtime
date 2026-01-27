@@ -12,7 +12,6 @@ This integration can be installed manually or through [HACS](https://hacs.xyz/).
 
 > [!NOTE]
 > As of version 0.4.0, realtime location is available for vechicles in *some* cases. This currently is being tested with NYC Subway locations using a "best guess" method of checking the stop update closest to the current time. 
-> To Install the experimental version, look for "pre-release" downloads in HACS. 
 > For more about [Realtime Data](#realtime-data-experimental)
 
 #### HACS
@@ -27,7 +26,7 @@ Copy files in [custom_components/gtfs_realtime](custom_components/gtfs_realtime/
 
 ## Configuration
 
-Once the integration is installed, the configure the integration through Settings >> Devices and Services, and use "Add Integration".  Select GTFS Realtime and follow the instructions in the user interface.
+Once the integration is installed, configure the integration through Settings >> Devices and Services, and use "Add Integration".  Select GTFS Realtime and follow the instructions in the user interface.
 
 You can select a supported provider or configure it manually. A number of GTFS providers are included for convenience in this repository.  
 
