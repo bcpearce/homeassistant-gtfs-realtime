@@ -39,3 +39,6 @@ RTI_DB = "route_info_db"
 COORDINATOR_REALTIME = "coordinator_realtime"
 
 PLATFORM = "platform"
+
+# Services
+GENERATE_ARRIVAL_BOARD = "generate_arrival_board"

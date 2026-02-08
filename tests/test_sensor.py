@@ -171,12 +171,13 @@ async def test_update(
         "3_102s",
         "4_102s",
     ]:
-        assert (
-            snapshot(name=f"{sensor}-after-1-minute")
-            == hass.states.get(f"{SENSOR_DOMAIN}.{sensor}").state
-        ), f"failed assertion for sensor {sensor}"
+        sensor_data = hass.states.get(f"{SENSOR_DOMAIN}.{sensor}")
+        assert sensor_data is not None
+        assert snapshot(name=f"{sensor}-after-1-minute") == sensor_data.state, (
+            f"failed assertion for sensor {sensor}"
+        )
         assert snapshot(name=f"{sensor}-attributes-after-1-minute") == dict(
-            hass.states.get(f"{SENSOR_DOMAIN}.{sensor}").attributes
+            sensor_data.attributes
         ), f"failed assertion for sensor {sensor}"
 
 

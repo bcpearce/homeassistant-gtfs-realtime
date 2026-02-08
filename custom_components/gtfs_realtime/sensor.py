@@ -105,7 +105,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
         self._attr_unique_id = f"arrival_{self.station_stop.id}_{self._idx}"
         self._attr_suggested_display_precision = 0
         self._attr_suggested_unit_of_measurement = UnitOfTime.MINUTES
-        self._arrival_detail: dict[str, str] = {}
+        self._arrival_detail: dict[str, str | None] = {}
 
     def _get_stop_info(self) -> StationStopInfo | None:
         return self.coordinator.gtfs_update_data.schedule.get_stop_info(

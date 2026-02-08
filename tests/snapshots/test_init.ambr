@@ -1,0 +1,106 @@
+# serializer version: 1
+# name: test_call_card_creator
+  dict({
+    'cards': list([
+      dict({
+        'heading': '101N (101N)',
+        'heading_style': 'title',
+        'icon': 'mdi:train-bus',
+        'type': 'heading',
+      }),
+      dict({
+        'card': dict({
+          'entity': 'sensor.1_101n',
+          'name': '',
+          'show_entity_picture': True,
+          'state_content': list([
+            'state',
+            'destination',
+          ]),
+          'type': 'tile',
+        }),
+        'conditions': list([
+          dict({
+            'condition': 'state',
+            'entity': 'sensor.1_101n',
+            'state_not': list([
+              'unknown',
+              'undefined',
+            ]),
+          }),
+        ]),
+        'type': 'conditional',
+      }),
+      dict({
+        'card': dict({
+          'entity': 'sensor.2_101n',
+          'name': '',
+          'show_entity_picture': True,
+          'state_content': list([
+            'state',
+            'destination',
+          ]),
+          'type': 'tile',
+        }),
+        'conditions': list([
+          dict({
+            'condition': 'state',
+            'entity': 'sensor.2_101n',
+            'state_not': list([
+              'unknown',
+              'undefined',
+            ]),
+          }),
+        ]),
+        'type': 'conditional',
+      }),
+      dict({
+        'card': dict({
+          'entity': 'sensor.3_101n',
+          'name': '',
+          'show_entity_picture': True,
+          'state_content': list([
+            'state',
+            'destination',
+          ]),
+          'type': 'tile',
+        }),
+        'conditions': list([
+          dict({
+            'condition': 'state',
+            'entity': 'sensor.3_101n',
+            'state_not': list([
+              'unknown',
+              'undefined',
+            ]),
+          }),
+        ]),
+        'type': 'conditional',
+      }),
+      dict({
+        'card': dict({
+          'entity': 'sensor.4_101n',
+          'name': '',
+          'show_entity_picture': True,
+          'state_content': list([
+            'state',
+            'destination',
+          ]),
+          'type': 'tile',
+        }),
+        'conditions': list([
+          dict({
+            'condition': 'state',
+            'entity': 'sensor.4_101n',
+            'state_not': list([
+              'unknown',
+              'undefined',
+            ]),
+          }),
+        ]),
+        'type': 'conditional',
+      }),
+    ]),
+    'type': 'vertical-stack',
+  })
+# ---

@@ -1,5 +1,8 @@
 """Fixtures for testing."""
 
+from homeassistant.helpers.selector import SelectOptionDict
+from unittest.mock import patch
+
 from datetime import date
 import json
 from pathlib import Path
@@ -14,7 +17,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.location import PyTestLocation
 
-from custom_components.gtfs_realtime.config_flow import DOMAIN
+from custom_components.gtfs_realtime.config_flow import DOMAIN, GtfsRealtimeConfigFlow
 
 DIFFERENT_DIRECTORY = "snapshots"
 
@@ -100,3 +103,23 @@ def mock_schedule_fixture():
         {"trip_id": "Trip", "route_id": "Route", "service_id": "Normal"}
     )
     return mock_schedule
+
+
+@pytest.fixture(name="good_routes_response_patch")
+def good_routes_response_patch_fixture():
+    """Fixture for good feed response for pre-populating routes."""
+    yield patch.object(
+        GtfsRealtimeConfigFlow,
+        "_get_route_options",
+        return_value=[SelectOptionDict(value="X", label="Route X")],
+    )
+
+
+@pytest.fixture(name="good_stops_response_patch")
+def good_stops_response_patch_fixture():
+    """Fixture for good feed response for pre-populating stops."""
+    yield patch.object(
+        GtfsRealtimeConfigFlow,
+        "_get_stop_options",
+        return_value=[SelectOptionDict(value="A", label="Route A")],
+    )

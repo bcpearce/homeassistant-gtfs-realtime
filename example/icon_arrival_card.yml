@@ -1,0 +1,21 @@
+# Yaml configuration of a Card Which shows arrivals as icons or entity pictures.
+# Arrivals that are 'unknown' due to no trip for an ordinal are excluded.
+# Alerts are shown if they are active.
+type: entity-filter
+card:
+  title: Union Sq to 8 Av
+  type: glance
+  show_name: false
+entities:
+  - entity: binary_sensor.l_service_alerts
+    icon: mdi:subway-alert-variant
+    state_filter:
+      - "on"
+  - type: divider
+  - sensor.1_union_sq
+  - sensor.2_14_union_sq
+  - sensor.3_14_union_sq
+  - sensor.4_14_union_sq
+state_filter:
+  - operator: "!="
+    value: unknown
