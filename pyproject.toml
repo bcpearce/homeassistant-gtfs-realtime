@@ -6,6 +6,7 @@ requires = ["hatchling"]
 authors = [{name = "Benjamin Pearce", email = "gtfs@bcpearce.com"}]
 dependencies = [
   "gtfs-station-stop==0.11.5",
+  "protobuf>=6.33.5",
 ]
 description = "HomeAssistant custom integration for GTFS Realtime data."
 license = "MIT"
