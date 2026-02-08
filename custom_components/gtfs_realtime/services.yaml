@@ -1,0 +1,12 @@
+generate_arrival_board:
+  fields:
+    device_id:
+      required: true
+      selector:
+        device: 
+          filter:
+          - integration: gtfs_realtime
+    show_entity_picture:
+      default: true
+      selector:
+        boolean:
