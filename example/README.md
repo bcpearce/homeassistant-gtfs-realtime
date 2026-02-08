@@ -16,3 +16,6 @@ This card setup is more typical of any train arrival board that might be common 
 
 [View the example here](./tile_arrival_card.yml)
 
+### Card Generation
+
+An action exists to generate a pre-configured tile card for a given stop. From "Developer Tools" >> "Actions", select "Generate Arrival Board" and select a Stop ID. This will output a yaml config which can be copy-pasted into a card config. 

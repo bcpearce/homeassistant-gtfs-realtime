@@ -108,7 +108,7 @@ async def test_call_card_creator(
     out = await hass.services.async_call(
         DOMAIN,
         GENERATE_ARRIVAL_BOARD,
-        {"device_id": device.id},
+        {"device_id": device.id, "show_entity_picture": True},
         blocking=True,
         return_response=True,
     )

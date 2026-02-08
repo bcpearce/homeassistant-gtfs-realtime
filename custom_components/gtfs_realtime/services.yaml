@@ -10,7 +10,3 @@ generate_arrival_board:
       default: true
       selector:
         boolean:
-    show_unknown:
-      default: false
-      selector:
-        boolean:

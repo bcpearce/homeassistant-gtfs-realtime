@@ -162,7 +162,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
                             "type": "tile",
                             "entity": id,
                             "name": name or "",
-                            "show_entity_picture": True,
+                            "show_entity_picture": call.data["show_entity_picture"],
                             "state_content": ["state", "destination"],
                         },
                     }
