@@ -9,7 +9,17 @@ from typing import Any
 from gtfs_station_stop.feed_subject import FeedSubject
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
+from homeassistant.core import (
+    HomeAssistant,
+    ServiceCall,
+    SupportsResponse,
+    ServiceResponse,
+    callback,
+)
+from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers.typing import ConfigType
+from .const import DOMAIN
 
 from .const import (
     CONF_AUTH_HEADER,
@@ -70,7 +80,9 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: GtfsRealtimeConfigEntry
 ) -> bool:
     """Set up GTFS Realtime Feed Subject for use by all sensors."""
-    coordinator: GtfsRealtimeCoordinator = create_gtfs_update_hub(hass, entry.data)
+    coordinator: GtfsRealtimeCoordinator = create_gtfs_update_hub(
+        hass, dict(entry.data)
+    )
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
@@ -108,4 +120,61 @@ async def async_migrate_entry(
         hass.config_entries.async_update_entry(
             entry, data=new_data, version=2, minor_version=0
         )
+    return True
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up actions"""
+
+    @callback
+    def handle_generate_arrival_board(call: ServiceCall) -> ServiceResponse:
+        """Handle Generate Arrival Board service call"""
+        device_id: str = call.data["device_id"]
+        output = {}
+        output["type"] = "vertical-stack"
+        device_reg = dr.async_get(call.hass)
+        device = device_reg.async_get(device_id)
+        if device:
+            device_name = device.name_by_user if device.name_by_user else device.name
+            output["cards"] = [
+                {
+                    "type": "heading",
+                    "icon": "mdi:train-bus",
+                    "heading_style": "title",
+                    "heading": device_name,
+                }
+            ]
+            entity_reg = er.async_get(call.hass)
+            entries = er.async_entries_for_device(entity_reg, device_id)
+
+            for id, name in [(entry.entity_id, entry.name) for entry in entries]:
+                output["cards"].append(
+                    {
+                        "type": "conditional",
+                        "conditions": [
+                            {
+                                "condition": "state",
+                                "entity": id,
+                                "state_not": ["unknown", "undefined"],
+                            }
+                        ],
+                        "card": {
+                            "type": "tile",
+                            "entity": id,
+                            "name": name or "",
+                            "show_entity_picture": True,
+                            "state_content": ["state", "destination"],
+                        },
+                    }
+                )
+
+        return output
+
+    hass.services.async_register(
+        DOMAIN,
+        "generate_arrival_board",
+        handle_generate_arrival_board,
+        supports_response=SupportsResponse.ONLY,
+    )
+
     return True

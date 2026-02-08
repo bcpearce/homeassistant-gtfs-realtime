@@ -168,6 +168,7 @@ gtfs-station-stop/
 
 # Ignore hass config
 config/
+!config/configuration.yaml
 
 # Ignore files created running debugger 
 *.sqlite
@@ -186,3 +187,6 @@ gtfs_static_cache/*
 *.old
 *.zip
 custom_components/gtfs_realtime/user_feeds.json
+
+# Installed NPM packages
+node_modules/

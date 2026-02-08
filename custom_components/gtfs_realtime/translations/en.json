@@ -133,5 +133,25 @@
         }
       }
     }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "name": "Generate Arrival Board",
+      "description": "Generate an arrival board for a stop",
+      "fields": {
+        "device_id": {
+          "name": "Stop ID",
+          "description": "A stop to include arrivals"
+        },
+        "show_entity_picture": {
+          "name": "Show entity picture",
+          "description": "Show custom route icons"
+        },
+        "show_unknown": {
+          "name": "Show Unknown Arrivals",
+          "description": "Show arrivals that do not have a scheduled trip yet"
+        }
+      }
+    }
   }
 }

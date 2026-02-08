@@ -13,5 +13,10 @@
         "default": "mdi:clock-outline"
       }
     }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "service": "mdi:hammer-wrench"
+    }
   }
 }
