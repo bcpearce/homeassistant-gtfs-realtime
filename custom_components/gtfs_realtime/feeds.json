@@ -216,7 +216,7 @@
     }
   },
   "seq_translink": {
-    "name": "TransLink South East Queensland \u2013 TransLink, South East Queensland Australia",
+    "name": "TransLink South East Queensland - TransLink, South East Queensland Australia",
     "disclaimer": "https://translink.com.au/about-translink/open-data/gtfs-rt",
     "realtime_feeds": {
       "alerts": "https://gtfsrt.api.translink.com.au/api/realtime/SEQ/alerts",
