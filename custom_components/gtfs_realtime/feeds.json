@@ -215,6 +215,18 @@
       "intercity_and_hst_rail": "https://ssl.renfe.com/gtransit/Fichero_AV_LD/google_transit.zip"
     }
   },
+  "seq_translink": {
+    "name": "TransLink South East Queensland - TransLink, South East Queensland Australia",
+    "disclaimer": "https://translink.com.au/about-translink/open-data/gtfs-rt",
+    "realtime_feeds": {
+      "alerts": "https://gtfsrt.api.translink.com.au/api/realtime/SEQ/alerts",
+      "trip_update": "https://gtfsrt.api.translink.com.au/api/realtime/SEQ/TripUpdates",
+      "vehicle_positions": "https://gtfsrt.api.translink.com.au/api/realtime/SEQ/VehiclePositions"
+    },
+    "static_feeds": {
+      "latest": "https://gtfsrt.api.translink.com.au/GTFS/SEQ_GTFS.zip"
+    }
+  },
   "sf_bart": {
     "name": "Bay Area Rapid Transit",
     "realtime_feeds": {
