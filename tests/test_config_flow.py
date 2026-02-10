@@ -7,7 +7,6 @@ from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
-from homeassistant.helpers.selector import SelectOptionDict
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -46,26 +45,6 @@ def example_gtfs_feed_data_fixture():
         ],
         CONF_GTFS_STATIC_DATA: ["https://gtfs.example.com/static1.zip"],
     }
-
-
-@pytest.fixture(name="good_routes_response_patch")
-def good_routes_response_patch_fixture():
-    """Fixture for good feed response for pre-populating routes."""
-    yield patch.object(
-        GtfsRealtimeConfigFlow,
-        "_get_route_options",
-        return_value=[SelectOptionDict(value="X", label="Route X")],
-    )
-
-
-@pytest.fixture(name="good_stops_response_patch")
-def good_stops_response_patch_fixture():
-    """Fixture for good feed response for pre-populating stops."""
-    yield patch.object(
-        GtfsRealtimeConfigFlow,
-        "_get_stop_options",
-        return_value=[SelectOptionDict(value="A", label="Route A")],
-    )
 
 
 @pytest.fixture(name="bad_routes_response_patch")
@@ -110,7 +89,7 @@ async def test_step_user(flow: GtfsRealtimeConfigFlow) -> None:
     assert result["type"] == FlowResultType.FORM
     assert result["errors"] == {}
     # check feeds were acquired
-    GtfsRealtimeConfigFlow._get_feeds.assert_called()  # pylint: disable=protected-access
+    GtfsRealtimeConfigFlow._get_feeds.assert_called()  # pylint: disable=protected-access  # ty:ignore[unresolved-attribute]
 
 
 async def test_step_user_get_local_feeds() -> None:
@@ -225,7 +204,7 @@ async def test_step_choose_informed_entities_no_entities(
     flow.hub_config |= example_gtfs_feed_data
     with good_stops_response_patch, good_routes_response_patch:
         result: ConfigFlowResult = await flow.async_step_choose_informed_entities(
-            user_input={CONF_ROUTE_IDS: [], CONF_STOP_IDS: []}
+            user_input={CONF_ROUTE_IDS: [], CONF_STOP_IDS: []}  # ty:ignore[invalid-argument-type]
         )
     # creates an entry
     assert result["type"] == FlowResultType.FORM

@@ -1,0 +1,47 @@
+# Displays each arrival as a tile card, reminiscient of most arrival boards
+# that are common in train stations across the world.
+type: vertical-stack
+cards:
+  - type: heading
+    icon: mdi:subway-variant
+    heading_style: title
+    heading: 14th St - Union Sq
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: sensor.1_14_st_union_sq
+        state_not: unknown
+    card:
+      type: tile
+      entity: sensor.1_14_st_union_sq
+      name: Next Train
+      show_entity_picture: true
+      state_content:
+        - state
+        - destination
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: sensor.2_14_st_union_sq
+        state_not: unknown
+    card:
+      type: tile
+      entity: sensor.2_14_st_union_sq
+      name: 2nd Train
+      show_entity_picture: true
+      state_content:
+        - state
+        - destination
+  - type: conditional
+    conditions:
+      - condition: state
+        entity: sensor.3_14_st_union_sq
+        state_not: unknown
+    card:
+      type: tile
+      entity: sensor.3_14_st_union_sq
+      name: 3rd Train
+      show_entity_picture: true
+      state_content:
+        - state
+        - destination
