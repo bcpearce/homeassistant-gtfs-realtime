@@ -42,6 +42,7 @@ repos:
       - id: pretty-format-json
         args: 
           - --autofix
+          - --no-ensure-ascii
           - --top-keys=domain,title,name
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.

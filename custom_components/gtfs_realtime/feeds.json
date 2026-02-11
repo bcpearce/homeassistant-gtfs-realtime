@@ -1,6 +1,6 @@
 {
   "adelaide_metro": {
-    "name": "Adelaide Metro \u2013 Department for Infrastructure and Transport, South Australia",
+    "name": "Adelaide Metro – Department for Infrastructure and Transport, South Australia",
     "disclaimer": "https://www.adelaidemetro.com.au/developer-info",
     "realtime_feeds": {
       "alerts": "https://gtfs.adelaidemetro.com.au/v1/realtime/service_alerts",
@@ -125,6 +125,7 @@
   },
   "nyc_00_subway": {
     "name": "NYC Subway",
+    "disclaimer": "https://www.mta.info/developers/terms-and-conditions",
     "realtime_feeds": {
       "1234567S": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs",
       "ACE": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
@@ -145,6 +146,7 @@
   },
   "nyc_01_bus": {
     "name": "NYC Busses",
+    "disclaimer": "https://www.mta.info/developers/terms-and-conditions",
     "realtime_feeds": {
       "alerts": "https://gtfsrt.prod.obanyc.com/alerts?key=",
       "trip_update": "https://gtfsrt.prod.obanyc.com/tripUpdates?key=",
@@ -163,6 +165,7 @@
   },
   "nyc_02_long_island_railroad": {
     "name": "Long Island Railroad",
+    "disclaimer": "https://www.mta.info/developers/terms-and-conditions",
     "realtime_feeds": {
       "all": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/lirr%2Fgtfs-lirr"
     },
@@ -172,6 +175,7 @@
   },
   "nyc_03_metro_north_railroad": {
     "name": "Metro North Railroad",
+    "disclaimer": "https://www.mta.info/developers/terms-and-conditions",
     "realtime_feeds": {
       "all": "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/mnr%2Fgtfs-mnr"
     },
@@ -181,6 +185,7 @@
   },
   "nyc_05_ferry": {
     "name": "NYC Ferry",
+    "disclaimer": "https://www.ferry.nyc/developer-tools/",
     "realtime_feeds": {
       "alerts": "http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/alert",
       "trip_update": "http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate"
@@ -192,6 +197,7 @@
   },
   "philadelphia_septa": {
     "name": "Philadelphia - SEPTA (Rail and Bus)",
+    "disclaimer": "https://opendataphilly.org/datasets/septa-gtfs/",
     "realtime_feeds": {
       "alerts_bus": "https://www3.septa.org/gtfsrt/septa-pa-us/Service/rtServiceAlerts.pb",
       "alerts_rail": "https://www3.septa.org/gtfsrt/septarail-pa-us/Service/rtServiceAlerts.pb",
@@ -203,8 +209,8 @@
     }
   },
   "renfe": {
-    "name": "Renfe - Espa\u00f1a",
-    "disclaimer": "Informaci\u00f3n Legal https://data.renfe.com/legal",
+    "name": "Renfe - España",
+    "disclaimer": "Información Legal https://data.renfe.com/legal",
     "realtime_feeds": {
       "alerts": "https://gtfsrt.renfe.com/alerts.pb",
       "trip_update": "https://gtfsrt.renfe.com/trip_updates.pb",
@@ -238,7 +244,7 @@
     }
   },
   "start_jackson_wy": {
-    "name": "START Bus \u2013 Town of Jackson, Wyoming",
+    "name": "START Bus – Town of Jackson, Wyoming",
     "disclaimer": "https://www.startbus.com",
     "realtime_feeds": {
       "alerts": "https://gtfsrt.start.cadavl.com/ProfilGtfsRt2_0RSProducer-START/Alert.pb",
