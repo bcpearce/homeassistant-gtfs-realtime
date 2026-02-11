@@ -36,6 +36,9 @@ If you have a custom feed that works with this repository, feel free to open a p
 
 The [feeds.json](/custom_components/gtfs_realtime/feeds.json) file will be autoformatted by [pre-commit.ci](https://pre-commit.ci/) and a GitHub Actions Workflow will test to ensure the new additions do not break the config flow. 
 
-When testing a new feed, you can add it in a separate file added into the `gtfs_realtime` folder named `user_feeds.json` which is also read during config flow. 
+If a feed name includes unicode characters, it should be entered using literals instead of escape sequences. 
+
+> [!NOTE]
+> When testing a new feed, you can add it in a separate file added into the `gtfs_realtime` folder named `user_feeds.json` which is also read during config flow. 
 
 If available, and allowed by the feed provider's licensing, icons can also be included in the [resources/](resources/) folder to improve arrival visuals. 
