@@ -98,6 +98,18 @@
       "rail": "https://gitlab.com/LACMTA/gtfs_rail/raw/master/gtfs_rail.zip"
     }
   },
+  "marta": {
+    "name": "MARTA (Atlanta, GA)",
+    "disclaimer": "https://itsmarta.com/app-developer-resources.aspx",
+    "realtime_feeds": {
+      "bus_trip_updates": "https://gtfs-rt.itsmarta.com/TMGTFSRealTimeWebService/tripupdate/tripupdates.pb",
+      "bus_vehicle_positions": "https://gtfs-rt.itsmarta.com/TMGTFSRealTimeWebService/vehicle/vehiclepositions.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "schedule": "https://itsmarta.com/google_transit_feed/google_transit.zip"
+    }
+  },
   "mta_marc_train": {
     "name": "MTA MARC Train",
     "realtime_feeds": {
