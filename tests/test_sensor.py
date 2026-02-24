@@ -1,5 +1,7 @@
 """Test sensor."""
 
+from gtfs_station_stop.vehicle import Vehicle
+
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -29,7 +31,7 @@ from custom_components.gtfs_realtime.coordinator import (
 from custom_components.gtfs_realtime.sensor import ArrivalSensor
 
 
-def assert_all_equal(collection: Iterable[Any]) -> bool:
+def assert_all_equal(collection: Iterable[Any]) -> None:
     assert len(set(collection)) <= 1
 
 
@@ -138,15 +140,22 @@ async def test_update(
     def coordinator_update_side_effects(_):
         arrivals = {
             "101N": [
-                Arrival(route="AX", trip="", time=make_ts(-10)),  # test old arrival
-                Arrival(route="A", trip="", time=make_ts(4)),
-                Arrival(route="B", trip="", time=make_ts(6)),
+                Arrival(route="AX", trip="AX1", time=make_ts(-10)),  # test old arrival
+                Arrival(
+                    route="A",
+                    trip="A1",
+                    time=make_ts(4),
+                    vehicle=Vehicle(
+                        trip_id="A1", latitude=45.0, longitude=-75.0, bearing=0.0
+                    ),
+                ),
+                Arrival(route="B", trip="B1", time=make_ts(6)),
                 Arrival(route="123-route", trip="123-test", time=make_ts(8)),
             ],
             "102S": [
-                Arrival(route="X", trip="", time=make_ts(9)),
-                Arrival(route="Y", trip="", time=make_ts(13)),
-                Arrival(route="Z", trip="", time=make_ts(17)),
+                Arrival(route="X", trip="X1", time=make_ts(9)),
+                Arrival(route="Y", trip="Y1", time=make_ts(13)),
+                Arrival(route="Z", trip="Z1", time=make_ts(17)),
             ],
         }
         for stop_id, stop in coordinator.gtfs_update_data.station_stops.items():
@@ -154,12 +163,12 @@ async def test_update(
         update_counter.update_count += 1
         return
 
-    coordinator.hub.async_update = AsyncMock()
-    coordinator.hub.async_update.side_effect = coordinator_update_side_effects
+    coordinator.hub.async_update = AsyncMock()  # ty:ignore[invalid-assignment]
+    coordinator.hub.async_update.side_effect = coordinator_update_side_effects  # ty:ignore[unresolved-attribute]
     freezer.tick(timedelta(minutes=1))
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
-    assert coordinator.hub.async_update.call_count == 1
+    assert coordinator.hub.async_update.call_count == 1  # ty:ignore[unresolved-attribute]
 
     for sensor in [
         "1_101n",

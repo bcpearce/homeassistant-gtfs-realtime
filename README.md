@@ -78,7 +78,7 @@ Sensors will indicate the 1st, 2nd, 3rd, ... etc. arrivals for a given `stop_id`
 
 Raw sensor data is provided in seconds. Minutes are the recommended unit.
 
-#### Realtime Data (Experimental)
+#### Realtime Vehicle Position Data (Experimental)
 
 > [!NOTE] 
 > Available in ≥ 0.4.0 only
