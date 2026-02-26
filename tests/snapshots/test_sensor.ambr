@@ -10,6 +10,7 @@
     'headsign': '',
     'icon': 'mdi:bus-clock',
     'latitude': 45.0,
+    'location_source': <LocationSource.VEHICLE_POSITION_MESSAGE: 'vehicle_position_message'>,
     'longitude': -75.0,
     'route_color': '',
     'route_id': 'A',

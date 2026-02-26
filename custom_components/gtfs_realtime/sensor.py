@@ -37,6 +37,8 @@ from .const import (
     ROUTE_TYPE,
     STOP_ID,
     TRIP_ID,
+    LocationSource,
+    LOCATION_SOURCE,
 )
 from .coordinator import GtfsRealtimeCoordinator
 
@@ -215,11 +217,17 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             if vehicle := time_to_arrival.vehicle:
                 self._arrival_detail[ATTR_LATITUDE] = vehicle.latitude
                 self._arrival_detail[ATTR_LONGITUDE] = vehicle.longitude
+                self._arrival_detail[LOCATION_SOURCE] = (
+                    LocationSource.VEHICLE_POSITION_MESSAGE
+                )
             elif stop_info := schedule.station_stop_info_ds.get(
                 time_to_arrival.current_station
             ):
                 self._arrival_detail[ATTR_LATITUDE] = stop_info.lat
                 self._arrival_detail[ATTR_LONGITUDE] = stop_info.lon
+                self._arrival_detail[LOCATION_SOURCE] = (
+                    LocationSource.NEAREST_STATION_ESTIMATE
+                )
         else:
             self._attr_native_value = None
 

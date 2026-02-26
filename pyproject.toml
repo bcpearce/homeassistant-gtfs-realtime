@@ -18,9 +18,9 @@ version = "0.4.3"
 [dependency-groups]
 dev = [
   "coverage-badge>=1.1.2",
-  "pre-commit>=4.2.0",
-  "pytest-homeassistant-custom-component>=0.13.252",
-  "ruff>=0.12.5",
+  "pre-commit>=4.5.1",
+  "pytest-homeassistant-custom-component>=0.13.316",
+  "ruff>=0.15.2",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -58,4 +58,4 @@ warn_unused_ignores = true
 [tool.uv.sources]
 # uncomment to assist testing
 # gtfs-station-stop = {git = "https://github.com/bcpearce/gtfs-station-stop", branch = "main"}
-# gtfs-station-stop = {path = "../gtfs-station-stop"}
+gtfs-station-stop = {path = "../gtfs-station-stop"}
