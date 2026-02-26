@@ -1,0 +1,164 @@
+{
+  "title": "GTFS Realtime",
+  "common": {
+    "generic_gtfs_provider": "Fournisseur GTFS générique",
+    "manual_gtfs_provider_name": "Autre - Saisie manuelle"
+  },
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "Reconfiguration réussie. Si des entités ont été supprimées, elles peuvent être effacées dans les paramètres."
+    },
+    "error": {
+      "failed_preconfigured_feeds": "Échec de la récupération des flux préconfigurés",
+      "select_at_least_one_stop_or_route": "Vous devez sélectionner au moins un arrêt ou une ligne pour les mises à jour GTFS.",
+      "unexpected_user_input": "Entrée utilisateur inattendue"
+    },
+    "step": {
+      "choose_informed_entities": {
+        "title": "Sélectionnez les identifiants de lignes et d'arrêts pour créer les capteurs.",
+        "data": {
+          "arrival_limit": "Limite d'arrivées",
+          "gtfs_provider": "Nom du réseau (fournisseur GTFS)",
+          "route_ids": "Identifiant de la ligne",
+          "stop_ids": "Identifiant de l'arrêt"
+        },
+        "data_description": {
+          "route_ids": "Identifiant de la ligne pour recevoir des alertes de trafic.",
+          "stop_ids": "Identifiant de l'arrêt pour recevoir les horaires de passage et les alertes de trafic."
+        },
+        "description": "Configurer les paramètres GTFS.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Fréquence de mise à jour des données théoriques",
+            "description": "Définissez l'intervalle entre chaque mise à jour des données statiques. Vérifiez la fréquence de publication auprès de votre transporteur."
+          }
+        }
+      },
+      "choose_static_and_realtime_feeds": {
+        "title": "Sélectionnez les adresses des flux GTFS Temps Réel et Statiques.",
+        "data": {
+          "auth_header": "En-tête d'autorisation (si requis)",
+          "gtfs_static_data": "Données théoriques GTFS (fichier ou adresse)",
+          "route_icons": "Format d'adresse des icônes de ligne",
+          "url_endpoints": "Adresse du flux"
+        },
+        "data_description": {
+          "auth_header": "Doit être sous la forme '[Type d'autorisation]: [clé]'. Par exemple : 'X-Api-Key: [votre clé]'. Tous les types d'authentification ne sont pas supportés.",
+          "gtfs_static_data": "Archive ZIP du flux statique GTFS. Incluez l'adresse des fiches horaires théoriques. Requis pour lier les courses et les arrêts aux données temps réel.",
+          "route_icons": "Adresse vers un fournisseur d'icônes SVG pour une ligne donnée. La chaîne peut contenir jusqu'à 3 variables : [route_id], [route_color], et [route_text_color].",
+          "url_endpoints": "Adresses des flux pour les données GTFS Temps Réel"
+        },
+        "description": "Ce formulaire est pré-rempli si un fournisseur a été choisi. Supprimez les flux inutiles pour optimiser les performances.\n\nNote : la plupart des jeux de données nécessitent un flux statique pour les horaires théoriques.\n\n{disclaimer}"
+      },
+      "reconfigure": {
+        "title": "Reconfigurer les paramètres GTFS.",
+        "data": {
+          "arrival_limit": "Limite d'arrivées",
+          "gtfs_provider": "Nom du réseau",
+          "route_ids": "Identifiant de la ligne",
+          "stop_ids": "Identifiant de l'arrêt",
+          "url_endpoints": "Adresse du flux"
+        },
+        "data_description": {
+          "route_ids": "Identifiant de la ligne pour recevoir les alertes de trafic.",
+          "stop_ids": "Identifiant de l'arrêt pour recevoir les passages et alertes.",
+          "url_endpoints": "Adresses des flux temps réel"
+        },
+        "description": "Modifier la configuration GTFS pour cette entrée.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Fréquence de mise à jour des données théoriques",
+            "description": "Délai entre deux rafraîchissements des données statiques."
+          }
+        }
+      },
+      "user": {
+        "title": "Sélectionnez un réseau de transport",
+        "data": {
+          "gtfs_provider_id": "Réseau (Fournisseur)"
+        },
+        "description": "Choisissez un réseau. Ces sources proviennent du fichier 'feeds.json'. L'utilisateur s'engage à respecter les CGU de chaque diffuseur."
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "clear": {
+        "name": "Effacer toutes les données horaires"
+      },
+      "refresh": {
+        "name": "Actualiser le flux théorique : {gtfs_static_source}"
+      }
+    }
+  },
+  "entity_component": {
+    "binary_sensor": {
+      "state_attributes": {
+        "description": {
+          "name": "Description {i+1}"
+        },
+        "header": {
+          "name": "Titre de l'alerte {i+1}"
+        }
+      }
+    },
+    "button": {
+      "state_attributes": {
+        "target_url": {
+          "name": "Adresse cible"
+        }
+      }
+    },
+    "sensor": {
+      "state_attributes": {
+        "destination": {
+          "name": "Terminus"
+        },
+        "headsign": {
+          "name": "Girouette"
+        },
+        "location_source": {
+          "name": "Source de localisation",
+          "state": {
+            "nearest_station_estimate": "Estimation par la station la plus proche",
+            "vehicle_position_message": "Position GPS du véhicule"
+          }
+        },
+        "route_color": {
+          "name": "Couleur de la ligne"
+        },
+        "route_id": {
+          "name": "Identifiant de la ligne"
+        },
+        "route_text_color": {
+          "name": "Couleur du texte de la ligne"
+        },
+        "trip_id": {
+          "name": "Identifiant de la course"
+        }
+      }
+    }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "name": "Générer une borne d'information voyageurs",
+      "description": "Générer un tableau des prochains passages pour un arrêt",
+      "fields": {
+        "device_id": {
+          "name": "Identifiant de l'arrêt",
+          "description": "L'arrêt pour lequel afficher les passages"
+        },
+        "show_entity_picture": {
+          "name": "Afficher les logos",
+          "description": "Afficher les indices de ligne personnalisés"
+        },
+        "show_unknown": {
+          "name": "Afficher les passages non planifiés",
+          "description": "Afficher les passages qui n'ont pas encore de course théorique associée"
+        }
+      }
+    }
+  }
+}
