@@ -2,17 +2,15 @@
 ![GTFS Realtime](resources/logo.svg)
 # GTFS Realtime for Home Assistant
 
+Add public transit arrivals and alerts to your Home Assistant Dashboards and Automations.
+
 [![Coverage Status](https://coveralls.io/repos/github/bcpearce/homeassistant-gtfs-realtime/badge.svg?branch=main)](https://coveralls.io/github/bcpearce/homeassistant-gtfs-realtime?branch=main)
 
 [![Check GTFS Feed Compatibility](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml/badge.svg)](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml)
 
 ## Installation
 
-This integration can be installed manually or through [HACS](https://hacs.xyz/). HACS is recommended.
-
-> [!NOTE]
-> As of version 0.4.0, realtime location is available for vechicles in *some* cases. This currently is being tested with NYC Subway locations using a "best guess" method of checking the stop update closest to the current time. 
-> For more about [Realtime Data](#realtime-data-experimental)
+[HACS](https://hacs.xyz/) is recommended for installation. 
 
 #### HACS
 
@@ -28,9 +26,9 @@ Copy files in [custom_components/gtfs_realtime](custom_components/gtfs_realtime/
 
 Once the integration is installed, configure the integration through Settings >> Devices and Services, and use "Add Integration".  Select GTFS Realtime and follow the instructions in the user interface.
 
-You can select a supported provider or configure it manually. A number of GTFS providers are included for convenience in this repository.  
+You can select a supported provider or configure it manually. A number of GTFS providers are included for convenience in this repository. If you have a feed configuration that is not part of the defaults [pull requests are welcome](/.github/CONTRIBUTING.md#adding-feeds).
 
-There is no guarantee that these providers will continue to work with this integration.  A [GitHub Action Workflow](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml) runs to check the status of each feed. 
+There is no guarantee that these providers will continue to work with this integration.  A [GitHub Action Workflow](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml) runs daily to check the status of each feed. 
 
 ### Realtime Feed URLs
 
@@ -58,15 +56,17 @@ The [resources/NYCT_Bullets](resources/NYCT_Bullets/) folder contains ready-to-u
 
 ### Other Transit Systems
 
-This software may work for other GTFS realtime providers, but has not been tested. There is no guarantee that providers--even if included in this repository--will work--or that changes in provider APIs will not cause breakages. 
+This software may work for other GTFS realtime providers, but has not been tested. There is no guarantee that providers—even if included in this repository—will work—or that changes in provider APIs will not cause breakages. 
 
 ## Frontend
 
 Example frontend card configs can be found in [example](example/).
 
-Simply displaying all entities for a "stop" device provides a train arrival board.
+![sample icon dashboard](example/icon_arrival.jpg)
 
-![sample dashboard](resources/sample.png)
+![sample tile dashboard](example/tile_arrival.jpg)
+
+A tile dashboard can also be generated using the "Generate Arrival Board" action in Developer Tools.
 
 ## Sensors
 
@@ -78,15 +78,12 @@ Sensors will indicate the 1st, 2nd, 3rd, ... etc. arrivals for a given `stop_id`
 
 Raw sensor data is provided in seconds. Minutes are the recommended unit.
 
-#### Realtime Data (Experimental)
+#### Realtime Vehicle Position Data (Experimental)
 
 > [!NOTE] 
-> Available in ≥ 0.4.0 only
+> Available in ≥ 0.4.3 vehicle position data from feeds will be included. Feeds that do not provide vehicle position data use an estimate of the nearest station in trip-update data. 
 
-> [!CAUTION]
-> This does *not* use GTFS Realtime [Vehicle Positions](https://gtfs.org/documentation/realtime/feed-entities/vehicle-positions/) updates. Support may be added in a later release. 
-
-Realtime data is being tested for NYC Subway arrivals and may work with other systems.  This can be viewed by adding the entities to a [Map Card](https://www.home-assistant.io/dashboards/map/).
+Entities can appear on map cards.
 
 ![sample map](resources/realtime-locations.jpg)
 
@@ -101,6 +98,8 @@ Each stop will collect the arrival sensors together as a device. For each static
 ## Services
 
 Services are provided for updating and clearing the static data schedule. During setup, an interval for refreshing this data can be provided.
+
+A service also exists for creating a "Train Arrival Boad" card using multiple tile entities. 
 
 ## GTFS Station Stop
 

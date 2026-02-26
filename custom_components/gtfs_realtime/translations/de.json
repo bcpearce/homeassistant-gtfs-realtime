@@ -1,0 +1,164 @@
+{
+  "title": "GTFS Realtime",
+  "common": {
+    "generic_gtfs_provider": "Generischer GTFS-Anbieter",
+    "manual_gtfs_provider_name": "Andere - Manuell eingeben"
+  },
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "Neuformatierung erfolgreich. Falls Entitäten entfernt wurden, können diese in den Einstellungen gelöscht werden."
+    },
+    "error": {
+      "failed_preconfigured_feeds": "Vorkonfigurierte Feeds konnten nicht geladen werden",
+      "select_at_least_one_stop_or_route": "Es muss mindestens eine Haltestelle oder Linie für GTFS-Updates ausgewählt werden.",
+      "unexpected_user_input": "Unerwartete Benutzereingabe"
+    },
+    "step": {
+      "choose_informed_entities": {
+        "title": "Linien- und Haltestellen-Kennungen auswählen, um Sensoren zu erstellen.",
+        "data": {
+          "arrival_limit": "Ankunftslimit",
+          "gtfs_provider": "Name des GTFS-Anbieters",
+          "route_ids": "Linien-Kennung",
+          "stop_ids": "Haltestellen-Kennung"
+        },
+        "data_description": {
+          "route_ids": "Kennung einer Linie, um Verkehrsmeldungen zu erhalten.",
+          "stop_ids": "Kennung einer Haltestelle, um Ankunftsdaten und Verkehrsmeldungen zu erhalten."
+        },
+        "description": "GTFS-Parameter konfigurieren.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Aktualisierungsintervall der Soll-Daten",
+            "description": "Legen Sie fest, wie oft die statischen Daten aktualisiert werden sollen. Fragen Sie Ihren Anbieter nach der üblichen Frequenz."
+          }
+        }
+      },
+      "choose_static_and_realtime_feeds": {
+        "title": "Adressen für Echtzeit- und Soll-Daten auswählen.",
+        "data": {
+          "auth_header": "Autorisierungs-Header (falls erforderlich)",
+          "gtfs_static_data": "Statische GTFS-Daten (Datei oder Adresse)",
+          "route_icons": "Format-Adresse für Linien-Symbole",
+          "url_endpoints": "Feed-Adresse"
+        },
+        "data_description": {
+          "auth_header": "Muss im Format '[Typ]: [Schlüssel]' vorliegen. Beispiel: 'X-Api-Key: [Ihr Schlüssel]'. Nicht alle Typen werden unterstützt.",
+          "gtfs_static_data": "GTFS-Soll-Daten als ZIP-Datei. Geben Sie die Adresse(n) für die Fahrplandaten an. Erforderlich, um Fahrten und Haltestellen mit Echtzeitdaten zu verknüpfen.",
+          "route_icons": "Adresse zu einem Anbieter von Linien-Symbolen (SVG). Der String kann bis zu 3 Variablen enthalten: [route_id], [route_color] und [route_text_color].",
+          "url_endpoints": "Adressen für GTFS-Echtzeitdaten"
+        },
+        "description": "Dieses Formular wurde basierend auf Ihrer Anbieterwahl vorausgefüllt. Nicht benötigte Feeds können zur Leistungsverbesserung entfernt werden.\n\nHinweis: Die meisten Datensätze benötigen mindestens einen statischen Feed für Fahrplandaten.\n\n{disclaimer}"
+      },
+      "reconfigure": {
+        "title": "GTFS-Parameter neu konfigurieren.",
+        "data": {
+          "arrival_limit": "Ankunftslimit",
+          "gtfs_provider": "Name des GTFS-Anbieters",
+          "route_ids": "Linien-Kennung",
+          "stop_ids": "Haltestellen-Kennung",
+          "url_endpoints": "Feed-Adresse"
+        },
+        "data_description": {
+          "route_ids": "Linien-Kennung für Verkehrsmeldungen.",
+          "stop_ids": "Haltestellen-Kennung für Ankunftsdaten und Verkehrsmeldungen.",
+          "url_endpoints": "Adressen für GTFS-Echtzeitdaten"
+        },
+        "description": "GTFS-Parameter für bestehenden Eintrag anpassen.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Aktualisierungsintervall der Soll-Daten",
+            "description": "Zeitspanne zwischen den Aktualisierungen statischer Daten."
+          }
+        }
+      },
+      "user": {
+        "title": "GTFS-Anbieter auswählen",
+        "data": {
+          "gtfs_provider_id": "GTFS-Anbieter"
+        },
+        "description": "Wählen Sie einen Anbieter aus. Die hier gelisteten Daten stammen aus der Datei 'feeds.json'. Der Nutzer erklärt sich mit den Geschäftsbedingungen des jeweiligen Anbieters einverstanden."
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "clear": {
+        "name": "Alle Fahrplandaten löschen"
+      },
+      "refresh": {
+        "name": "Fahrplan-Feed aktualisieren: {gtfs_static_source}"
+      }
+    }
+  },
+  "entity_component": {
+    "binary_sensor": {
+      "state_attributes": {
+        "description": {
+          "name": "Beschreibung {i+1}"
+        },
+        "header": {
+          "name": "Überschrift {i+1}"
+        }
+      }
+    },
+    "button": {
+      "state_attributes": {
+        "target_url": {
+          "name": "Ziel-Adresse"
+        }
+      }
+    },
+    "sensor": {
+      "state_attributes": {
+        "destination": {
+          "name": "Zielort"
+        },
+        "headsign": {
+          "name": "Zielbeschilderung"
+        },
+        "location_source": {
+          "name": "Standortquelle",
+          "state": {
+            "nearest_station_estimate": "Schätzung über nächste Haltestelle",
+            "vehicle_position_message": "Fahrzeugposition (GPS)"
+          }
+        },
+        "route_color": {
+          "name": "Linienfarbe"
+        },
+        "route_id": {
+          "name": "Linien-Kennung"
+        },
+        "route_text_color": {
+          "name": "Linien-Textfarbe"
+        },
+        "trip_id": {
+          "name": "Fahrtnummer (Trip-ID)"
+        }
+      }
+    }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "name": "Abfahrtstafel generieren",
+      "description": "Erzeugt eine Abfahrtstafel für eine Haltestelle",
+      "fields": {
+        "device_id": {
+          "name": "Haltestellen-Kennung",
+          "description": "Haltestelle, für die Ankünfte angezeigt werden sollen"
+        },
+        "show_entity_picture": {
+          "name": "Linien-Symbole anzeigen",
+          "description": "Benutzerdefinierte Linien-Logos einblenden"
+        },
+        "show_unknown": {
+          "name": "Unbekannte Ankünfte anzeigen",
+          "description": "Zeigt Ankünfte an, für die noch keine geplante Fahrt vorliegt"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "title": "GTFS Realtime",
+  "common": {
+    "generic_gtfs_provider": "Generieke GTFS-provider",
+    "manual_gtfs_provider_name": "Overig - Handmatig invoeren"
+  },
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "Herconfiguratie geslaagd. Verwijderde entiteiten kunnen worden gewist in de instellingen."
+    },
+    "error": {
+      "failed_preconfigured_feeds": "Laden van vooraf geconfigureerde feeds mislukt",
+      "select_at_least_one_stop_or_route": "Selecteer minimaal één halte of lijn voor GTFS-updates.",
+      "unexpected_user_input": "Onverwachte gebruikersinvoer"
+    },
+    "step": {
+      "choose_informed_entities": {
+        "title": "Selecteer lijn- en halte-ID's om sensoren aan te maken.",
+        "data": {
+          "arrival_limit": "Aankomstlimiet",
+          "gtfs_provider": "Naam GTFS-provider",
+          "route_ids": "Lijn-ID",
+          "stop_ids": "Halte-ID"
+        },
+        "data_description": {
+          "route_ids": "Lijn-ID voor service-waarschuwingen.",
+          "stop_ids": "Halte-ID voor aankomsttijden en waarschuwingen."
+        },
+        "description": "Configureer GTFS-parameters.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Updatefrequentie statische gegevens",
+            "description": "Stel de tijd in tussen updates van de dienstregeling. Controleer de frequentie bij uw provider."
+          }
+        }
+      },
+      "choose_static_and_realtime_feeds": {
+        "title": "Selecteer de adressen voor Realtime en Statische feeds.",
+        "data": {
+          "auth_header": "Autorisatie-header (indien nodig)",
+          "gtfs_static_data": "GTFS statische data (bestand of adres)",
+          "route_icons": "Adresformaat voor lijniconen",
+          "url_endpoints": "Feed-adres"
+        },
+        "data_description": {
+          "auth_header": "Moet in de vorm '[Type]: [sleutel]' zijn. Bijv. 'X-Api-Key: [de sleutel]'. Niet alle types worden ondersteund.",
+          "gtfs_static_data": "Statisch GTFS-bestand. Bevat de geplande dienstregeling. Vereist om ritten en haltes te koppelen aan realtime data.",
+          "route_icons": "Adres naar een SVG-iconenprovider. De string kan variabelen bevatten voor [route_id], [route_color] en [route_text_color].",
+          "url_endpoints": "Adressen voor realtime GTFS-data"
+        },
+        "description": "Dit formulier is vooraf ingevuld. Onnodige feeds kunnen worden verwijderd voor betere prestaties.\n\nLet op: de meeste datasets vereisen een statische feed voor de planning.\n\n{disclaimer}"
+      },
+      "reconfigure": {
+        "title": "GTFS-parameters herconfigureren.",
+        "data": {
+          "arrival_limit": "Aankomstlimiet",
+          "gtfs_provider": "Naam GTFS-provider",
+          "route_ids": "Lijn-ID",
+          "stop_ids": "Halte-ID",
+          "url_endpoints": "Feed-adres"
+        },
+        "data_description": {
+          "route_ids": "Lijn-ID voor service-waarschuwingen.",
+          "stop_ids": "Halte-ID voor aankomstdata.",
+          "url_endpoints": "Adressen voor realtime data"
+        },
+        "description": "Herconfigureer de instellingen voor de huidige invoer.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Updatefrequentie statische gegevens",
+            "description": "Tijd tussen updates van de statische bronnen."
+          }
+        }
+      },
+      "user": {
+        "title": "Selecteer een GTFS-provider",
+        "data": {
+          "gtfs_provider_id": "GTFS-provider"
+        },
+        "description": "Kies een provider uit 'feeds.json'. De gebruiker gaat akkoord met de algemene voorwaarden van de betreffende provider."
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "clear": {
+        "name": "Wis alle dienstregelinggegevens"
+      },
+      "refresh": {
+        "name": "Vernieuw dienstregeling: {gtfs_static_source}"
+      }
+    }
+  },
+  "entity_component": {
+    "binary_sensor": {
+      "state_attributes": {
+        "description": {
+          "name": "Beschrijving {i+1}"
+        },
+        "header": {
+          "name": "Koptekst {i+1}"
+        }
+      }
+    },
+    "button": {
+      "state_attributes": {
+        "target_url": {
+          "name": "Doeladres"
+        }
+      }
+    },
+    "sensor": {
+      "state_attributes": {
+        "destination": {
+          "name": "Bestemming"
+        },
+        "headsign": {
+          "name": "Bestemmingsaanduiding"
+        },
+        "location_source": {
+          "name": "Locatiebron",
+          "state": {
+            "nearest_station_estimate": "Schatting op basis van dichtstbijzijnde station",
+            "vehicle_position_message": "Voertuigpositie (GPS)"
+          }
+        },
+        "route_color": {
+          "name": "Lijnkleur"
+        },
+        "route_id": {
+          "name": "Lijn-ID"
+        },
+        "route_text_color": {
+          "name": "Tekstkleur lijn"
+        },
+        "trip_id": {
+          "name": "Rit-ID"
+        }
+      }
+    }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "name": "Aankomstbord genereren",
+      "description": "Genereer een aankomstbord voor een halte",
+      "fields": {
+        "device_id": {
+          "name": "Halte-ID",
+          "description": "Halte om aankomsten te tonen"
+        },
+        "show_entity_picture": {
+          "name": "Toon entiteitsafbeelding",
+          "description": "Toon aangepaste lijniconen"
+        },
+        "show_unknown": {
+          "name": "Toon onbekende aankomsten",
+          "description": "Toon aankomsten zonder geplande rit"
+        }
+      }
+    }
+  }
+}
