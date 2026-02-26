@@ -1121,7 +1121,7 @@ wheels = [
 
 [[package]]
 name = "gtfs-station-stop"
-version = "0.11.6"
+version = "0.11.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -1132,8 +1132,9 @@ dependencies = [
     { name = "protobuf" },
     { name = "requests" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/10/9b/02556efc3b0778315b55ae9af3575eb08aefa913781b112bd5487d2f6da6/gtfs_station_stop-0.11.7.tar.gz", hash = "sha256:5537844678bbf8365c550d4b0e1197a7129c3929118b0d518998372ca2477e97", size = 181417, upload-time = "2026-02-26T05:47:50.272Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8d/c5/81e87871a36a5445059c08dd6d1b7babf0d63ef90bd2985a60300d7b0fca/gtfs_station_stop-0.11.6-py3-none-any.whl", hash = "sha256:703d815bcd583c7cea2a427bceb3724ac2395c4f7fec0d316cfca2b5b534cb45", size = 24168, upload-time = "2026-02-26T04:45:05.189Z" },
+    { url = "https://files.pythonhosted.org/packages/38/8e/d63280dcf2b955dd1352783449d8b558f12d8ef8372feaefc3c098a29c29/gtfs_station_stop-0.11.7-py3-none-any.whl", hash = "sha256:f3b339c301fcc841e786fb8d7310e2480e78a458142b3ab65a0753df47de6a9a", size = 24166, upload-time = "2026-02-26T05:47:48.692Z" },
 ]
 
 [[package]]
@@ -1297,7 +1298,7 @@ wheels = [
 
 [[package]]
 name = "homeassistant-gtfs-realtime"
-version = "0.4.3"
+version = "0.4.4"
 source = { editable = "." }
 dependencies = [
     { name = "gtfs-station-stop" },
@@ -1314,7 +1315,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "gtfs-station-stop", specifier = "==0.11.6" },
+    { name = "gtfs-station-stop", specifier = "==0.11.7" },
     { name = "protobuf", specifier = ">=6.33.5" },
 ]
 
