@@ -4,7 +4,7 @@
 
 If you found a bug, please report it on the [Issues](https://github.com/bcpearce/homeassistant-gtfs-realtime/issues) page. 
 
-**This feed isn't working**
+### This feed isn't working
 
 While GTFS stands for *General* Transit Feed Specification, there is much variation in the way that a specific provider may configure their feeds. This repository tries to keep a number of feed specs up to date both to confirm compatibility with various providers, and for convenience in setting up the integration in Home Assistant. 
 
@@ -21,13 +21,17 @@ Feeds are checked daily in a GitHub Actions Workflow. You can check the most rec
 
 [![Check GTFS Feed Compatibility](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml/badge.svg)](https://github.com/bcpearce/homeassistant-gtfs-realtime/actions/workflows/feed_compatibility.yaml)
 
-**Other Bugs**
+### This Translation Is Not Accurate
+
+This project was developed in English and translations were originally provided by Gemini. If you are fluent in any of the translations provided and find an error, please open an Issue or Pull Request to correct it.
+
+### Other Bugs
 
 This project relies on [gtfs-station-stop](https://github.com/bcpearce/gtfs-station-stop) for grabbing and formatting data feeds into an "arrival clock" style that can be used in Home Assistant. This is consistent with the [Home Assistant Developer Documentation](https://developers.home-assistant.io/docs/creating_platform_index#interfacing-with-devices) recommendations, however it can make bug reporting slightly more complex as it may need to be fixed in the underlying Python library. Note that issues reported for bugs in this integration may be solved with updates to the underlying data provider library instead. 
 
 ## Features
 
-**Adding feeds**
+### Adding feeds
 
 If you have a custom feed that works with this repository, feel free to open a pull request adding it to help out any other users. See [feeds.json](/custom_components/gtfs_realtime/feeds.json) for the schema. 
 - If authentication is required, provide an `auth_hint` or placeholder in the URL. 
