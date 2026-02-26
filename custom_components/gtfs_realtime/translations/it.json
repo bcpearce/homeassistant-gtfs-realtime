@@ -1,0 +1,164 @@
+{
+  "title": "GTFS Realtime",
+  "common": {
+    "generic_gtfs_provider": "Fornitore GTFS generico",
+    "manual_gtfs_provider_name": "Altro - Inserimento manuale"
+  },
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "Riconfigurazione riuscita. Se delle entità sono state rimosse, possono essere cancellate nelle impostazioni."
+    },
+    "error": {
+      "failed_preconfigured_feeds": "Impossibile ottenere i feed preconfigurati",
+      "select_at_least_one_stop_or_route": "Selezionare almeno una fermata o linea per gli aggiornamenti GTFS.",
+      "unexpected_user_input": "Input utente non previsto"
+    },
+    "step": {
+      "choose_informed_entities": {
+        "title": "Seleziona identificativi di linea e fermata per creare i sensori.",
+        "data": {
+          "arrival_limit": "Limite arrivi",
+          "gtfs_provider": "Nome fornitore GTFS",
+          "route_ids": "Identificativo linea",
+          "stop_ids": "Identificativo fermata"
+        },
+        "data_description": {
+          "route_ids": "Identificativo della linea per ricevere avvisi sul servizio.",
+          "stop_ids": "Identificativo della fermata per dati sugli arrivi e avvisi."
+        },
+        "description": "Configura i parametri GTFS.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Frequenza aggiornamento dati statici",
+            "description": "Imposta l'intervallo tra gli aggiornamenti dei dati programmati. Verifica la frequenza con il tuo fornitore."
+          }
+        }
+      },
+      "choose_static_and_realtime_feeds": {
+        "title": "Seleziona gli indirizzi per i feed Realtime e Static.",
+        "data": {
+          "auth_header": "Intestazione di autorizzazione (se necessaria)",
+          "gtfs_static_data": "Dati statici GTFS (file o indirizzo)",
+          "route_icons": "Indirizzo formato icone linea",
+          "url_endpoints": "Indirizzo del feed"
+        },
+        "data_description": {
+          "auth_header": "Deve essere nel formato '[Tipo]: [chiave]'. Ad esempio: 'X-Api-Key: [la chiave]'. Non tutti i tipi sono supportati.",
+          "gtfs_static_data": "File zip GTFS statico. Includi gli indirizzi per i dati programmati. Necessario per unire corse e fermate con i dati realtime.",
+          "route_icons": "Indirizzo verso un fornitore di icone SVG. Può contenere variabili per [route_id], [route_color] e [route_text_color].",
+          "url_endpoints": "Indirizzi per i dati GTFS Realtime"
+        },
+        "description": "Questo modulo è pre-compilato. Rimuovi i feed non necessari per migliorare le prestazioni.\n\nNota: la maggior parte richiede almeno un feed statico per gli orari.\n\n{disclaimer}"
+      },
+      "reconfigure": {
+        "title": "Riconfigura i parametri GTFS.",
+        "data": {
+          "arrival_limit": "Limite arrivi",
+          "gtfs_provider": "Nome fornitore GTFS",
+          "route_ids": "Identificativo linea",
+          "stop_ids": "Identificativo fermata",
+          "url_endpoints": "Indirizzo del feed"
+        },
+        "data_description": {
+          "route_ids": "Identificativo linea per avvisi sul servizio.",
+          "stop_ids": "Identificativo fermata per dati sugli arrivi.",
+          "url_endpoints": "Indirizzi per dati realtime"
+        },
+        "description": "Riconfigura i parametri per la voce esistente.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Frequenza aggiornamento dati statici",
+            "description": "Intervallo tra gli aggiornamenti delle fonti statiche."
+          }
+        }
+      },
+      "user": {
+        "title": "Seleziona un fornitore GTFS",
+        "data": {
+          "gtfs_provider_id": "Fornitore GTFS"
+        },
+        "description": "Seleziona un fornitore. I dati sono compilati da API pubbliche e l'utente accetta i termini e le condizioni del fornitore."
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "clear": {
+        "name": "Cancella tutti i dati degli orari"
+      },
+      "refresh": {
+        "name": "Aggiorna feed programmato: {gtfs_static_source}"
+      }
+    }
+  },
+  "entity_component": {
+    "binary_sensor": {
+      "state_attributes": {
+        "description": {
+          "name": "Descrizione {i+1}"
+        },
+        "header": {
+          "name": "Intestazione {i+1}"
+        }
+      }
+    },
+    "button": {
+      "state_attributes": {
+        "target_url": {
+          "name": "Indirizzo di destinazione"
+        }
+      }
+    },
+    "sensor": {
+      "state_attributes": {
+        "destination": {
+          "name": "Destinazione"
+        },
+        "headsign": {
+          "name": "Indicazione destinazione"
+        },
+        "location_source": {
+          "name": "Sorgente posizione",
+          "state": {
+            "nearest_station_estimate": "Stima basata sulla stazione più vicina",
+            "vehicle_position_message": "Posizione del veicolo (GPS)"
+          }
+        },
+        "route_color": {
+          "name": "Colore linea"
+        },
+        "route_id": {
+          "name": "Identificativo linea"
+        },
+        "route_text_color": {
+          "name": "Colore testo linea"
+        },
+        "trip_id": {
+          "name": "Identificativo corsa"
+        }
+      }
+    }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "name": "Genera tabellone arrivi",
+      "description": "Genera un tabellone arrivi per una fermata",
+      "fields": {
+        "device_id": {
+          "name": "Identificativo fermata",
+          "description": "Fermata per cui mostrare gli arrivi"
+        },
+        "show_entity_picture": {
+          "name": "Mostra immagine entità",
+          "description": "Mostra icone linea personalizzate"
+        },
+        "show_unknown": {
+          "name": "Mostra arrivi sconosciuti",
+          "description": "Mostra arrivi che non hanno ancora una corsa programmata"
+        }
+      }
+    }
+  }
+}

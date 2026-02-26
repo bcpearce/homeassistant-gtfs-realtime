@@ -1,0 +1,164 @@
+{
+  "title": "GTFS Realtime",
+  "common": {
+    "generic_gtfs_provider": "Proveedor GTFS genérico",
+    "manual_gtfs_provider_name": "Otro - Introducir manualmente"
+  },
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "Reconfiguración exitosa. Si se eliminaron entidades, pueden borrarse en los ajustes."
+    },
+    "error": {
+      "failed_preconfigured_feeds": "Error al obtener los suministros preconfigurados",
+      "select_at_least_one_stop_or_route": "Debe seleccionar al menos una parada o línea para las actualizaciones GTFS.",
+      "unexpected_user_input": "Entrada de usuario no esperada"
+    },
+    "step": {
+      "choose_informed_entities": {
+        "title": "Seleccione identificadores de línea y parada para crear los sensores.",
+        "data": {
+          "arrival_limit": "Límite de llegadas",
+          "gtfs_provider": "Nombre del proveedor GTFS",
+          "route_ids": "Identificador de línea",
+          "stop_ids": "Identificador de parada"
+        },
+        "data_description": {
+          "route_ids": "Identificador de la línea para recibir alertas de servicio.",
+          "stop_ids": "Identificador de la parada para recibir datos de llegada y alertas."
+        },
+        "description": "Configurar parámetros GTFS.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Frecuencia de actualización de datos estáticos",
+            "description": "Establezca el tiempo entre cada actualización de datos teóricos. Consulte con su proveedor la frecuencia esperada."
+          }
+        }
+      },
+      "choose_static_and_realtime_feeds": {
+        "title": "Seleccione las direcciones de los suministros estáticos y en tiempo real.",
+        "data": {
+          "auth_header": "Encabezado de autorización (si es necesario)",
+          "gtfs_static_data": "Datos estáticos GTFS (archivo o dirección)",
+          "route_icons": "Dirección del formato de iconos de línea",
+          "url_endpoints": "Dirección del suministro"
+        },
+        "data_description": {
+          "auth_header": "Debe tener el formato '[Tipo]: [cadena]'. Por ejemplo: 'X-Api-Key: [la clave]'. No todos los tipos son compatibles.",
+          "gtfs_static_data": "Archivo zip GTFS estático. Incluya la(s) dirección(es) de los horarios programados. Necesario para combinar trayectos y paradas con tiempo real.",
+          "route_icons": "Dirección de un proveedor de iconos SVG. Puede contener hasta 3 variables: [route_id], [route_color] y [route_text_color].",
+          "url_endpoints": "Direcciones para datos GTFS en tiempo real"
+        },
+        "description": "Este formulario se ha rellenado previamente. Puede eliminar suministros no deseados para mejorar el rendimiento.\n\nNota: la mayoría requiere al menos un suministro estático para los horarios.\n\n{disclaimer}"
+      },
+      "reconfigure": {
+        "title": "Reconfigurar parámetros GTFS.",
+        "data": {
+          "arrival_limit": "Límite de llegadas",
+          "gtfs_provider": "Nombre del proveedor GTFS",
+          "route_ids": "Identificador de línea",
+          "stop_ids": "Identificador de parada",
+          "url_endpoints": "Dirección del suministro"
+        },
+        "data_description": {
+          "route_ids": "Identificador de línea para alertas de servicio.",
+          "stop_ids": "Identificador de parada para datos de llegada.",
+          "url_endpoints": "Direcciones para datos en tiempo real"
+        },
+        "description": "Reconfigurar parámetros para la entrada existente.",
+        "sections": {
+          "static_sources_update_frequency": {
+            "name": "Frecuencia de actualización de datos estáticos",
+            "description": "Tiempo entre actualizaciones de datos teóricos."
+          }
+        }
+      },
+      "user": {
+        "title": "Seleccione un proveedor GTFS",
+        "data": {
+          "gtfs_provider_id": "Proveedor GTFS"
+        },
+        "description": "Seleccione un proveedor. Se recopilan de APIs públicas y el usuario acepta cumplir con sus términos y condiciones."
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "clear": {
+        "name": "Borrar todos los datos de horarios"
+      },
+      "refresh": {
+        "name": "Actualizar suministro programado: {gtfs_static_source}"
+      }
+    }
+  },
+  "entity_component": {
+    "binary_sensor": {
+      "state_attributes": {
+        "description": {
+          "name": "Descripción {i+1}"
+        },
+        "header": {
+          "name": "Encabezado {i+1}"
+        }
+      }
+    },
+    "button": {
+      "state_attributes": {
+        "target_url": {
+          "name": "Dirección de destino"
+        }
+      }
+    },
+    "sensor": {
+      "state_attributes": {
+        "destination": {
+          "name": "Destino"
+        },
+        "headsign": {
+          "name": "Letrero de destino"
+        },
+        "location_source": {
+          "name": "Origen de ubicación",
+          "state": {
+            "nearest_station_estimate": "Estimación por estación más cercana",
+            "vehicle_position_message": "Posición del vehículo (GPS)"
+          }
+        },
+        "route_color": {
+          "name": "Color de línea"
+        },
+        "route_id": {
+          "name": "Identificador de línea"
+        },
+        "route_text_color": {
+          "name": "Color de texto de línea"
+        },
+        "trip_id": {
+          "name": "Identificador de trayecto"
+        }
+      }
+    }
+  },
+  "services": {
+    "generate_arrival_board": {
+      "name": "Generar panel de llegadas",
+      "description": "Genera un panel de llegadas para una parada",
+      "fields": {
+        "device_id": {
+          "name": "Identificador de parada",
+          "description": "Parada para incluir llegadas"
+        },
+        "show_entity_picture": {
+          "name": "Mostrar imagen de entidad",
+          "description": "Mostrar iconos de línea personalizados"
+        },
+        "show_unknown": {
+          "name": "Mostrar llegadas desconocidas",
+          "description": "Mostrar llegadas que aún no tienen un trayecto programado"
+        }
+      }
+    }
+  }
+}
