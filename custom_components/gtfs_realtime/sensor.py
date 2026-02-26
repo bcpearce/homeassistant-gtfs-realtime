@@ -7,7 +7,6 @@ from gtfs_station_stop.arrival import Arrival
 from gtfs_station_stop.route_info import RouteType
 from gtfs_station_stop.station_stop import StationStop
 from gtfs_station_stop.station_stop_info import StationStopInfo
-from gtfs_station_stop.schedule import GtfsSchedule
 from homeassistant.components.sensor import (
     PLATFORM_SCHEMA as SENSOR_PLATFORM_SCHEMA,
     SensorDeviceClass,
@@ -38,6 +37,8 @@ from .const import (
     ROUTE_TYPE,
     STOP_ID,
     TRIP_ID,
+    LocationSource,
+    LOCATION_SOURCE,
 )
 from .coordinator import GtfsRealtimeCoordinator
 
@@ -98,14 +99,14 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             stop_id, StationStop(stop_id, coordinator.hub)
         )
         self._idx = idx
-        self.coordinator = coordinator
+        self.coordinator: GtfsRealtimeCoordinator = coordinator
         self.route_type = RouteType.UNKNOWN
 
         self._name = f"{self._idx + 1}: {self._get_stop_ref()}"
         self._attr_unique_id = f"arrival_{self.station_stop.id}_{self._idx}"
         self._attr_suggested_display_precision = 0
         self._attr_suggested_unit_of_measurement = UnitOfTime.MINUTES
-        self._arrival_detail: dict[str, str | None] = {}
+        self._arrival_detail: dict[str, str | float | None] = {}
 
     def _get_stop_info(self) -> StationStopInfo | None:
         return self.coordinator.gtfs_update_data.schedule.get_stop_info(
@@ -124,7 +125,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
         return self._name
 
     @property
-    def extra_state_attributes(self) -> dict[str, str]:
+    def extra_state_attributes(self) -> dict[str, str | float | None]:
         """Explanation of Alerts for a given Stop ID."""
         return self._arrival_detail
 
@@ -160,7 +161,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
     def update(self) -> None:
         """Update state from coordinator data."""
         stop_times_ds = self.coordinator.gtfs_update_data.schedule.stop_times_ds
-        time_to_arrivals = list(
+        time_to_arrivals: list[Arrival] = list(
             filter(
                 lambda tta: tta.time is None
                 or tta.time > MIN_NEGATIVE_ARRIVAL_TIME_SECONDS,
@@ -173,9 +174,9 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
         )
         self._arrival_detail = {}
         if len(time_to_arrivals) > self._idx:
-            schedule: GtfsSchedule = self.coordinator.data.schedule
+            schedule = self.coordinator.gtfs_update_data.schedule
 
-            time_to_arrival: Arrival = time_to_arrivals[self._idx]
+            time_to_arrival = time_to_arrivals[self._idx]
 
             # Do not allow negative numbers
             self._attr_native_value = time_to_arrival.time and max(
@@ -212,11 +213,21 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             self._arrival_detail[ROUTE_TYPE] = schedule.get_route_type(
                 time_to_arrival.route
             )
-            if stop_info := schedule.station_stop_info_ds.get(
+
+            if vehicle := time_to_arrival.vehicle:
+                self._arrival_detail[ATTR_LATITUDE] = vehicle.latitude
+                self._arrival_detail[ATTR_LONGITUDE] = vehicle.longitude
+                self._arrival_detail[LOCATION_SOURCE] = (
+                    LocationSource.VEHICLE_POSITION_MESSAGE
+                )
+            elif stop_info := schedule.station_stop_info_ds.get(
                 time_to_arrival.current_station
             ):
                 self._arrival_detail[ATTR_LATITUDE] = stop_info.lat
                 self._arrival_detail[ATTR_LONGITUDE] = stop_info.lon
+                self._arrival_detail[LOCATION_SOURCE] = (
+                    LocationSource.NEAREST_STATION_ESTIMATE
+                )
         else:
             self._attr_native_value = None
 

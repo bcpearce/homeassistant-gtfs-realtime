@@ -1,5 +1,7 @@
 """Constants for the GTFS Realtime integration."""
 
+from enum import StrEnum
+
 DOMAIN = "gtfs_realtime"
 
 CONF_GTFS_PROVIDER = "gtfs_provider"
@@ -30,6 +32,15 @@ ROUTE_TEXT_COLOR = "route_text_color"
 HEADSIGN = "headsign"
 DESTINATION = "destination"
 ROUTE_TYPE = "route_type"
+LOCATION_SOURCE = "location_source"
+
+
+class LocationSource(StrEnum):
+    """Source for location data"""
+
+    VEHICLE_POSITION_MESSAGE = "vehicle_position_message"
+    NEAREST_STATION_ESTIMATE = "nearest_station_estimate"
+
 
 SSI_DB = "station_stop_info_db"
 TI_DB = "trip_info_db"

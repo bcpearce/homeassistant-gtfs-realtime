@@ -119,6 +119,13 @@
         "headsign": {
           "name": "Headsign"
         },
+        "location_source": {
+          "name": "Location Source",
+          "state": {
+            "nearest_station_estimate": "Nearest Station Estimate",
+            "vehicle_position_message": "Vehicle Position Message"
+          }
+        },
         "route_color": {
           "name": "Route Color"
         },
