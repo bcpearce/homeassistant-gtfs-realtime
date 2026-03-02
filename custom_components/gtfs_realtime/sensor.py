@@ -163,8 +163,9 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
         stop_times_ds = self.coordinator.gtfs_update_data.schedule.stop_times_ds
         time_to_arrivals: list[Arrival] = list(
             filter(
-                lambda tta: tta.time is None
-                or tta.time > MIN_NEGATIVE_ARRIVAL_TIME_SECONDS,
+                lambda tta: (
+                    tta.time is None or tta.time > MIN_NEGATIVE_ARRIVAL_TIME_SECONDS
+                ),
                 sorted(
                     self.station_stop.get_time_to_arrivals(
                         stop_times_dataset=stop_times_ds
