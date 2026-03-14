@@ -42,6 +42,7 @@ jobs:
           washington_metro_area_*="${{ secrets.wmata_api_header }}"
           la_metro="${{ secrets.la_metro_api_header }}"
           exo_quebec="${{ secrets.exo_quebec_api_header }}"
+          chicago_metra="${{ secrets.metra_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
           --calls-per-second ${{ env.CALLS_PER_SECOND }}
