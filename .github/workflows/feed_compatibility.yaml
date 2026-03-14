@@ -2,12 +2,12 @@ name: Check GTFS Feed Compatibility
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
     paths:
-      - 'custom_components/gtfs_realtime/feeds.json'
-      - 'hooks/check_feed_compatibility'
-      - '.github/workflows/feed_compatibility.yaml'
+      - "custom_components/gtfs_realtime/feeds.json"
+      - "hooks/check_feed_compatibility"
+      - ".github/workflows/feed_compatibility.yaml"
   workflow_dispatch:
   schedule:
     - cron: "0 2 * * *" # everyday at 0200
@@ -20,19 +20,19 @@ jobs:
   feed-compatibility:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: "Install uv"
-        uses: astral-sh/setup-uv@v5
-        with: 
-          version: "0.8.3"
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: 0.10.10
       - name: "Set up Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version-file: ".python-version"
       - name: "Install the project"
         run: uv sync --locked --all-extras --dev
       - name: "Check Feed Compatibility"
-        run: > 
+        run: >
           uv run python hooks/check_feed_compatibility.py 
           custom_components/gtfs_realtime/feeds.json -f md 
           --auth-header 
@@ -47,6 +47,3 @@ jobs:
           --calls-per-second ${{ env.CALLS_PER_SECOND }}
           --sleep-between-tasks ${{ env.SLEEP_BETWEEN_TASKS }} 
           >> $GITHUB_STEP_SUMMARY
-
-
-
