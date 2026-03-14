@@ -1,6 +1,8 @@
 #!/usr/bin/python
 """Script for checking compatibility in `feeds.json`"""
 
+from typing import Any
+
 import argparse
 import asyncio
 import json
@@ -44,7 +46,7 @@ def _replace_placeholders(s: str) -> str:
 
 async def async_test_feed(
     feed_id: str,
-    feed: dict[str, list[str]],
+    feed: dict[str, Any],
     headers: dict[str, str] | None,
     params: list[str] | None,
     session: ClientSession,
@@ -67,7 +69,9 @@ async def async_test_feed(
         for static in feed["static_feeds"].values():
             st = _replace_placeholders(static)
             await async_build_schedule(
-                st.format(*params), session=session, headers=headers
+                st.format(*params),
+                session=session,
+                headers=headers,  # ty:ignore[invalid-argument-type]
             )
         status = "Success"
         if headers:
@@ -110,7 +114,7 @@ async def async_test_feed(
 
 
 async def test_feeds(
-    feeds: dict[str, list[str]],
+    feeds: dict[str, dict[str, Any]],
     output_format: str = "dict",
     headers_map: dict[str, dict[str, str]] | None = None,
     params_map: dict[str, list[str]] | None = None,
@@ -123,8 +127,8 @@ async def test_feeds(
         raise ValueError(
             f"Report type {output_format} is not one of the allowed types in {REPORT_FORMATS}"
         )
-    headers_map |= {}
-    params_map |= {}
+    headers_map = headers_map or {}
+    params_map = params_map or {}
     tasks = {}
 
     async with ClientSession() as session:
