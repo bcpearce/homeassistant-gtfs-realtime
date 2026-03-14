@@ -23,6 +23,19 @@
       "regular": "https://cdn.mbta.com/MBTA_GTFS.zip"
     }
   },
+  "chicago_metra": {
+    "name": "Chicago Metra",
+    "auth_hint": "Bearer: [insert key here]",
+    "disclaimer": "Additional information on the Metra GTFS API is available here (https://metra.com/metra-gtfs-api). An API Key is required and may be obtained by agreeing to the License Agreement and completing the form below. https://metra.com/gtfs-realtime-api-key-request-license-agreement",
+    "realtime_feeds": {
+      "alerts": "https://gtfspublic.metrarr.com/gtfs/public/alerts",
+      "trip_update": "https://gtfspublic.metrarr.com/gtfs/public/tripupdates",
+      "vehicle_positions": "https://gtfspublic.metrarr.com/gtfs/public/positions"
+    },
+    "static_feeds": {
+      "regular": "https://schedules.metrarail.com/gtfs/schedule.zip"
+    }
+  },
   "ct_transit": {
     "name": "CT transit (Connecticut DOT)",
     "description": "Shore Line East, Hartford Line, and Hartford-New Haven-Stamford-New Britain-Waterbury-Meriden",
