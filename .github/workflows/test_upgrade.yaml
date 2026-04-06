@@ -2,9 +2,7 @@ name: Run tests on upgraded packages
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [test-upgrade]
+    branches: [main, test-upgrade]
   workflow_dispatch:
   schedule:
     - cron: "0 2 * * *"
