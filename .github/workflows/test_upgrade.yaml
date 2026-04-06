@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [test-upgrade]
   workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"
 
 jobs:
   uv-pytest:
