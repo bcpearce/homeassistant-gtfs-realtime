@@ -28,13 +28,15 @@ from .coordinator import GtfsRealtimeCoordinator
 class GtfsRealtimeButtonDescription(ButtonEntityDescription):
     """GTFS Realtime Button description."""
 
-    press_action: Callable[[GtfsRealtimeCoordinator, os.PathLike], Coroutine]
+    press_action: Callable[[GtfsRealtimeCoordinator, os.PathLike | None], Coroutine]
 
 
 async def handle_refresh_button_press(
-    coordinator: GtfsRealtimeCoordinator, gtfs_static_source: os.PathLike
+    coordinator: GtfsRealtimeCoordinator, gtfs_static_source: os.PathLike | None
 ):
     """Called on pressing refresh feed entity."""
+    if gtfs_static_source is None:
+        return
     coordinator.static_update_targets.add(gtfs_static_source)
     await coordinator.async_update_static_data()
 
@@ -52,7 +54,7 @@ BUTTONS: dict[str, GtfsRealtimeButtonDescription] = {
         translation_key="clear",
         device_class=ButtonDeviceClass.UPDATE,
         entity_category=EntityCategory.CONFIG,
-        press_action=lambda coordinator: coordinator.async_update_static_data(
+        press_action=lambda coordinator, _: coordinator.async_update_static_data(
             clear_old_data=True
         ),
     ),
@@ -88,8 +90,11 @@ class ScheduleButtonBase(ButtonEntity, CoordinatorEntity):
     @cached_property
     def device_info(self) -> DeviceInfo:
         """Return the device info."""
+        assert isinstance(self.coordinator, GtfsRealtimeCoordinator)
         return DeviceInfo(
-            identifiers={(DOMAIN, ",".join(self.coordinator.gtfs_static_zip))},
+            identifiers={
+                (DOMAIN, ",".join(str(z) for z in self.coordinator.gtfs_static_zip))
+            },
             name="GTFS Schedule",
             manufacturer=self.coordinator.gtfs_provider,
         )
@@ -115,6 +120,7 @@ class ScheduleUpdateButton(ScheduleButtonBase):
 
     async def async_press(self) -> None:
         """Trigger the button action."""
+        assert isinstance(self.coordinator, GtfsRealtimeCoordinator)
         await self.entity_description.press_action(
             self.coordinator, self.gtfs_static_source
         )
@@ -129,19 +135,19 @@ class ScheduleClearButton(ScheduleButtonBase):
         description: GtfsRealtimeButtonDescription,
     ):
         super().__init__(coordinator, description)
-        self._attr_unique_id = (
-            f"clear_gtfs_schedule-{'-'.join(coordinator.gtfs_static_zip)}"
-        )
+        self._attr_unique_id = f"clear_gtfs_schedule-{'-'.join(str(z) for z in coordinator.gtfs_static_zip)}"
         self._attr_translation_key = description.translation_key
         self._attr_name = "Clear GTFS Schedule"
 
     @cached_property
     def extra_state_attributes(self) -> dict[str, str]:
+        assert isinstance(self.coordinator, GtfsRealtimeCoordinator)
         return {
-            f"target_url {i + 1}": url
+            f"target_url {i + 1}": str(url)
             for i, url in enumerate(self.coordinator.gtfs_static_zip)
         }
 
     async def async_press(self) -> None:
         """Trigger the button action."""
-        await self.entity_description.press_action(self.coordinator)
+        assert isinstance(self.coordinator, GtfsRealtimeCoordinator)
+        await self.entity_description.press_action(self.coordinator, None)

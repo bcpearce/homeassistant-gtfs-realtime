@@ -81,6 +81,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
     _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_entity_picture: str | None = None
+    _attr_has_entity_name = True
 
     ICON_DICT = {
         RouteType.TRAM: "mdi:tram",
@@ -94,7 +95,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
     ) -> None:
         """Initialize the sensor."""
         # Required
-        super().__init__(coordinator=coordinator)
+        super().__init__(coordinator=coordinator)  # ty:ignore[invalid-argument-type]
         self.station_stop = coordinator.gtfs_update_data.station_stops.setdefault(
             stop_id, StationStop(stop_id, coordinator.hub)
         )
@@ -102,7 +103,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
         self.coordinator: GtfsRealtimeCoordinator = coordinator
         self.route_type = RouteType.UNKNOWN
 
-        self._name = f"{self._idx + 1}: {self._get_stop_ref()}"
+        self._name = f"Arrival {self._idx + 1}"
         self._attr_unique_id = f"arrival_{self.station_stop.id}_{self._idx}"
         self._attr_suggested_display_precision = 0
         self._attr_suggested_unit_of_measurement = UnitOfTime.MINUTES
@@ -113,10 +114,10 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
             self.station_stop.id
         )
 
-    def _get_stop_ref(self):
+    def _get_stop_ref(self) -> str:
         station_stop_info = self._get_stop_info()
         if station_stop_info is not None:
-            return station_stop_info.name
+            return station_stop_info.name or self.station_stop.id
         return self.station_stop.id
 
     @property

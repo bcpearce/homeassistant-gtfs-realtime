@@ -10,7 +10,7 @@
       }),
       dict({
         'card': dict({
-          'entity': 'sensor.1_101n',
+          'entity': 'sensor.101n_101n_arrival_1',
           'name': '',
           'show_entity_picture': True,
           'state_content': list([
@@ -22,7 +22,7 @@
         'conditions': list([
           dict({
             'condition': 'state',
-            'entity': 'sensor.1_101n',
+            'entity': 'sensor.101n_101n_arrival_1',
             'state_not': list([
               'unknown',
               'undefined',
@@ -33,7 +33,7 @@
       }),
       dict({
         'card': dict({
-          'entity': 'sensor.2_101n',
+          'entity': 'sensor.101n_101n_arrival_2',
           'name': '',
           'show_entity_picture': True,
           'state_content': list([
@@ -45,7 +45,7 @@
         'conditions': list([
           dict({
             'condition': 'state',
-            'entity': 'sensor.2_101n',
+            'entity': 'sensor.101n_101n_arrival_2',
             'state_not': list([
               'unknown',
               'undefined',
@@ -56,7 +56,7 @@
       }),
       dict({
         'card': dict({
-          'entity': 'sensor.3_101n',
+          'entity': 'sensor.101n_101n_arrival_3',
           'name': '',
           'show_entity_picture': True,
           'state_content': list([
@@ -68,7 +68,7 @@
         'conditions': list([
           dict({
             'condition': 'state',
-            'entity': 'sensor.3_101n',
+            'entity': 'sensor.101n_101n_arrival_3',
             'state_not': list([
               'unknown',
               'undefined',
@@ -79,7 +79,7 @@
       }),
       dict({
         'card': dict({
-          'entity': 'sensor.4_101n',
+          'entity': 'sensor.101n_101n_arrival_4',
           'name': '',
           'show_entity_picture': True,
           'state_content': list([
@@ -91,7 +91,7 @@
         'conditions': list([
           dict({
             'condition': 'state',
-            'entity': 'sensor.4_101n',
+            'entity': 'sensor.101n_101n_arrival_4',
             'state_not': list([
               'unknown',
               'undefined',

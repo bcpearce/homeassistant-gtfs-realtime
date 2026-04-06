@@ -1,12 +1,12 @@
 # serializer version: 1
-# name: test_update[1_101n-after-1-minute]
+# name: test_update[101n_101n_arrival_1-after-1-minute]
   '3.0'
 # ---
-# name: test_update[1_101n-attributes-after-1-minute]
+# name: test_update[101n_101n_arrival_1-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
     'device_class': 'duration',
-    'friendly_name': '1: 101N',
+    'friendly_name': '101N (101N) Arrival 1',
     'headsign': '',
     'icon': 'mdi:bus-clock',
     'latitude': 45.0,
@@ -21,33 +21,14 @@
     'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
-# name: test_update[1_102s-after-1-minute]
-  '8.0'
-# ---
-# name: test_update[1_102s-attributes-after-1-minute]
-  dict({
-    'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '1: 102S',
-    'headsign': '',
-    'icon': 'mdi:bus-clock',
-    'route_color': '',
-    'route_id': 'X',
-    'route_text_color': '',
-    'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-    'trip_id': 'X1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
-  })
-# ---
-# name: test_update[2_101n-after-1-minute]
+# name: test_update[101n_101n_arrival_2-after-1-minute]
   '5.0'
 # ---
-# name: test_update[2_101n-attributes-after-1-minute]
+# name: test_update[101n_101n_arrival_2-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
     'device_class': 'duration',
-    'friendly_name': '2: 101N',
+    'friendly_name': '101N (101N) Arrival 2',
     'headsign': '',
     'icon': 'mdi:bus-clock',
     'route_color': '',
@@ -59,33 +40,14 @@
     'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
-# name: test_update[2_102s-after-1-minute]
-  '12.0'
-# ---
-# name: test_update[2_102s-attributes-after-1-minute]
-  dict({
-    'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '2: 102S',
-    'headsign': '',
-    'icon': 'mdi:bus-clock',
-    'route_color': '',
-    'route_id': 'Y',
-    'route_text_color': '',
-    'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-    'trip_id': 'Y1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
-  })
-# ---
-# name: test_update[3_101n-after-1-minute]
+# name: test_update[101n_101n_arrival_3-after-1-minute]
   '7.0'
 # ---
-# name: test_update[3_101n-attributes-after-1-minute]
+# name: test_update[101n_101n_arrival_3-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
     'device_class': 'duration',
-    'friendly_name': '3: 101N',
+    'friendly_name': '101N (101N) Arrival 3',
     'headsign': 'Downtown',
     'icon': 'mdi:bus-clock',
     'route_color': 'FFFFFF',
@@ -97,14 +59,64 @@
     'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
-# name: test_update[3_102s-after-1-minute]
-  '16.0'
+# name: test_update[101n_101n_arrival_4-after-1-minute]
+  'unknown'
 # ---
-# name: test_update[3_102s-attributes-after-1-minute]
+# name: test_update[101n_101n_arrival_4-attributes-after-1-minute]
+  dict({
+    'device_class': 'duration',
+    'friendly_name': '101N (101N) Arrival 4',
+    'icon': 'mdi:bus-clock',
+    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+  })
+# ---
+# name: test_update[102s_102s_arrival_1-after-1-minute]
+  '8.0'
+# ---
+# name: test_update[102s_102s_arrival_1-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
     'device_class': 'duration',
-    'friendly_name': '3: 102S',
+    'friendly_name': '102S (102S) Arrival 1',
+    'headsign': '',
+    'icon': 'mdi:bus-clock',
+    'route_color': '',
+    'route_id': 'X',
+    'route_text_color': '',
+    'route_type': '',
+    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    'trip_id': 'X1',
+    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+  })
+# ---
+# name: test_update[102s_102s_arrival_2-after-1-minute]
+  '12.0'
+# ---
+# name: test_update[102s_102s_arrival_2-attributes-after-1-minute]
+  dict({
+    'destination': 'Stop ID: None',
+    'device_class': 'duration',
+    'friendly_name': '102S (102S) Arrival 2',
+    'headsign': '',
+    'icon': 'mdi:bus-clock',
+    'route_color': '',
+    'route_id': 'Y',
+    'route_text_color': '',
+    'route_type': '',
+    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    'trip_id': 'Y1',
+    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+  })
+# ---
+# name: test_update[102s_102s_arrival_3-after-1-minute]
+  '16.0'
+# ---
+# name: test_update[102s_102s_arrival_3-attributes-after-1-minute]
+  dict({
+    'destination': 'Stop ID: None',
+    'device_class': 'duration',
+    'friendly_name': '102S (102S) Arrival 3',
     'headsign': '',
     'icon': 'mdi:bus-clock',
     'route_color': '',
@@ -116,25 +128,13 @@
     'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
-# name: test_update[4_101n-after-1-minute]
+# name: test_update[102s_102s_arrival_4-after-1-minute]
   'unknown'
 # ---
-# name: test_update[4_101n-attributes-after-1-minute]
+# name: test_update[102s_102s_arrival_4-attributes-after-1-minute]
   dict({
     'device_class': 'duration',
-    'friendly_name': '4: 101N',
-    'icon': 'mdi:bus-clock',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
-  })
-# ---
-# name: test_update[4_102s-after-1-minute]
-  'unknown'
-# ---
-# name: test_update[4_102s-attributes-after-1-minute]
-  dict({
-    'device_class': 'duration',
-    'friendly_name': '4: 102S',
+    'friendly_name': '102S (102S) Arrival 4',
     'icon': 'mdi:bus-clock',
     'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
     'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
