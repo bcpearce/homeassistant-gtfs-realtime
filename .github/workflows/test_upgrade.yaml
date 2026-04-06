@@ -1,9 +1,8 @@
-name: Run tests
+name: Run tests on upgraded packages
 
 on:
   push:
-    branches: [main]
-  pull_request:
+    branches: [main, test-upgrade]
   workflow_dispatch:
   schedule:
     - cron: "0 2 * * *"
@@ -22,15 +21,7 @@ jobs:
         with:
           python-version-file: ".python-version"
       - name: "Install the project"
-        run: uv sync --locked --all-extras --dev
+        run: uv sync --upgrade --all-extras --dev
       - name: "Run tests"
         run: |
           uv run pytest tests
-          uv run coverage xml
-      - name: "Coveralls"
-        uses: coverallsapp/github-action@v2
-        continue-on-error: true
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          format: cobertura
-          file: coverage.xml
