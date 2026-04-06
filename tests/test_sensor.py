@@ -50,19 +50,21 @@ async def test_setup_sensors(hass: HomeAssistant, entry_v2_nodialout: MockConfig
         entry_v2_nodialout.add_to_hass(hass)
         assert await hass.config_entries.async_setup(entry_v2_nodialout.entry_id)
         await hass.async_block_till_done()
-        assert hass.states.get("sensor.4_101n").state == STATE_UNKNOWN
+        assert hass.states.get("sensor.101n_101n_arrival_4").state == STATE_UNKNOWN  # ty:ignore[unresolved-attribute]
         # All Sensors of a station have the same device id
         ent_reg = er.async_get(hass)
         assert_all_equal(
-            ent_reg.async_get(f"sensor.{s}").device_id
-            for s in ["1_101n", "2_101n", "3_101n", "4_101n"]
+            ent_reg.async_get(f"sensor.{s}").device_id  # ty:ignore[unresolved-attribute]
+            for s in [f"101n_101n_arrival_{i}" for i in range(1, 5)]
         )
         assert_all_equal(
-            ent_reg.async_get(f"sensor.{s}").device_id
-            for s in ["1_102s", "2_102s", "3_102s", "4_102s"]
+            ent_reg.async_get(f"sensor.{s}").device_id  # ty:ignore[unresolved-attribute]
+            for s in [f"102s_102s_arrival_{i}" for i in range(1, 5)]
         )
-        assert ent_reg.async_get("sensor.1_101n").device_id != ent_reg.async_get(
-            "sensor.1_102s"
+        assert ent_reg.async_get(
+            "sensor.101n_101n_arrival_1"
+        ).device_id != ent_reg.async_get(  # ty:ignore[unresolved-attribute]
+            "sensor.102s_102s_arrival_1"
         )
 
 
@@ -170,15 +172,8 @@ async def test_update(
     await hass.async_block_till_done()
     assert coordinator.hub.async_update.call_count == 1  # ty:ignore[unresolved-attribute]
 
-    for sensor in [
-        "1_101n",
-        "2_101n",
-        "3_101n",
-        "4_101n",
-        "1_102s",
-        "2_102s",
-        "3_102s",
-        "4_102s",
+    for sensor in [f"101n_101n_arrival_{i}" for i in range(1, 5)] + [
+        f"102s_102s_arrival_{i}" for i in range(1, 5)
     ]:
         sensor_data = hass.states.get(f"{SENSOR_DOMAIN}.{sensor}")
         assert sensor_data is not None

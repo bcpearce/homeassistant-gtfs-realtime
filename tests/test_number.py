@@ -61,7 +61,7 @@ async def test_number_value_change(
         NUMBER_DOMAIN,
         NUMBER_SERVICE_SET_VALUE,
         {
-            ATTR_ENTITY_ID: "number.refresh_schedule_feed_interval_https_example_com_gtfs1_zip",
+            ATTR_ENTITY_ID: "number.gtfs_schedule_refresh_schedule_feed_interval_https_example_com_gtfs1_zip",
             ATTR_VALUE: 5.0,
         },
         blocking=True,
@@ -71,7 +71,7 @@ async def test_number_value_change(
         NUMBER_DOMAIN,
         NUMBER_SERVICE_SET_VALUE,
         {
-            ATTR_ENTITY_ID: "number.refresh_schedule_feed_interval_https_example_com_gtfs2_zip",
+            ATTR_ENTITY_ID: "number.gtfs_schedule_refresh_schedule_feed_interval_https_example_com_gtfs2_zip",
             ATTR_VALUE: 8.5,
         },
         blocking=True,

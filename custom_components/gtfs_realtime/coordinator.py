@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import logging
 import os
 from copy import deepcopy
+from typing import cast
 
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.route_status import RouteStatus
@@ -37,14 +38,12 @@ class GtfsUpdateData:
     schedule: GtfsSchedule = field(default_factory=GtfsSchedule)
 
 
-class GtfsRealtimeCoordinator(DataUpdateCoordinator):
-    """GTFS Realtime Update Coordinator."""
-
+class GtfsRealtimeCoordinator(DataUpdateCoordinator[GtfsUpdateData]):
     def __init__(
         self,
         hass: HomeAssistant,
         feed_subject: FeedSubject,
-        gtfs_static_zip: Iterable[os.PathLike] | os.PathLike = list[os.PathLike],
+        gtfs_static_zip: Iterable[os.PathLike] | os.PathLike | None = None,
         *,
         gtfs_provider: str | None = None,
         static_timedelta: dict[os.PathLike, timedelta] | None = None,
@@ -69,7 +68,11 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator):
         self.hub: FeedSubject = feed_subject
         self.hub.max_api_calls_per_second = 1  # rate limit
         self.gtfs_update_data = GtfsUpdateData()
-        self.gtfs_static_zip: Iterable[os.PathLike] | os.PathLike = gtfs_static_zip
+        if isinstance(gtfs_static_zip, os.PathLike):
+            gtfs_static_zip = [gtfs_static_zip]
+        elif gtfs_static_zip is None:
+            gtfs_static_zip = []
+        self.gtfs_static_zip: Iterable[os.PathLike] = gtfs_static_zip
         self.route_icons = route_icons
         self.static_update_targets: set[os.PathLike] = set(gtfs_static_zip)
         self.last_static_update: dict[os.PathLike, datetime] = {}
@@ -101,7 +104,9 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator):
         else:
             schedule = deepcopy(self.gtfs_update_data.schedule)
 
-        schedule.download_dir_path = self.hass.config.path(f".storage/{DOMAIN}")
+        schedule.download_dir_path = cast(
+            os.PathLike[str], self.hass.config.path(f".storage/{DOMAIN}")
+        )
 
         try:
             for target in self.static_update_targets:

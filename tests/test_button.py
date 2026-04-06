@@ -61,7 +61,7 @@ async def test_button_press(
             BUTTON_DOMAIN,
             BUTTON_SERVICE_PRESS,
             {
-                ATTR_ENTITY_ID: "button.refresh_schedule_feed_https_example_com_gtfs1_zip"
+                ATTR_ENTITY_ID: "button.gtfs_schedule_refresh_schedule_feed_https_example_com_gtfs1_zip"
             },
             blocking=True,
         )
@@ -69,7 +69,7 @@ async def test_button_press(
         await hass.services.async_call(
             BUTTON_DOMAIN,
             BUTTON_SERVICE_PRESS,
-            {ATTR_ENTITY_ID: "button.clear_gtfs_schedule"},
+            {ATTR_ENTITY_ID: "button.gtfs_schedule_clear_gtfs_schedule"},
             blocking=True,
         )
         update_static_data_mock.assert_called_with(clear_old_data=True)
