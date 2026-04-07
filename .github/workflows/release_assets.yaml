@@ -1,0 +1,19 @@
+name: Upload Release Assets
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    upload-release-assets:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: actions/checkout@v6
+            - name: Package Source Asset
+              run: zip -r homeassistant-gtfs-realtime-${{ github.event.release.tag_name }}.zip custom_components/gtfs_realtime
+            - name: Upload Asset to Release
+              run: gh release upload ${{ github.event.release.tag_name }} ./homeassistant-gtfs-realtime-${{ github.event.release.tag_name }}.zip
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
