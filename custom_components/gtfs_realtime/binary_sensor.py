@@ -96,10 +96,10 @@ class AlertSensor(BinarySensorEntity, CoordinatorEntity):
             self._attr_is_on = True
             for i, alert in enumerate(alerts):
                 self._alert_detail[f"header_{i + 1}"] = alert.header_text.get(
-                    self.language, ""
+                    self.language, alert.header_text.get(self.language.upper(), "")
                 )
                 self._alert_detail[f"description_{i + 1}"] = alert.description_text.get(
-                    self.language, ""
+                    self.language, alert.header_text.get(self.language.upper(), "")
                 )
 
     @callback
