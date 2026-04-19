@@ -81,7 +81,7 @@ async def test_binary_sensor_header_and_descriptions(
             Alert(
                 freezer.time_to_freeze.timestamp() + 1000,
                 {"en": "Alert"},
-                {"en": "There is a problem"},
+                {"EN": "There is a problem"},
             )
         ]
         next(iter(coordinator.hub.subscribers["2"])).alerts = [
