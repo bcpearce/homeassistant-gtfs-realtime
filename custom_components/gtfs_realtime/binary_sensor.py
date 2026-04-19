@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from gtfs_station_stop.route_status import RouteStatus
 from gtfs_station_stop.station_stop import StationStop
-from gtfs_station_stop.station_stop_info import StationStopInfo
 from homeassistant.components.binary_sensor import (
     PLATFORM_SCHEMA as BINARY_SENSOR_PLATFORM_SCHEMA,
     BinarySensorDeviceClass,
@@ -45,7 +44,6 @@ async def async_setup_entry(
                     coordinator,
                     RouteStatus(route_id, coordinator.hub),
                     hass.config.language,
-                    None,
                 )
                 for route_id in entry.data[CONF_ROUTE_IDS]
             ]
@@ -65,13 +63,12 @@ class AlertSensor(BinarySensorEntity, CoordinatorEntity):
         coordinator: GtfsRealtimeCoordinator,
         informed_entity: StationStop | RouteStatus,
         language: str = "",
-        station_stop_info: StationStopInfo | None = None,
     ) -> None:
         """Initialize the sensor."""
-        super().__init__(coordinator)
+        super().__init__(coordinator=coordinator)  # ty:ignore[invalid-argument-type]
         self.informed_entity = informed_entity
         self.language = language
-        self._name: str = f"{station_stop_info.name if station_stop_info is not None else informed_entity.id} Service Alerts"
+        self._name: str = f"{informed_entity.id} Service Alerts"
         self._attr_is_on = False
         self._alert_detail: dict[str, str] = AlertSensor.CLEAN_ALERT_DATA
         self._attr_unique_id = f"alert_{informed_entity.id}"
@@ -96,10 +93,18 @@ class AlertSensor(BinarySensorEntity, CoordinatorEntity):
             self._attr_is_on = True
             for i, alert in enumerate(alerts):
                 self._alert_detail[f"header_{i + 1}"] = alert.header_text.get(
-                    self.language, alert.header_text.get(self.language.upper(), "")
+                    self.language,
+                    alert.header_text.get(
+                        self.language.upper(),
+                        next(iter(alert.header_text.values()), ""),
+                    ),
                 )
                 self._alert_detail[f"description_{i + 1}"] = alert.description_text.get(
-                    self.language, alert.header_text.get(self.language.upper(), "")
+                    self.language,
+                    alert.description_text.get(
+                        self.language.upper(),
+                        next(iter(alert.description_text.values()), ""),
+                    ),
                 )
 
     @callback
