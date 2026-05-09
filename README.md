@@ -89,7 +89,7 @@ Entities can appear on map cards.
 
 ### Alert Sensor
 
-Alert sensors can be setup for a `route_id`. The [example/frontend.yaml](example/frontend.yaml) file shows how to set up conditional cards that display only if an alert is active. The alert sensor will switch to the "Problem" state if an alert is active for a given station or route. This can be used in automations, such as turning on an indicator LED when an alert becomes active. 
+Alert sensors can be setup for a `route_id`. The [example/icon_arrival_card.yml](example/icon_arrival_card.yml) file shows how to set up conditional cards that display only if an alert is active. The alert sensor will switch to the "Problem" state if an alert is active for a given station or route. This can be used in automations, such as turning on an indicator LED when an alert becomes active. 
 
 ## Devices
 
