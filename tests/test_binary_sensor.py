@@ -119,3 +119,112 @@ async def test_binary_sensor_header_and_descriptions(
     alert_sensor_3_data = hass.states.get(f"{BINARY_SENSOR_DOMAIN}.3_service_alerts")
     assert alert_sensor_3_data is not None
     assert alert_sensor_3_data.state == "off"
+
+
+async def test_binary_sensor_deduplicates_alerts(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+):
+    """Test that duplicate alerts from multiple informed_entities are deduplicated."""
+    hass.config.language = "en"
+    coordinator: GtfsRealtimeCoordinator = await async_setup_coordinator(
+        hass, entry_v2_nodialout
+    )
+    coordinator.route_icons = None
+    coordinator.hub.realtime_feed_uris = []
+
+    def coordinator_update_side_effects(_):
+        # Simulate the bug: separate Alert instances with identical content,
+        # as produced by multiple informed_entities sharing the same route_id
+        next(iter(coordinator.hub.subscribers["1"])).alerts = [
+            Alert(
+                freezer.time_to_freeze.timestamp() + 1000,
+                {"en": "Light Rail Delay"},
+                {"en": "Service is delayed on all stops"},
+            ),
+            Alert(
+                freezer.time_to_freeze.timestamp() + 1000,
+                {"en": "Light Rail Delay"},
+                {"en": "Service is delayed on all stops"},
+            ),
+            Alert(
+                freezer.time_to_freeze.timestamp() + 1000,
+                {"en": "Light Rail Delay"},
+                {"en": "Service is delayed on all stops"},
+            ),
+        ]
+        return
+
+    coordinator.hub.async_update = AsyncMock()
+    coordinator.hub.async_update.side_effect = coordinator_update_side_effects
+    freezer.tick(timedelta(minutes=1))
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    alert_sensor_data = hass.states.get(f"{BINARY_SENSOR_DOMAIN}.1_service_alerts")
+    assert alert_sensor_data is not None
+    assert alert_sensor_data.state == "on"
+    # Should only show 1 alert, not 3
+    assert alert_sensor_data.attributes["header_1"] == "Light Rail Delay"
+    assert (
+        alert_sensor_data.attributes["description_1"]
+        == "Service is delayed on all stops"
+    )
+    assert "header_2" not in alert_sensor_data.attributes
+
+
+async def test_binary_sensor_mixed_unique_and_duplicate_alerts(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+):
+    """Test that unique alerts are preserved alongside deduplication."""
+    hass.config.language = "en"
+    coordinator: GtfsRealtimeCoordinator = await async_setup_coordinator(
+        hass, entry_v2_nodialout
+    )
+    coordinator.route_icons = None
+    coordinator.hub.realtime_feed_uris = []
+
+    def coordinator_update_side_effects(_):
+        # Interleaved duplicates: separate Alert instances with identical content
+        next(iter(coordinator.hub.subscribers["1"])).alerts = [
+            Alert(
+                freezer.time_to_freeze.timestamp() + 1000,
+                {"en": "Alert A"},
+                {"en": "Description A"},
+            ),
+            Alert(
+                freezer.time_to_freeze.timestamp() + 2000,
+                {"en": "Alert B"},
+                {"en": "Description B"},
+            ),
+            Alert(
+                freezer.time_to_freeze.timestamp() + 1000,
+                {"en": "Alert A"},
+                {"en": "Description A"},
+            ),
+            Alert(
+                freezer.time_to_freeze.timestamp() + 2000,
+                {"en": "Alert B"},
+                {"en": "Description B"},
+            ),
+        ]
+        return
+
+    coordinator.hub.async_update = AsyncMock()
+    coordinator.hub.async_update.side_effect = coordinator_update_side_effects
+    freezer.tick(timedelta(minutes=1))
+    async_fire_time_changed(hass)
+    await hass.async_block_till_done()
+
+    alert_sensor_data = hass.states.get(f"{BINARY_SENSOR_DOMAIN}.1_service_alerts")
+    assert alert_sensor_data is not None
+    assert alert_sensor_data.state == "on"
+    # Should show 2 unique alerts, not 4
+    assert alert_sensor_data.attributes["header_1"] == "Alert A"
+    assert alert_sensor_data.attributes["description_1"] == "Description A"
+    assert alert_sensor_data.attributes["header_2"] == "Alert B"
+    assert alert_sensor_data.attributes["description_2"] == "Description B"
+    assert "header_3" not in alert_sensor_data.attributes
