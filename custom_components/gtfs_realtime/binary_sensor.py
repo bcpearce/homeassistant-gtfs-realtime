@@ -103,7 +103,7 @@ class AlertSensor(BinarySensorEntity, CoordinatorEntity):
 
         self._attr_is_on = True
 
-# Using dict instead of set preserves order.
+        # Using dict instead of set preserves order.
         unique_alerts = dict.fromkeys(
             (self._get_text(a.header_text), self._get_text(a.description_text))
             for a in alerts
