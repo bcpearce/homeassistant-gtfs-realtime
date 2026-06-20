@@ -83,29 +83,35 @@ class AlertSensor(BinarySensorEntity, CoordinatorEntity):
         """Explanation of Alerts for a given Stop ID."""
         return self._alert_detail
 
+    def _get_text(self, translation: dict[str, str]) -> str:
+        """Extract text from translation dict using configured language."""
+        return translation.get(
+            self.language,
+            translation.get(
+                self.language.upper(),
+                next(iter(translation.values()), ""),
+            ),
+        )
+
     def update(self) -> None:
         """Update state from coordinator data."""
         alerts = self.informed_entity.alerts
         self._alert_detail = {}
         if len(alerts) == 0:
             self._attr_is_on = False
-        elif len(alerts) > 0:
-            self._attr_is_on = True
-            for i, alert in enumerate(alerts):
-                self._alert_detail[f"header_{i + 1}"] = alert.header_text.get(
-                    self.language,
-                    alert.header_text.get(
-                        self.language.upper(),
-                        next(iter(alert.header_text.values()), ""),
-                    ),
-                )
-                self._alert_detail[f"description_{i + 1}"] = alert.description_text.get(
-                    self.language,
-                    alert.description_text.get(
-                        self.language.upper(),
-                        next(iter(alert.description_text.values()), ""),
-                    ),
-                )
+            return
+
+        self._attr_is_on = True
+
+        # Using dict instead of set preserves order.
+        unique_alerts = dict.fromkeys(
+            (self._get_text(a.header_text), self._get_text(a.description_text))
+            for a in alerts
+        ).keys()
+
+        for i, (header, description) in enumerate(unique_alerts):
+            self._alert_detail[f"header_{i + 1}"] = header
+            self._alert_detail[f"description_{i + 1}"] = description
 
     @callback
     def _handle_coordinator_update(self) -> None:
