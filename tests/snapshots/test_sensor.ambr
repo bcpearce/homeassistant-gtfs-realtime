@@ -5,10 +5,10 @@
 # name: test_update[101n_101n_arrival_1-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '101N (101N) Arrival 1',
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '101N (101N) Arrival 1',
     'headsign': '',
-    'icon': 'mdi:bus-clock',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
     'latitude': 45.0,
     'location_source': <LocationSource.VEHICLE_POSITION_MESSAGE: 'vehicle_position_message'>,
     'longitude': -75.0,
@@ -16,9 +16,9 @@
     'route_id': 'A',
     'route_text_color': '',
     'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
     'trip_id': 'A1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[101n_101n_arrival_2-after-1-minute]
@@ -27,17 +27,17 @@
 # name: test_update[101n_101n_arrival_2-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '101N (101N) Arrival 2',
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '101N (101N) Arrival 2',
     'headsign': '',
-    'icon': 'mdi:bus-clock',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
     'route_color': '',
     'route_id': 'B',
     'route_text_color': '',
     'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
     'trip_id': 'B1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[101n_101n_arrival_3-after-1-minute]
@@ -46,17 +46,17 @@
 # name: test_update[101n_101n_arrival_3-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '101N (101N) Arrival 3',
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '101N (101N) Arrival 3',
     'headsign': 'Downtown',
-    'icon': 'mdi:bus-clock',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
     'route_color': 'FFFFFF',
     'route_id': '123',
     'route_text_color': '888888',
     'route_type': 'Subway',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
     'trip_id': '123-test',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[101n_101n_arrival_4-after-1-minute]
@@ -64,11 +64,11 @@
 # ---
 # name: test_update[101n_101n_arrival_4-attributes-after-1-minute]
   dict({
-    'device_class': 'duration',
-    'friendly_name': '101N (101N) Arrival 4',
-    'icon': 'mdi:bus-clock',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '101N (101N) Arrival 4',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[102s_102s_arrival_1-after-1-minute]
@@ -77,17 +77,17 @@
 # name: test_update[102s_102s_arrival_1-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '102S (102S) Arrival 1',
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '102S (102S) Arrival 1',
     'headsign': '',
-    'icon': 'mdi:bus-clock',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
     'route_color': '',
     'route_id': 'X',
     'route_text_color': '',
     'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
     'trip_id': 'X1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[102s_102s_arrival_2-after-1-minute]
@@ -96,17 +96,17 @@
 # name: test_update[102s_102s_arrival_2-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '102S (102S) Arrival 2',
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '102S (102S) Arrival 2',
     'headsign': '',
-    'icon': 'mdi:bus-clock',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
     'route_color': '',
     'route_id': 'Y',
     'route_text_color': '',
     'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
     'trip_id': 'Y1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[102s_102s_arrival_3-after-1-minute]
@@ -115,17 +115,17 @@
 # name: test_update[102s_102s_arrival_3-attributes-after-1-minute]
   dict({
     'destination': 'Stop ID: None',
-    'device_class': 'duration',
-    'friendly_name': '102S (102S) Arrival 3',
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '102S (102S) Arrival 3',
     'headsign': '',
-    'icon': 'mdi:bus-clock',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
     'route_color': '',
     'route_id': 'Z',
     'route_text_color': '',
     'route_type': '',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
     'trip_id': 'Z1',
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
 # name: test_update[102s_102s_arrival_4-after-1-minute]
@@ -133,10 +133,10 @@
 # ---
 # name: test_update[102s_102s_arrival_4-attributes-after-1-minute]
   dict({
-    'device_class': 'duration',
-    'friendly_name': '102S (102S) Arrival 4',
-    'icon': 'mdi:bus-clock',
-    'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
-    'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
+    <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'duration',
+    <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: '102S (102S) Arrival 4',
+    <EntityStateAttribute.ICON: 'icon'>: 'mdi:bus-clock',
+    <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
+    <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTime.MINUTES: 'min'>,
   })
 # ---
