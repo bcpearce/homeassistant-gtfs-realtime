@@ -1,27 +1,29 @@
 """Platform for sensor integration."""
 
 from __future__ import annotations
-import logging
 
+import logging
+import typing
+
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
 from gtfs_station_stop.arrival import Arrival
 from gtfs_station_stop.route_info import RouteType
 from gtfs_station_stop.station_stop import StationStop
 from gtfs_station_stop.station_stop_info import StationStopInfo
 from homeassistant.components.sensor import (
     PLATFORM_SCHEMA as SENSOR_PLATFORM_SCHEMA,
+)
+from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import UnitOfTime
+from homeassistant.const import ATTR_LATITUDE, ATTR_LONGITUDE, UnitOfTime
 from homeassistant.core import HomeAssistant, callback
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.const import ATTR_LATITUDE
-from homeassistant.const import ATTR_LONGITUDE
-import voluptuous as vol
 
 from custom_components.gtfs_realtime import GtfsRealtimeConfigEntry
 
@@ -31,6 +33,7 @@ from .const import (
     DESTINATION,
     DOMAIN,
     HEADSIGN,
+    LOCATION_SOURCE,
     ROUTE_COLOR,
     ROUTE_ID,
     ROUTE_TEXT_COLOR,
@@ -38,7 +41,6 @@ from .const import (
     STOP_ID,
     TRIP_ID,
     LocationSource,
-    LOCATION_SOURCE,
 )
 from .coordinator import GtfsRealtimeCoordinator
 
@@ -59,7 +61,7 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     coordinator: GtfsRealtimeCoordinator = entry.runtime_data
     if CONF_STOP_IDS in entry.data:
-        arrival_limit: int = int(round(entry.data[CONF_ARRIVAL_LIMIT]))
+        arrival_limit: int = round(entry.data[CONF_ARRIVAL_LIMIT])
         arrival_sensors = []
         for i in range(arrival_limit):
             for stop_id in entry.data[CONF_STOP_IDS]:
@@ -83,7 +85,7 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
     _attr_entity_picture: str | None = None
     _attr_has_entity_name = True
 
-    ICON_DICT = {
+    ICON_DICT: typing.ClassVar = {
         RouteType.TRAM: "mdi:tram",
         RouteType.SUBWAY: "mdi:subway-variant",
         RouteType.RAIL: "mdi:train",

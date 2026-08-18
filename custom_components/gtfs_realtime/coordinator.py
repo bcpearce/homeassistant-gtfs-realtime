@@ -1,22 +1,24 @@
 """GTFS Realtime Coordinator."""
 
-from collections import defaultdict
-from collections.abc import Iterable
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
 import logging
 import os
+from collections import defaultdict
+from collections.abc import Iterable
 from copy import deepcopy
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from typing import cast
 
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.route_status import RouteStatus
-from gtfs_station_stop.schedule import GtfsSchedule
-from gtfs_station_stop.schedule import async_build_schedule  # noqa: F401
+from gtfs_station_stop.schedule import (
+    GtfsSchedule,
+    async_build_schedule,  # noqa: F401
+)
 from gtfs_station_stop.station_stop import StationStop
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT, DOMAIN
 
@@ -86,7 +88,7 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator[GtfsUpdateData]):
         self.static_update_targets |= {
             uri
             for uri, last_update in self.last_static_update.items()
-            if datetime.now() - last_update
+            if datetime.now().astimezone() - last_update
             > self.static_timedelta.get(
                 uri, timedelta(hours=CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT)
             )
@@ -123,11 +125,11 @@ class GtfsRealtimeCoordinator(DataUpdateCoordinator[GtfsUpdateData]):
                     set(self.gtfs_update_data.station_stops.keys())
                 )
                 _LOGGER.debug("GTFS Static Feed %s updated", target)
-                self.last_static_update[target] = datetime.now()
+                self.last_static_update[target] = datetime.now().astimezone()
         except ExceptionGroup as eg:
             for e in eg.exceptions:
                 _LOGGER.exception(e)
         except Exception as e:
-            _LOGGER.exception(e)
+            _LOGGER.exception(e)  # noqa TRY401
         self.static_update_targets.clear()
         return schedule

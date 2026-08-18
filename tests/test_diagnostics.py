@@ -1,11 +1,11 @@
 from unittest.mock import AsyncMock, patch
 
+import syrupy.filters
 from freezegun import freeze_time
 from gtfs_station_stop.schedule import GtfsSchedule
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy import SnapshotAssertion
-import syrupy.filters
 
 from custom_components.gtfs_realtime.diagnostics import (
     async_get_config_entry_diagnostics,

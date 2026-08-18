@@ -1,17 +1,17 @@
 """Test component setup."""
 
 from datetime import timedelta
-from unittest.mock import patch, AsyncMock
+from unittest.mock import AsyncMock, patch
 
 from homeassistant.core import HomeAssistant
-from pytest_homeassistant_custom_component.common import MockConfigEntry
 from homeassistant.helpers import device_registry as dr
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.gtfs_realtime.const import (
-    DOMAIN,
     CONF_GTFS_STATIC_DATA,
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY,
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT,
+    DOMAIN,
     GENERATE_ARRIVAL_BOARD,
 )
 

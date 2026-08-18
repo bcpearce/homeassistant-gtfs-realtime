@@ -1,0 +1,11 @@
+name: Prek checks
+on: [push, pull_request]
+
+jobs:
+    prek:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+            - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
+              with:
+                  extra-args: "--skip pytest --skip hassfest --skip uv-lock"

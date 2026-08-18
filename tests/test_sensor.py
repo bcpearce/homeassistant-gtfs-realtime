@@ -1,15 +1,14 @@
 """Test sensor."""
 
-from gtfs_station_stop.vehicle import Vehicle
-
 from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from unittest.mock import AsyncMock, patch
 
 from freezegun.api import FrozenDateTimeFactory
 from gtfs_station_stop.arrival import Arrival
+from gtfs_station_stop.vehicle import Vehicle
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import HomeAssistant
@@ -19,13 +18,13 @@ from pytest_homeassistant_custom_component.common import (
     async_fire_time_changed,
 )
 from syrupy.assertion import SnapshotAssertion
-from tests.util import async_setup_coordinator
+
 from custom_components.gtfs_realtime.const import ROUTE_ID
 from custom_components.gtfs_realtime.coordinator import (
     GtfsRealtimeCoordinator,
 )
-
 from custom_components.gtfs_realtime.sensor import ArrivalSensor
+from tests.util import async_setup_coordinator
 
 
 def assert_all_equal(collection: Iterable[Any]) -> None:
@@ -36,33 +35,31 @@ async def test_setup_sensors(hass: HomeAssistant, entry_v2_nodialout: MockConfig
     """Test setting ups sensors in integration."""
     with (
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",
             new_callable=AsyncMock,
         ),
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",
             new_callable=AsyncMock,
         ),
     ):
         entry_v2_nodialout.add_to_hass(hass)
         assert await hass.config_entries.async_setup(entry_v2_nodialout.entry_id)
         await hass.async_block_till_done()
-        assert hass.states.get("sensor.101n_101n_arrival_4").state == STATE_UNKNOWN  # ty:ignore[unresolved-attribute]
+        assert hass.states.get("sensor.101n_101n_arrival_4").state == STATE_UNKNOWN  # ty: ignore[unresolved-attribute]
         # All Sensors of a station have the same device id
         ent_reg = er.async_get(hass)
         assert_all_equal(
-            ent_reg.async_get(f"sensor.{s}").device_id  # ty:ignore[unresolved-attribute]
+            ent_reg.async_get(f"sensor.{s}").device_id
             for s in [f"101n_101n_arrival_{i}" for i in range(1, 5)]
         )
         assert_all_equal(
-            ent_reg.async_get(f"sensor.{s}").device_id  # ty:ignore[unresolved-attribute]
+            ent_reg.async_get(f"sensor.{s}").device_id
             for s in [f"102s_102s_arrival_{i}" for i in range(1, 5)]
         )
         assert ent_reg.async_get(
             "sensor.101n_101n_arrival_1"
-        ).device_id != ent_reg.async_get(  # ty:ignore[unresolved-attribute]
-            "sensor.102s_102s_arrival_1"
-        )
+        ).device_id != ent_reg.async_get("sensor.102s_102s_arrival_1")
 
 
 async def test_update(
@@ -72,12 +69,12 @@ async def test_update(
     snapshot: SnapshotAssertion,
 ):
     """Smoke test the sensor platform."""
-    start_time = datetime.now()
+    start_time = datetime.now(tz=UTC)
     coordinator: GtfsRealtimeCoordinator = await async_setup_coordinator(
         hass, entry_v2_nodialout
     )
     coordinator.route_icons = None
-    coordinator.hub.realtime_feed_uris = []
+    coordinator.hub.realtime_feed_uris = set()
 
     @dataclass
     class UpdateCounter:
@@ -116,14 +113,13 @@ async def test_update(
         for stop_id, stop in coordinator.gtfs_update_data.station_stops.items():
             stop.arrivals = arrivals[stop_id]
         update_counter.update_count += 1
-        return
 
-    coordinator.hub.async_update = AsyncMock()  # ty:ignore[invalid-assignment]
-    coordinator.hub.async_update.side_effect = coordinator_update_side_effects  # ty:ignore[unresolved-attribute]
+    coordinator.hub.async_update = AsyncMock()
+    coordinator.hub.async_update.side_effect = coordinator_update_side_effects
     freezer.tick(timedelta(minutes=1))
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
-    assert coordinator.hub.async_update.call_count == 1  # ty:ignore[unresolved-attribute]
+    assert coordinator.hub.async_update.call_count == 1
 
     for sensor in [f"101n_101n_arrival_{i}" for i in range(1, 5)] + [
         f"102s_102s_arrival_{i}" for i in range(1, 5)

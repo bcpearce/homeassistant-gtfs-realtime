@@ -2,8 +2,8 @@
 
 # GTFS Station Stop Feed Subject serves as the data hub for the integration
 
-from datetime import timedelta
 import logging
+from datetime import timedelta
 from typing import Any
 
 from gtfs_station_stop.feed_subject import FeedSubject
@@ -12,14 +12,13 @@ from homeassistant.const import Platform
 from homeassistant.core import (
     HomeAssistant,
     ServiceCall,
-    SupportsResponse,
     ServiceResponse,
+    SupportsResponse,
     callback,
 )
-from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.typing import ConfigType
-from .const import DOMAIN
 
 from .const import (
     CONF_AUTH_HEADER,
@@ -29,6 +28,7 @@ from .const import (
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY,
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT,
     CONF_URL_ENDPOINTS,
+    DOMAIN,
 )
 from .coordinator import GtfsRealtimeCoordinator
 from .helpers import header_dict_from_header_str
