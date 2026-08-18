@@ -3,12 +3,12 @@
 from unittest.mock import AsyncMock, patch
 
 from gtfs_station_stop.route_info import RouteInfo, RouteType
-from gtfs_station_stop.trip_info import TripInfo
 from gtfs_station_stop.schedule import GtfsSchedule
-from custom_components.gtfs_realtime.coordinator import GtfsRealtimeCoordinator
-
+from gtfs_station_stop.trip_info import TripInfo
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.gtfs_realtime.coordinator import GtfsRealtimeCoordinator
 
 
 async def async_setup_coordinator(
@@ -38,12 +38,12 @@ async def async_setup_coordinator(
 
     with (
         patch(
-            "custom_components.gtfs_realtime.coordinator.FeedSubject.async_update",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.FeedSubject.async_update",
             new_callable=AsyncMock,
             return_value=None,
         ),
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",
             new_callable=AsyncMock,
             return_value=static_update_data,
         ),

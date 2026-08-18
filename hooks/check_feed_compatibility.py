@@ -1,8 +1,6 @@
 #!/usr/bin/python
 """Script for checking compatibility in `feeds.json`"""
 
-from typing import Any
-
 import argparse
 import asyncio
 import json
@@ -10,13 +8,12 @@ import re
 import sys
 from pathlib import Path
 from pprint import pprint
+from typing import Any
 
-from aiohttp import ClientResponseError
+from aiohttp import ClientResponseError, ClientSession
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.schedule import async_build_schedule
 from tqdm.asyncio import tqdm
-from aiohttp import ClientSession
-
 
 REPORT_FORMATS = ["md", "dict"]
 STATUS_DICT = {
@@ -167,7 +164,7 @@ async def test_feeds(
         pprint(results)
     elif output_format == "md":
         print("# Feed Compatibility")
-        print("")
+        print()
         print("| Feed ID | Name | Status | Details |")
         print("| ------- | ---- | ------ | ------- |")
         for feed_id, status in results.items():

@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Callable, Coroutine
 from dataclasses import dataclass
 from functools import cached_property
-import os
 
 from homeassistant.components.button import (
     ButtonDeviceClass,

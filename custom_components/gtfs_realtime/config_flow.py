@@ -6,12 +6,13 @@ import logging
 from typing import Any
 
 import aiohttp
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
 from anyio import open_file as aopen_file
-from gtfs_station_stop.station_stop_info import LocationType
 from gtfs_station_stop.schedule import GtfsSchedule
+from gtfs_station_stop.station_stop_info import LocationType
 from homeassistant.config_entries import ConfigFlow
 from homeassistant.data_entry_flow import SectionConfig, section
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.selector import (
     DurationSelector,
     DurationSelectorConfig,
@@ -26,7 +27,6 @@ from homeassistant.helpers.selector import (
     TextSelectorConfig,
     TextSelectorType,
 )
-import voluptuous as vol
 
 from .const import (
     CONF_ARRIVAL_LIMIT,
@@ -34,7 +34,6 @@ from .const import (
     CONF_GTFS_PROVIDER,
     CONF_GTFS_PROVIDER_ID,
     CONF_GTFS_STATIC_DATA,
-    CONF_USE_LOCAL_FEEDS,
     CONF_MINOR_VERSION,
     CONF_ROUTE_ICONS,
     CONF_ROUTE_IDS,
@@ -43,6 +42,7 @@ from .const import (
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT,
     CONF_STOP_IDS,
     CONF_URL_ENDPOINTS,
+    CONF_USE_LOCAL_FEEDS,
     CONF_VERSION,
     DOMAIN,
     FEEDS_URL,

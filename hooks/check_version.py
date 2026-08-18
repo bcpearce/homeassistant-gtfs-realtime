@@ -3,7 +3,6 @@
 #!/usr/bin/python
 import importlib.metadata
 import json
-
 import tomllib
 
 if __name__ == "__main__":

@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import timedelta
 from functools import cached_property
-import os
 
 from homeassistant.components.number import (
     NumberDeviceClass,

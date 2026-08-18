@@ -1,7 +1,5 @@
 """Test sensor."""
 
-from gtfs_station_stop.vehicle import Vehicle
-
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -10,6 +8,7 @@ from unittest.mock import AsyncMock, patch
 
 from freezegun.api import FrozenDateTimeFactory
 from gtfs_station_stop.arrival import Arrival
+from gtfs_station_stop.vehicle import Vehicle
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import HomeAssistant
@@ -19,13 +18,13 @@ from pytest_homeassistant_custom_component.common import (
     async_fire_time_changed,
 )
 from syrupy.assertion import SnapshotAssertion
-from tests.util import async_setup_coordinator
+
 from custom_components.gtfs_realtime.const import ROUTE_ID
 from custom_components.gtfs_realtime.coordinator import (
     GtfsRealtimeCoordinator,
 )
-
 from custom_components.gtfs_realtime.sensor import ArrivalSensor
+from tests.util import async_setup_coordinator
 
 
 def assert_all_equal(collection: Iterable[Any]) -> None:
@@ -36,11 +35,11 @@ async def test_setup_sensors(hass: HomeAssistant, entry_v2_nodialout: MockConfig
     """Test setting ups sensors in integration."""
     with (
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",
             new_callable=AsyncMock,
         ),
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",
             new_callable=AsyncMock,
         ),
     ):
@@ -116,7 +115,6 @@ async def test_update(
         for stop_id, stop in coordinator.gtfs_update_data.station_stops.items():
             stop.arrivals = arrivals[stop_id]
         update_counter.update_count += 1
-        return
 
     coordinator.hub.async_update = AsyncMock()  # ty:ignore[invalid-assignment]
     coordinator.hub.async_update.side_effect = coordinator_update_side_effects  # ty:ignore[unresolved-attribute]

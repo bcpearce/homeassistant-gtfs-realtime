@@ -2,21 +2,23 @@
 
 from unittest.mock import AsyncMock, patch
 
+import pytest
 from homeassistant.components.button import (
     DOMAIN as BUTTON_DOMAIN,
+)
+from homeassistant.components.button import (
     SERVICE_PRESS as BUTTON_SERVICE_PRESS,
 )
 from homeassistant.const import ATTR_ENTITY_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
-import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 
 @pytest.fixture
 def async_update_patcher():
     return patch(
-        "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",  # noqa E501
+        "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator.async_update_static_data",
         new_callable=AsyncMock,
     )
 
@@ -27,7 +29,7 @@ async def test_setup_button(
     """Test setting ups buttons in integration."""
     with (
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",
             new_callable=AsyncMock,
         ),
         async_update_patcher,
@@ -48,7 +50,7 @@ async def test_button_press(
     """Test refreshing static feed."""
     with (
         patch(
-            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",  # noqa E501
+            "custom_components.gtfs_realtime.coordinator.GtfsRealtimeCoordinator._async_update_data",
             new_callable=AsyncMock,
         ),
         async_update_patcher,

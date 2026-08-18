@@ -1,26 +1,21 @@
 """Test sensor."""
 
-from gtfs_station_stop.alert import Alert
-
-from datetime import timedelta, datetime
 from dataclasses import dataclass
-
-from freezegun.api import FrozenDateTimeFactory
-
-from tests.util import async_setup_coordinator
-from custom_components.gtfs_realtime.coordinator import GtfsRealtimeCoordinator
-
-from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
-from homeassistant.core import State
-
+from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, patch
 
+from freezegun.api import FrozenDateTimeFactory
+from gtfs_station_stop.alert import Alert
+from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from homeassistant.const import STATE_OFF
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, State
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
 )
+
+from custom_components.gtfs_realtime.coordinator import GtfsRealtimeCoordinator
+from tests.util import async_setup_coordinator
 
 
 async def test_setup_binary_sensors(
@@ -92,7 +87,6 @@ async def test_binary_sensor_header_and_descriptions(
             )
         ]
         update_counter.update_count += 1
-        return
 
     coordinator.hub.async_update = AsyncMock()  # ty:ignore[invalid-assignment]
     coordinator.hub.async_update.side_effect = coordinator_update_side_effects  # ty:ignore[unresolved-attribute]
@@ -154,7 +148,6 @@ async def test_binary_sensor_deduplicates_alerts(
                 {"en": "Service is delayed on all stops"},
             ),
         ]
-        return
 
     coordinator.hub.async_update = AsyncMock()
     coordinator.hub.async_update.side_effect = coordinator_update_side_effects
@@ -211,7 +204,6 @@ async def test_binary_sensor_mixed_unique_and_duplicate_alerts(
                 {"en": "Description B"},
             ),
         ]
-        return
 
     coordinator.hub.async_update = AsyncMock()
     coordinator.hub.async_update.side_effect = coordinator_update_side_effects
