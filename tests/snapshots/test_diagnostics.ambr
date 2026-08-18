@@ -2,8 +2,8 @@
 # name: test_diagnostics
   dict({
     'last_static_update': dict({
-      'https://example.com/gtfs1.zip': HAFakeDatetime(2024, 12, 29, 22, 40, 45, 943287),
-      'https://example.com/gtfs2.zip': HAFakeDatetime(2024, 12, 29, 22, 40, 45, 943287),
+      'https://example.com/gtfs1.zip': HAFakeDatetime(2024, 12, 29, 22, 40, 45, 943287, tzinfo=tzlocal()),
+      'https://example.com/gtfs2.zip': HAFakeDatetime(2024, 12, 29, 22, 40, 45, 943287, tzinfo=tzlocal()),
     }),
     'schedule': dict({
       'calendar': dict({

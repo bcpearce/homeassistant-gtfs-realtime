@@ -3,15 +3,17 @@
 import asyncio
 import json
 import logging
+import typing
 from typing import Any
 
 import aiohttp
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
 from anyio import open_file as aopen_file
-from gtfs_station_stop.station_stop_info import LocationType
 from gtfs_station_stop.schedule import GtfsSchedule
+from gtfs_station_stop.station_stop_info import LocationType
 from homeassistant.config_entries import ConfigFlow
 from homeassistant.data_entry_flow import SectionConfig, section
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.selector import (
     DurationSelector,
     DurationSelectorConfig,
@@ -26,7 +28,6 @@ from homeassistant.helpers.selector import (
     TextSelectorConfig,
     TextSelectorType,
 )
-import voluptuous as vol
 
 from .const import (
     CONF_ARRIVAL_LIMIT,
@@ -34,7 +35,6 @@ from .const import (
     CONF_GTFS_PROVIDER,
     CONF_GTFS_PROVIDER_ID,
     CONF_GTFS_STATIC_DATA,
-    CONF_USE_LOCAL_FEEDS,
     CONF_MINOR_VERSION,
     CONF_ROUTE_ICONS,
     CONF_ROUTE_IDS,
@@ -43,6 +43,7 @@ from .const import (
     CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT,
     CONF_STOP_IDS,
     CONF_URL_ENDPOINTS,
+    CONF_USE_LOCAL_FEEDS,
     CONF_VERSION,
     DOMAIN,
     FEEDS_URL,
@@ -57,7 +58,7 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
 
     VERSION = CONF_VERSION
     MINOR_VERSION = CONF_MINOR_VERSION
-    feeds: dict[str, str] = {}
+    feeds: typing.ClassVar[dict[str, str]] = {}
 
     def __init__(self) -> None:
         """Initialize config flow."""
@@ -68,17 +69,19 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
     async def _get_feeds(use_local: bool = False):
         # try to get the data from the develop branch, it may be more up to date
         if not use_local:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(FEEDS_URL) as response:
-                    if response.status >= 200 and response.status < 400:
-                        GtfsRealtimeConfigFlow.feeds = json.loads(await response.text())
-                    else:
-                        # fallback to getting the data from the local feeds.json
-                        _LOGGER.warning(
-                            "Failed to fetch feeds from GitHub, HTTP status code %d, falling back to local feeds.json",
-                            response.status,
-                        )
-                        use_local = True
+            async with (
+                aiohttp.ClientSession() as session,
+                session.get(FEEDS_URL) as response,
+            ):
+                if response.status >= 200 and response.status < 400:
+                    GtfsRealtimeConfigFlow.feeds = json.loads(await response.text())
+                else:
+                    # fallback to getting the data from the local feeds.json
+                    _LOGGER.warning(
+                        "Failed to fetch feeds from GitHub, HTTP status code %d, falling back to local feeds.json",
+                        response.status,
+                    )
+                    use_local = True
         if use_local:
             async with await aopen_file(
                 "custom_components/gtfs_realtime/feeds.json", "rb"
@@ -117,14 +120,14 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
         # It can also be monkey patched to support testing.
         try:
             await GtfsRealtimeConfigFlow._get_feeds(use_local_feeds_only)
-        except Exception as e:
+        except Exception as e:  # noqa BLE001
             # do not allow errors to propagate, this is for convenience
             _LOGGER.error("failed_preconfigured_feeds")
             errors["base"] = f"failed_preconfigured_feeds: {e}"
 
         options = {"_": "..."}
         for k, v in GtfsRealtimeConfigFlow.feeds.items():
-            options[k] = v["name"]
+            options[k] = v["name"]  # ty: ignore[invalid-argument-type]
 
         data_schema = vol.Schema(
             {
@@ -165,7 +168,7 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
         self.hub_config[CONF_GTFS_PROVIDER] = "Manual"
         feed_data: dict[str, Any] = GtfsRealtimeConfigFlow.feeds.get(
             gtfs_provider_id, {}
-        )
+        )  # ty: ignore[invalid-assignment]
         realtime_feeds: list[str] = list(
             feed_data.get("realtime_feeds", {"_": [""]}).values()
         )
@@ -244,7 +247,7 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
                 value=k,
                 label=f"{k}: {route_ds.route_infos[k].long_name or route_ds.route_infos[k].short_name}",
             )
-            for k in route_ds.route_infos.keys()
+            for k in route_ds.route_infos
         ]
 
     async def _get_stop_options(
@@ -364,7 +367,7 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
                 self._get_stop_options(headers), self._get_route_options(headers)
             )
             data_schema = self._create_config_schema(stops=stops, routes=routes)
-        except Exception as e:
+        except Exception as e:  # noqa BLE001
             errors["base"] = str(e)
             return await self.async_step_choose_static_and_realtime_feeds(
                 {CONF_GTFS_PROVIDER_ID: self.hub_config.get(CONF_GTFS_PROVIDER_ID)},
@@ -381,7 +384,7 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_reconfigure(self, user_input: dict[str, str] | None = None):
         """Start reconfigure flow."""
         entry = self._get_reconfigure_entry()
-        self.hub_config = entry.data
+        self.hub_config = entry.data  # ty: ignore[invalid-assignment]
         if user_input is not None:
             await self.async_set_unique_id()
             self._abort_if_unique_id_mismatch()

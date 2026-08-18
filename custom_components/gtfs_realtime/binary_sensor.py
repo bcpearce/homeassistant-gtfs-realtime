@@ -2,18 +2,22 @@
 
 from __future__ import annotations
 
+import typing
+
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
 from gtfs_station_stop.route_status import RouteStatus
 from gtfs_station_stop.station_stop import StationStop
 from homeassistant.components.binary_sensor import (
     PLATFORM_SCHEMA as BINARY_SENSOR_PLATFORM_SCHEMA,
+)
+from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
 from homeassistant.core import HomeAssistant, callback
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-import voluptuous as vol
 
 from custom_components.gtfs_realtime import GtfsRealtimeConfigEntry
 
@@ -53,7 +57,7 @@ async def async_setup_entry(
 class AlertSensor(BinarySensorEntity, CoordinatorEntity):
     """Representation of a Station GTFS Realtime Alert Sensor."""
 
-    CLEAN_ALERT_DATA = {"header_0": "", "description_0": ""}
+    CLEAN_ALERT_DATA: typing.ClassVar = {"header_0": "", "description_0": ""}
 
     _attr_translation_key = "alert_descriptions"
     _attr_device_class = BinarySensorDeviceClass.PROBLEM

@@ -1,18 +1,17 @@
 """Fixtures for testing."""
 
-from homeassistant.helpers.selector import SelectOptionDict
+import json
+from datetime import date
+from pathlib import Path
 from unittest.mock import patch
 
-from datetime import date
-import json
-from pathlib import Path
-
+import pytest
 from gtfs_station_stop.calendar import Service, ServiceDays
 from gtfs_station_stop.route_info import RouteInfo
 from gtfs_station_stop.schedule import GtfsSchedule
 from gtfs_station_stop.station_stop_info import StationStopInfo
 from gtfs_station_stop.trip_info import TripInfo
-import pytest
+from homeassistant.helpers.selector import SelectOptionDict
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.location import PyTestLocation

@@ -1,26 +1,21 @@
 """Test sensor."""
 
-from gtfs_station_stop.alert import Alert
-
-from datetime import timedelta, datetime
 from dataclasses import dataclass
-
-from freezegun.api import FrozenDateTimeFactory
-
-from tests.util import async_setup_coordinator
-from custom_components.gtfs_realtime.coordinator import GtfsRealtimeCoordinator
-
-from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
-from homeassistant.core import State
-
+from datetime import UTC, datetime, timedelta
 from unittest.mock import AsyncMock, patch
 
+from freezegun.api import FrozenDateTimeFactory
+from gtfs_station_stop.alert import Alert
+from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from homeassistant.const import STATE_OFF
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, State
 from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     async_fire_time_changed,
 )
+
+from custom_components.gtfs_realtime.coordinator import GtfsRealtimeCoordinator
+from tests.util import async_setup_coordinator
 
 
 async def test_setup_binary_sensors(
@@ -56,12 +51,12 @@ async def test_binary_sensor_header_and_descriptions(
     entry_v2_nodialout: MockConfigEntry,
 ):
     hass.config.language = "en"  # Pin the language for this test
-    start_time = datetime.now()
+    start_time = datetime.now(tz=UTC)
     coordinator: GtfsRealtimeCoordinator = await async_setup_coordinator(
         hass, entry_v2_nodialout
     )
     coordinator.route_icons = None
-    coordinator.hub.realtime_feed_uris = []
+    coordinator.hub.realtime_feed_uris = set()
 
     @dataclass
     class UpdateCounter:
@@ -92,14 +87,13 @@ async def test_binary_sensor_header_and_descriptions(
             )
         ]
         update_counter.update_count += 1
-        return
 
-    coordinator.hub.async_update = AsyncMock()  # ty:ignore[invalid-assignment]
-    coordinator.hub.async_update.side_effect = coordinator_update_side_effects  # ty:ignore[unresolved-attribute]
+    coordinator.hub.async_update = AsyncMock()
+    coordinator.hub.async_update.side_effect = coordinator_update_side_effects
     freezer.tick(timedelta(minutes=1))
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
-    assert coordinator.hub.async_update.call_count == 1  # ty:ignore[unresolved-attribute]
+    assert coordinator.hub.async_update.call_count == 1
 
     alert_sensor_1_data = hass.states.get(f"{BINARY_SENSOR_DOMAIN}.1_service_alerts")
     assert alert_sensor_1_data is not None
@@ -132,7 +126,7 @@ async def test_binary_sensor_deduplicates_alerts(
         hass, entry_v2_nodialout
     )
     coordinator.route_icons = None
-    coordinator.hub.realtime_feed_uris = []
+    coordinator.hub.realtime_feed_uris = set()
 
     def coordinator_update_side_effects(_):
         # Simulate the bug: separate Alert instances with identical content,
@@ -154,7 +148,6 @@ async def test_binary_sensor_deduplicates_alerts(
                 {"en": "Service is delayed on all stops"},
             ),
         ]
-        return
 
     coordinator.hub.async_update = AsyncMock()
     coordinator.hub.async_update.side_effect = coordinator_update_side_effects
@@ -185,7 +178,7 @@ async def test_binary_sensor_mixed_unique_and_duplicate_alerts(
         hass, entry_v2_nodialout
     )
     coordinator.route_icons = None
-    coordinator.hub.realtime_feed_uris = []
+    coordinator.hub.realtime_feed_uris = set()
 
     def coordinator_update_side_effects(_):
         # Interleaved duplicates: separate Alert instances with identical content
@@ -211,7 +204,6 @@ async def test_binary_sensor_mixed_unique_and_duplicate_alerts(
                 {"en": "Description B"},
             ),
         ]
-        return
 
     coordinator.hub.async_update = AsyncMock()
     coordinator.hub.async_update.side_effect = coordinator_update_side_effects

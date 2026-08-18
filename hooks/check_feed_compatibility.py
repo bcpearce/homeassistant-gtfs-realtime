@@ -1,8 +1,6 @@
 #!/usr/bin/python
 """Script for checking compatibility in `feeds.json`"""
 
-from typing import Any
-
 import argparse
 import asyncio
 import json
@@ -10,13 +8,12 @@ import re
 import sys
 from pathlib import Path
 from pprint import pprint
+from typing import Any
 
-from aiohttp import ClientResponseError
+from aiohttp import ClientResponseError, ClientSession
 from gtfs_station_stop.feed_subject import FeedSubject
 from gtfs_station_stop.schedule import async_build_schedule
 from tqdm.asyncio import tqdm
-from aiohttp import ClientSession
-
 
 REPORT_FORMATS = ["md", "dict"]
 STATUS_DICT = {
@@ -69,16 +66,16 @@ async def async_test_feed(
         for static in feed["static_feeds"].values():
             st = _replace_placeholders(static)
             await async_build_schedule(
-                st.format(*params),
+                st.format(*params),  # ty: ignore[invalid-argument-type]
                 session=session,
-                headers=headers,  # ty:ignore[invalid-argument-type]
+                headers=headers,
             )
         status = "Success"
         if headers:
             notice = "Auth Provided"
     except* ClientResponseError as eg:
-        status_codes = [e.status for e in eg.exceptions]
-        notice = ",".join(f"{e.status}: {e.message}" for e in eg.exceptions)
+        status_codes = [e.status for e in eg.exceptions]  # ty: ignore[unresolved-attribute]
+        notice = ",".join(f"{e.status}: {e.message}" for e in eg.exceptions)  # ty: ignore[unresolved-attribute]
         status = "Failed"
         if any(sc in status_codes for sc in [401, 403]):
             print(
@@ -86,7 +83,7 @@ async def async_test_feed(
                 file=sys.stderr,
             )
             for e in eg.exceptions:
-                print(f" * {_repr_without_query(e)}", file=sys.stderr)
+                print(f" * {_repr_without_query(e)}", file=sys.stderr)  # ty: ignore[invalid-argument-type]
             if bool(headers):
                 print(
                     " * Headers were provided, check the credentials and retry",
@@ -99,13 +96,13 @@ async def async_test_feed(
             print(f"Exceptions occurred processing feed {feed_id}: ", file=sys.stderr)
             for e in eg.exceptions:
                 print(
-                    f" * {_repr_without_query(e)}",
+                    f" * {_repr_without_query(e)}",  # ty: ignore[invalid-argument-type]
                     file=sys.stderr,
                 )
     except* IndexError:
         print(f"Index error, {feed_id} requires a URL param that was not provided")
         notice = "Missing URL parameter"
-    except* Exception as eg:
+    except* Exception as eg:  # noqa BLE001
         # fallthrough is failed
         print(f"Exceptions occurred processing feed {feed_id}: ", file=sys.stderr)
         for e in eg.exceptions:
@@ -121,7 +118,7 @@ async def test_feeds(
     *,
     calls_per_second: float | None = None,
     sleep_between_tasks: float = 0.0,
-) -> dict[str, str]:
+) -> dict[str, tuple[str, str]]:
     """Test several feeds and report the valid ones."""
     if output_format not in REPORT_FORMATS:
         raise ValueError(
@@ -132,15 +129,14 @@ async def test_feeds(
     tasks = {}
 
     async with ClientSession() as session:
-        i: int = 0
-        for feed_id, feed in feeds.items():
+        for i, (feed_id, feed) in enumerate(feeds.items()):
             header_key = ""
-            for key in headers_map.keys():
+            for key in headers_map:
                 if re.search(key, feed_id):
                     header_key = key  # only match the first
                     break
             params_key = ""
-            for key in params_map.keys():
+            for key in params_map:
                 if re.search(key, feed_id):
                     params_key = key  # only match the first
                     break
@@ -156,7 +152,6 @@ async def test_feeds(
                     delay_start=i * sleep_between_tasks,
                 )
             )
-            i += 1
 
         async for _ in tqdm(asyncio.as_completed(tasks.values()), total=len(feeds)):
             pass
@@ -167,7 +162,7 @@ async def test_feeds(
         pprint(results)
     elif output_format == "md":
         print("# Feed Compatibility")
-        print("")
+        print()
         print("| Feed ID | Name | Status | Details |")
         print("| ------- | ---- | ------ | ------- |")
         for feed_id, status in results.items():

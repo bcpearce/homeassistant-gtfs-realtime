@@ -1,8 +1,9 @@
 """Test Coordinator."""
 
-import pytest
 from datetime import timedelta
 from unittest.mock import AsyncMock, patch
+
+import pytest
 from aiohttp.web import HTTPBadRequest
 from freezegun.api import FrozenDateTimeFactory
 from gtfs_station_stop.feed_subject import FeedSubject
