@@ -463,12 +463,13 @@
   "westchester_beeline": {
     "name": "Westchester County Bee-Line System",
     "realtime_feeds": {
-      "alerts": "https://westchester-gmv.itoworld.com/production/servicealerts.pb",
-      "trip_update": "https://westchester-gmv.itoworld.com/production/tripupdates.pb",
-      "vehicle_positions": "https://westchester-gmv.itoworld.com/production/vehiclepositions.pb"
+      "alerts": "https://westchester.gmv.com/gtfsrtapi/api/servicealerts",
+      "trip_update": "https://westchester.gmv.com/gtfsrtapi/api/tripupdates",
+      "vehicle_positions": "https://westchester.gmv.com/gtfsrtapi/api/vehiclepositions"
     },
     "static_feeds": {
-      "regular": "https://westchester-gmv.itoworld.com/production/ito_westchester_county_gtfs.zip"
-    }
+      "regular": "https://westchester-win.gmv.com:8443/repository/gtfs-public/GTFS_GMV_WCDOT.zip"
+    },
+    "disclaimer": "https://planning.westchestercountyny.gov/transportation-planning/gfts-developers-transit-api/transit-api-service-terms-of-service"
   }
 }
