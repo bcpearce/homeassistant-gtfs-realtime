@@ -24,7 +24,7 @@ STATUS_DICT = {
     "Unsure": "❔",
 }
 
-URL_PARAM_PLACEHOLDERS = ["[ApiKey]"]
+URL_PARAM_PLACEHOLDERS = ["[ApiKey]", "[appID]"]
 
 
 def _repr_without_query(e: ClientResponseError) -> str:
