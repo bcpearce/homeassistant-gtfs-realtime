@@ -233,6 +233,19 @@
       "nested": "https://www3.septa.org/developer/gtfs_public.zip"
     }
   },
+  "portland_trimet": {
+    "name": "Portland - TriMet (Rail and Bus) and Portland Streetcar",
+    "disclaimer": "https://developer.trimet.org/GTFS.shtml",
+    "requires_auth_header": false,
+    "realtime_feeds": {
+      "alerts": "http://developer.trimet.org/ws/V1/FeedSpecAlerts/appID/[ApiKey]",
+      "trip_update": "http://developer.trimet.org/ws/V1/TripUpdate/appID/[ApiKey]",
+      "vehicle_positions": "http://developer.trimet.org/ws/V1/VehiclePositions/appID/[ApiKey]"
+    },
+    "static_feeds": {
+      "regular": "https://developer.trimet.org/schedule/gtfs.zip"
+    }
+  },
   "renfe": {
     "name": "Renfe - España",
     "disclaimer": "Información Legal https://data.renfe.com/legal",
