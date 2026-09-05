@@ -54,12 +54,17 @@ async def test_migrate_from_v1(
         "https://example.com/gtfs1.zip",
         "https://example.com/gtfs2.zip",
     ]
-    assert set(static_data_uris) == set(updated_entry.data.get(CONF_GTFS_STATIC_DATA))
+
+    assert updated_entry is not None
+
+    assert set(static_data_uris) == set(
+        updated_entry.data.get(CONF_GTFS_STATIC_DATA, [])
+    )
 
     for uri in static_data_uris:
         # update everything to the default
         timedelta_dict = updated_entry.data.get(
-            CONF_STATIC_SOURCES_UPDATE_FREQUENCY
+            CONF_STATIC_SOURCES_UPDATE_FREQUENCY, {}
         ).get(uri)
         assert (
             timedelta_dict.get("hours") == CONF_STATIC_SOURCES_UPDATE_FREQUENCY_DEFAULT
@@ -102,7 +107,9 @@ async def test_call_card_creator(
         await hass.async_block_till_done()
 
     device_reg = dr.async_get(hass)
-    device = device_reg.async_get_device({(DOMAIN, "101N")})
+    device = device_reg.async_get_device_by_identifier(
+        (DOMAIN, "101N"), entry_v2_nodialout.entry_id
+    )
     assert device is not None
 
     out = await hass.services.async_call(
