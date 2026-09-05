@@ -24,7 +24,7 @@ STATUS_DICT = {
     "Unsure": "❔",
 }
 
-URL_PARAM_PLACEHOLDERS = ["[ApiKey]", "[appID]"]
+URL_PARAM_PLACEHOLDERS = {"[ApiKey]": "{0}", "[appID]": "{0}"}
 
 
 def _repr_without_query(e: ClientResponseError) -> str:
@@ -36,8 +36,8 @@ def _repr_without_query(e: ClientResponseError) -> str:
 def _replace_placeholders(s: str) -> str:
     """Replace user-friendly placeholders in feeds.json with a python-formattable brace."""
     tmp = s
-    for i, ph in enumerate(URL_PARAM_PLACEHOLDERS):
-        tmp = tmp.replace(ph, f"{{{i}}}")
+    for ph, replacement in URL_PARAM_PLACEHOLDERS.items():
+        tmp = tmp.replace(ph, replacement)
     return tmp
 
 

@@ -237,9 +237,9 @@
     "name": "Portland - TriMet (Rail and Bus) and Portland Streetcar",
     "disclaimer": "https://developer.trimet.org/GTFS.shtml",
     "realtime_feeds": {
-      "alerts": "http://developer.trimet.org/ws/V1/FeedSpecAlerts/appID/[appID]",
-      "trip_update": "http://developer.trimet.org/ws/V1/TripUpdate/appID/[appID]",
-      "vehicle_positions": "http://developer.trimet.org/ws/V1/VehiclePositions/appID/[appID]"
+      "alerts": "http://developer.trimet.org/ws/V1/FeedSpecAlerts/appID/[ApiKey]",
+      "trip_update": "http://developer.trimet.org/ws/V1/TripUpdate/appID/[ApiKey]",
+      "vehicle_positions": "http://developer.trimet.org/ws/V1/VehiclePositions/appID/[ApiKey]"
     },
     "requires_auth_header": false,
     "static_feeds": {
