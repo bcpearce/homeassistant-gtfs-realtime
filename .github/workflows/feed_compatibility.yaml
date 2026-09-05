@@ -45,7 +45,6 @@ jobs:
           chicago_metra="${{ secrets.metra_api_header }}"
           --url-param 
           vancouver_translink="${{ secrets.vancouver_translink_api_key }}"
-          --url-param
           portland_trimet="${{ secrets.PORTLAND_TRIMET_APPID }}"
           --calls-per-second ${{ env.CALLS_PER_SECOND }}
           --sleep-between-tasks ${{ env.SLEEP_BETWEEN_TASKS }} 
