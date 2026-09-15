@@ -41,11 +41,14 @@ If applicable add the logs from "Settings" >> "System" in Home Assistant.
 It may be helpful to enable debug logs for additional data. 
 
 **Home Assistant**
-Version: 
+Version: *x.y.z*
 Install Method
 - [ ] HAOS
 - [ ] Container
 - [ ] Other
+
+**GTFS Realtime**
+Version: *x.y.z*
 
 **Additional context**
 Add any other context about the problem here.
