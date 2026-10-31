@@ -6,6 +6,7 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 from unittest.mock import AsyncMock, patch
 
+import pytest
 from freezegun.api import FrozenDateTimeFactory
 from gtfs_station_stop.arrival import Arrival
 from gtfs_station_stop.vehicle import Vehicle
@@ -19,7 +20,7 @@ from pytest_homeassistant_custom_component.common import (
 )
 from syrupy.assertion import SnapshotAssertion
 
-from custom_components.gtfs_realtime.const import ROUTE_ID
+from custom_components.gtfs_realtime.const import ROUTE_ID, TRIP_ID
 from custom_components.gtfs_realtime.coordinator import (
     GtfsRealtimeCoordinator,
 )
@@ -147,3 +148,147 @@ async def test_route_icon_missing_route_id(
     assert sensor.entity_picture is not None
     sensor._arrival_detail[ROUTE_ID] = None
     assert sensor.entity_picture is None
+
+
+@pytest.mark.parametrize(
+    ("arrival_seconds", "departure_seconds", "expected_seconds"),
+    [
+        pytest.param(300, None, 300, id="arrival-only"),
+        pytest.param(None, 300, 300, id="departure-only"),
+        pytest.param(300, 600, 300, id="both-arrival-first"),
+        pytest.param(300, 60, 300, id="both-departure-first"),
+        pytest.param(None, None, None, id="neither"),
+    ],
+)
+async def test_update_prediction_time(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+    arrival_seconds: int | None,
+    departure_seconds: int | None,
+    expected_seconds: int | None,
+):
+    """Prefer arrival times and fall back to departure times when absent."""
+    coordinator = await async_setup_coordinator(hass, entry_v2_nodialout)
+    sensor = ArrivalSensor(coordinator, "101N", 0)
+    now = datetime.now(tz=UTC).timestamp()
+    sensor.station_stop.arrivals = [
+        Arrival(
+            route="A",
+            trip="A1",
+            time=now + arrival_seconds if arrival_seconds is not None else None,
+            departure_time=(
+                now + departure_seconds if departure_seconds is not None else None
+            ),
+        )
+    ]
+
+    sensor.update()
+
+    assert sensor.native_value == expected_seconds
+    assert sensor.extra_state_attributes[TRIP_ID] == "A1"
+    assert sensor.extra_state_attributes[ROUTE_ID] == "A"
+
+
+@pytest.mark.parametrize("time_field", ["time", "departure_time"])
+@pytest.mark.parametrize(
+    ("seconds", "expected_seconds"),
+    [(-3600, None), (-121, None), (-120, None), (-119, 0), (-1, 0), (0, 0), (1, 1)],
+)
+async def test_update_prediction_time_tolerance(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+    time_field: str,
+    seconds: int,
+    expected_seconds: int | None,
+):
+    """Apply the same stale cutoff and zero clamp to either prediction time."""
+    coordinator = await async_setup_coordinator(hass, entry_v2_nodialout)
+    sensor = ArrivalSensor(coordinator, "101N", 0)
+    now = datetime.now(tz=UTC).timestamp()
+    prediction = Arrival(route="A", trip="A1")
+    setattr(prediction, time_field, now + seconds)
+    if time_field == "time":
+        # A valid departure must not override a zero, negative, or stale arrival.
+        prediction.departure_time = now + 300
+    sensor.station_stop.arrivals = [prediction]
+
+    sensor.update()
+
+    assert sensor.native_value == expected_seconds
+    if expected_seconds is None:
+        assert sensor.extra_state_attributes == {}
+    else:
+        assert sensor.extra_state_attributes[TRIP_ID] == "A1"
+
+
+@pytest.mark.parametrize("reverse", [False, True])
+async def test_update_mixed_prediction_order(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+    reverse: bool,
+):
+    """Order mixed predictions by effective time, with untimed records last."""
+    coordinator = await async_setup_coordinator(hass, entry_v2_nodialout)
+    sensors = [ArrivalSensor(coordinator, "101N", idx) for idx in range(6)]
+    now = datetime.now(tz=UTC).timestamp()
+    predictions = [
+        Arrival(route="A", trip="untimed"),
+        Arrival(route="A", trip="late-departure", departure_time=now + 600),
+        Arrival(route="A", trip="stale-departure", departure_time=now - 3600),
+        Arrival(route="A", trip="arrival", time=now + 300),
+        Arrival(route="A", trip="early-departure", departure_time=now + 60),
+        Arrival(route="A", trip="both", time=now + 180, departure_time=now + 900),
+    ]
+    sensors[0].station_stop.arrivals = predictions[::-1] if reverse else predictions
+
+    for sensor in sensors:
+        sensor.update()
+
+    assert [sensor.native_value for sensor in sensors] == [
+        60,
+        180,
+        300,
+        600,
+        None,
+        None,
+    ]
+    assert [sensor.extra_state_attributes.get(TRIP_ID) for sensor in sensors] == [
+        "early-departure",
+        "both",
+        "arrival",
+        "late-departure",
+        "untimed",
+        None,
+    ]
+
+
+async def test_update_departure_prediction_expires(
+    hass: HomeAssistant,
+    freezer: FrozenDateTimeFactory,
+    entry_v2_nodialout: MockConfigEntry,
+):
+    """Clear a departure-only prediction and its attributes once it is stale."""
+    coordinator = await async_setup_coordinator(hass, entry_v2_nodialout)
+    sensor = ArrivalSensor(coordinator, "101N", 0)
+    sensor.station_stop.arrivals = [
+        Arrival(
+            route="A", trip="A1", departure_time=datetime.now(tz=UTC).timestamp() + 60
+        )
+    ]
+
+    sensor.update()
+    assert sensor.native_value == 60
+    assert sensor.extra_state_attributes[TRIP_ID] == "A1"
+
+    freezer.tick(timedelta(seconds=179))
+    sensor.update()
+    assert sensor.native_value == 0
+    assert sensor.extra_state_attributes[TRIP_ID] == "A1"
+
+    freezer.tick(timedelta(seconds=1))
+    sensor.update()
+    assert sensor.native_value is None
+    assert sensor.extra_state_attributes == {}
