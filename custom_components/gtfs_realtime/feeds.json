@@ -86,6 +86,17 @@
       "trains": "https://exo.quebec/xdata/trains/google_transit.zip"
     }
   },
+  "fr_sncf": {
+    "name": "SNCF (France)",
+    "disclaimer": "Ce jeu de données est une production SNCF Voyageurs contenant des éléments assemblés pour la communauté open data au-delà de ses obligations réglementaires. Il ne se substitue donc pas aux données officielles progressivement publiées par les autorités organisatrices régionales qui peuvent éventuellement comporter de petites divergences. Aussi, nous vous recommandons de plutôt consommer les données fournies par les Régions et IDFM. En cas de question, vous pouvez contacter l’équipe Open data SNCF Voyageurs à l’adresse suivante : Data_Office_Secretariat_General_SA_Voyageurs@sncf.fr",
+    "realtime_feeds": {
+      "trip_update": "https://proxy.transport.data.gouv.fr/resource/sncf-gtfs-rt-trip-updates"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "regular": "https://eu.ftp.opendatasoft.com/sncf/plandata/Export_OpenData_SNCF_GTFS_NewTripId.zip"
+    }
+  },
   "houston_metro": {
     "name": "Houston METRO",
     "auth_hint": "Ocp-Apim-Subscription-Key: [Subscription Key]",
