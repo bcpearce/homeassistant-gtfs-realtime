@@ -164,28 +164,26 @@ class ArrivalSensor(SensorEntity, CoordinatorEntity):
     def update(self) -> None:
         """Update state from coordinator data."""
         stop_times_ds = self.coordinator.gtfs_update_data.schedule.stop_times_ds
-        time_to_arrivals: list[Arrival] = list(
-            filter(
-                lambda tta: (
-                    tta.time is None or tta.time > MIN_NEGATIVE_ARRIVAL_TIME_SECONDS
-                ),
-                sorted(
-                    self.station_stop.get_time_to_arrivals(
-                        stop_times_dataset=stop_times_ds
-                    )
-                ),
-            )
+        time_to_arrivals: list[tuple[float | None, Arrival]] = []
+        for arrival in self.station_stop.get_time_to_arrivals(
+            stop_times_dataset=stop_times_ds
+        ):
+            # Use the same countdown for filtering, ordering, and display.
+            value = arrival.time if arrival.time is not None else arrival.departure_time
+            if value is None or value > MIN_NEGATIVE_ARRIVAL_TIME_SECONDS:
+                time_to_arrivals.append((value, arrival))
+        # Keep predictions without a timestamp after all timed predictions.
+        time_to_arrivals.sort(
+            key=lambda item: item[0] if item[0] is not None else float("inf")
         )
         self._arrival_detail = {}
         if len(time_to_arrivals) > self._idx:
             schedule = self.coordinator.gtfs_update_data.schedule
 
-            time_to_arrival = time_to_arrivals[self._idx]
+            value, time_to_arrival = time_to_arrivals[self._idx]
 
             # Do not allow negative numbers
-            self._attr_native_value = time_to_arrival.time and max(
-                time_to_arrival.time, 0
-            )
+            self._attr_native_value = max(value, 0) if value is not None else None
 
             # It's possible the route ID is empty, in that case, get it from the trips database
             # The remaining attributes will be filled below
