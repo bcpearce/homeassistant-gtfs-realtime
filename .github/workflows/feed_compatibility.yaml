@@ -18,13 +18,13 @@ env:
 
 jobs:
   feed-compatibility:
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@v6
       - name: "Install uv"
         uses: astral-sh/setup-uv@v7
         with:
-          version: 0.12.5
+          version: 0.13.9
       - name: "Set up Python"
         uses: actions/setup-python@v6
         with:
