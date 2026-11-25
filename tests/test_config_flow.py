@@ -13,7 +13,6 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.gtfs_realtime.config_flow import GtfsRealtimeConfigFlow
 from custom_components.gtfs_realtime.const import (
     CONF_ARRIVAL_LIMIT,
-    CONF_AUTH_HEADER,
     CONF_GTFS_PROVIDER,
     CONF_GTFS_PROVIDER_ID,
     CONF_GTFS_STATIC_DATA,
