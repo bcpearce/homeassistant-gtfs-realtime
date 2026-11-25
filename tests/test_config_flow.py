@@ -13,6 +13,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from custom_components.gtfs_realtime.config_flow import GtfsRealtimeConfigFlow
 from custom_components.gtfs_realtime.const import (
     CONF_ARRIVAL_LIMIT,
+    CONF_AUTH_HEADER,
     CONF_GTFS_PROVIDER,
     CONF_GTFS_PROVIDER_ID,
     CONF_GTFS_STATIC_DATA,
@@ -280,5 +281,35 @@ async def test_step_reconfigure(
         )
 
         assert entry.data[CONF_URL_ENDPOINTS] == ["https://example.com/gtfs-rt"]
+
+    hass.stop()
+
+
+async def test_step_reconfigure_passes_auth_header(
+    hass: HomeAssistant,
+    entry_v2_full: MockConfigEntry,
+) -> None:
+    """Test reconfigure passes the stored auth header to static feed downloads."""
+    entry_v2_full.data |= {CONF_AUTH_HEADER: "Ocp-Apim-Subscription-Key: test-key"}
+    entry_v2_full.add_to_hass(hass)
+
+    with (
+        patch.object(
+            GtfsRealtimeConfigFlow,
+            "_get_stop_options",
+            return_value=[],
+        ) as get_stops,
+        patch.object(
+            GtfsRealtimeConfigFlow,
+            "_get_route_options",
+            return_value=[],
+        ) as get_routes,
+    ):
+        result = await entry_v2_full.start_reconfigure_flow(hass)
+
+    assert result["type"] == FlowResultType.FORM
+    expected_headers = {"Ocp-Apim-Subscription-Key": "test-key"}
+    get_stops.assert_awaited_once_with(expected_headers)
+    get_routes.assert_awaited_once_with(expected_headers)
 
     hass.stop()
