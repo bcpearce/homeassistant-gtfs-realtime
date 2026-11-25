@@ -484,6 +484,19 @@
       "regular": "https://api.wmata.com/gtfs/rail-gtfs-static.zip"
     }
   },
+  "wego_nashville": {
+    "name": "WeGo Transit Nashville TN",
+    "disclaimer": "https://www.wegotransit.com/contact-us/data-request-submission/",
+    "realtime_feeds": {
+      "alerts": "http://transitdata.nashvillemta.org/TMGTFSRealTimeWebService/alert/alerts.pb",
+      "trip_update": "http://transitdata.nashvillemta.org/TMGTFSRealTimeWebService/tripupdate/tripupdates.pb",
+      "vehicle_positions": "http://transitdata.nashvillemta.org/TMGTFSRealTimeWebService/vehicle/vehiclepositions.pb"
+    },
+    "requires_auth_header": false,
+    "static_feeds": {
+      "regular": "https://www.wegotransit.com/googleexport/google_transit.zip"
+    }
+  },
   "westchester_beeline": {
     "name": "Westchester County Bee-Line System",
     "disclaimer": "https://planning.westchestercountyny.gov/transportation-planning/gfts-developers-transit-api/transit-api-service-terms-of-service",
