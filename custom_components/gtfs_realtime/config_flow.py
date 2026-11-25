@@ -392,9 +392,10 @@ class GtfsRealtimeConfigFlow(ConfigFlow, domain=DOMAIN):
                 self._get_reconfigure_entry(), data_updates=user_input
             )
 
+        headers = header_dict_from_header_str(self.hub_config.get(CONF_AUTH_HEADER))
         stops, routes = await asyncio.gather(
-            self._get_stop_options(),
-            self._get_route_options(),
+            self._get_stop_options(headers),
+            self._get_route_options(headers),
         )
         data_schema = self._create_config_schema(
             stops=stops,

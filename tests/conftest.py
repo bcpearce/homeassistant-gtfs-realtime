@@ -17,6 +17,7 @@ from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.location import PyTestLocation
 
 from custom_components.gtfs_realtime.config_flow import DOMAIN, GtfsRealtimeConfigFlow
+from custom_components.gtfs_realtime.const import CONF_AUTH_HEADER
 
 DIFFERENT_DIRECTORY = "snapshots"
 
@@ -67,6 +68,15 @@ def create_config_entry_v2_full():
     """Fixture with full mock data for entry version 2."""
     with open("tests/fixtures/config_entry_v2_full.json", "rb") as f:
         conf = json.load(f)
+    yield MockConfigEntry(**conf)
+
+
+@pytest.fixture(name="entry_v2_full_auth")
+def create_config_entry_v2_full_auth():
+    """Fixture with full mock data and auth headers for entry version 2."""
+    with open("tests/fixtures/config_entry_v2_full.json", "rb") as f:
+        conf = json.load(f)
+    conf["data"][CONF_AUTH_HEADER] = "Ocp-Apim-Subscription-Key: test-key"
     yield MockConfigEntry(**conf)
 
 
