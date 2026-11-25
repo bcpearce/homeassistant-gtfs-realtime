@@ -290,7 +290,7 @@ async def test_step_reconfigure_passes_auth_header(
     entry_v2_full: MockConfigEntry,
 ) -> None:
     """Test reconfigure passes the stored auth header to static feed downloads."""
-    entry_v2_full.data |= {CONF_AUTH_HEADER: "Ocp-Apim-Subscription-Key: test-key"}
+    entry_v2_full.data[CONF_AUTH_HEADER] = "Ocp-Apim-Subscription-Key: test-key"
     entry_v2_full.add_to_hass(hass)
 
     with (
