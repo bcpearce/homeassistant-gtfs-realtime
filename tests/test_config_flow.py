@@ -287,11 +287,10 @@ async def test_step_reconfigure(
 
 async def test_step_reconfigure_passes_auth_header(
     hass: HomeAssistant,
-    entry_v2_full: MockConfigEntry,
+    entry_v2_full_auth: MockConfigEntry,
 ) -> None:
     """Test reconfigure passes the stored auth header to static feed downloads."""
-    entry_v2_full.data[CONF_AUTH_HEADER] = "Ocp-Apim-Subscription-Key: test-key"
-    entry_v2_full.add_to_hass(hass)
+    entry_v2_full_auth.add_to_hass(hass)
 
     with (
         patch.object(
@@ -305,7 +304,7 @@ async def test_step_reconfigure_passes_auth_header(
             return_value=[],
         ) as get_routes,
     ):
-        result = await entry_v2_full.start_reconfigure_flow(hass)
+        result = await entry_v2_full_auth.start_reconfigure_flow(hass)
 
     assert result["type"] == FlowResultType.FORM
     expected_headers = {"Ocp-Apim-Subscription-Key": "test-key"}
